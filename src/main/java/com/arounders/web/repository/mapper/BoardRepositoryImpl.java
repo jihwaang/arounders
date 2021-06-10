@@ -27,22 +27,22 @@ public class BoardRepositoryImpl implements BoardRepository {
     }
 
     @Override
-    public Optional<Board> getBoard(Optional<Integer> id) {
+    public Board getBoard(Integer id) {
         return mapper.getBoard(id);
     }
 
     @Override
-    public int insert(Optional<Board> board) {
+    public int insert(Board board) {
         return mapper.insert(board);
     }
 
     @Override
-    public int update(Optional<Board> board) {
+    public int update(Board board) {
         return mapper.update(board);
     }
 
     @Override
-    public int delete(Optional<Integer> id) {
+    public int delete(Integer id) {
         return mapper.delete(id);
     }
 }

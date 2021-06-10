@@ -9,13 +9,13 @@ public interface BoardService {
 
     List<Board> getList();
 
-    Optional<Board> getBoard(Optional<Integer> id);
+    Board getBoard(Integer id);
 
-    int createBoard(Optional<Board> board);
+    int createBoard(Board board);
 
-    int editBoard(Optional<Board> board);
+    int editBoard(Board board);
 
-    int removeBoard(Optional<Integer> id);
+    int removeBoard(Integer id);
 
 
 }

@@ -8,11 +8,11 @@ import java.util.Optional;
 public interface BoardRepository {
     List<Board> getList();
 
-    Optional<Board> getBoard(Optional<Integer> id);
+    Board getBoard(Integer id);
 
-    int insert(Optional<Board> board);
+    int insert(Board board);
 
-    int update(Optional<Board> board);
+    int update(Board board);
 
-    int delete(Optional<Integer> id);
+    int delete(Integer id);
 }

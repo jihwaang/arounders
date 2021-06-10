@@ -23,22 +23,22 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public Optional<Board> getBoard(Optional<Integer> id) {
+    public Board getBoard(Integer id) {
         return boardRepository.getBoard(id);
     }
 
     @Override
-    public int createBoard(Optional<Board> board) {
+    public int createBoard(Board board) {
         return boardRepository.insert(board);
     }
 
     @Override
-    public int editBoard(Optional<Board> board) {
+    public int editBoard(Board board) {
         return boardRepository.update(board);
     }
 
     @Override
-    public int removeBoard(Optional<Integer> id) {
+    public int removeBoard(Integer id) {
         return boardRepository.delete(id);
     }
 }

@@ -5,12 +5,13 @@ import com.arounders.web.service.BoardService;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@RestController
+@Controller
 @RequestMapping("/board")
 @Slf4j
 public class BoardController {
@@ -21,36 +22,43 @@ public class BoardController {
         this.boardService = boardService;
     }
 
-    @RequestMapping("/getList")
-    public List<Board> getList() {
+    @GetMapping("/getList")
+    public String getList(Model model) {
         List<Board> list = boardService.getList();
-        return list;
+        model.addAttribute("list", list);
+        return "";
     }
 
-    @GetMapping("/getBoard")
-    public Optional<Board> getBoard(@PathVariable Integer id) {
-        log.info("getBoard init == id : {}", id.toString());
-        Optional<Integer> tmp = Optional.of(id);
-        Optional<Board> board = boardService.getBoard(tmp);
-        return board;
+    @GetMapping("/getBoard/{id}")
+    public String getBoard(Model model, @PathVariable Integer id) {
+        log.info("id : {}", id.toString());
+        Board board = boardService.getBoard(id);
+        model.addAttribute("board", board);
+        return "";
     }
 
     @PostMapping("/createBoard")
-    public int createBoard(Optional<Board> board) {
+    public String createBoard(Model model, @RequestBody Board board) {
+        log.info("request board : {}", board);
         int result = boardService.createBoard(board);
-        return result;
+        log.info("generated id : {}", board.getId());
+        model.addAttribute("id", board.getId());
+        return "";
     }
 
     @PutMapping("/editBoard")
-    public int editBoard(Optional<Board> board) {
+    public String editBoard(Model model, @RequestBody Board board) {
+        log.info("request board : {}", board);
         int result = boardService.editBoard(board);
-        return result;
+        model.addAttribute("id", board.getId());
+        return "";
     }
 
-    @DeleteMapping("/removeBoard")
-    public int removeBoard(@PathVariable Optional<Integer> id) {
+    @DeleteMapping("/removeBoard/{id}")
+    public String removeBoard(Model model, @PathVariable Integer id) {
+        log.info("request id : {}", id);
         int result = boardService.removeBoard(id);
-        return result;
+        return "";
     }
 
 
