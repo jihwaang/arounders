@@ -9,11 +9,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class MemberRepositoryImpl implements MemberRepository{
 
-    private final SqlSession sqlSession;
     private final MemberRepository memberRepository;
 
     public MemberRepositoryImpl(SqlSession sqlSession){
-        this.sqlSession = sqlSession;
         this.memberRepository = sqlSession.getMapper(MemberRepository.class);
     }
 
