@@ -8,7 +8,7 @@
         select * from BOARD
     </select>
 
-    <select id="getBoard" resultType="Board">
+    <select id="getBoard" parameterType="java.lang.Integer" resultType="Board">
         select * from BOARD where id = #{id}
     </select>
 

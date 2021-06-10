@@ -27,28 +27,27 @@ public class BoardController {
         return list;
     }
 
-    @GetMapping("/getBoard")
-    public Optional<Board> getBoard(@PathVariable Integer id) {
-        log.info("getBoard init == id : {}", id.toString());
-        Optional<Integer> tmp = Optional.of(id);
-        Optional<Board> board = boardService.getBoard(tmp);
+    @GetMapping("/getBoard/{id}")
+    public Board getBoard(@PathVariable Integer id) {
+        log.info("id : {}", id.toString());
+        Board board = boardService.getBoard(id);
         return board;
     }
 
     @PostMapping("/createBoard")
-    public int createBoard(Optional<Board> board) {
+    public int createBoard(Board board) {
         int result = boardService.createBoard(board);
         return result;
     }
 
     @PutMapping("/editBoard")
-    public int editBoard(Optional<Board> board) {
+    public int editBoard(Board board) {
         int result = boardService.editBoard(board);
         return result;
     }
 
-    @DeleteMapping("/removeBoard")
-    public int removeBoard(@PathVariable Optional<Integer> id) {
+    @DeleteMapping("/removeBoard/{id}")
+    public int removeBoard(@PathVariable Integer id) {
         int result = boardService.removeBoard(id);
         return result;
     }
