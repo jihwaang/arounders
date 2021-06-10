@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.arounders.web.repository.CommentRepository">
+
+    <select id="getComment" resultType="Comment">
+        SELECT * FROM COMMENT WHERE ID = #{id}
+    </select>
+
+    <select id="getComments" resultType="Comment">
+        SELECT * FROM COMMENT WHERE BOARD_ID = #{boardId}
+    </select>
+
+    <insert id="insert" parameterType="Comment">
+        INSERT INTO
+            COMMENT(
+                    <if test="upperId != null">UPPER_ID,</if>
+                    CONTENT,
+                    MEMBER_ID,
+                    BOARD_ID
+                )
+            VALUES(
+                    <if test="upperId != null">#{upperId},</if>
+                   #{content}, #{memberId}, #{boardId})
+
+       <selectKey keyProperty="id" order="AFTER" resultType="Long">
+           SELECT LAST_INSERT_ID()
+       </selectKey>
+    </insert>
+
+    <update id="update" parameterType="Comment">
+        UPDATE COMMENT
+        <set>
+            <if test="content != null">CONTENT = #{content},</if>
+            <if test="isHidden != null">IS_HIDDEN = #{isHidden},</if>
+            UPDATED_AT = NOW()
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM COMMENT WHERE ID = #{id}
+    </delete>
+</mapper>

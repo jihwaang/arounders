@@ -16,3 +16,4 @@ public class Attachment {
     private Long memberId;
     private Long boardId;
 }
+

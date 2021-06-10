@@ -1,19 +1,20 @@
-package com.arounders.web.repository;
+package com.arounders.web.service;
 
 import com.arounders.web.entity.Member;
 
 import java.util.List;
 
-public interface MemberRepository {
+public interface MemberService {
 
     /* 사용자 조회 */
     Member getMember(Long id);
     /* 사용자 목록 조회 */
     List<Member> getMembers();
     /* 사용자 생성 */
-    int insert(Member member);
+    Long signup(Member member);
     /* 사용자 수정 */
-    int update(Member member);
+    Long update(Member member);
     /* 사용자 삭제 */
-    int delete(Long id);
+    Long dropOut(Long id);
+
 }

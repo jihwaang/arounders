@@ -1,5 +1,6 @@
 package com.arounders.web.entity;
 
+
 import lombok.Data;
 
 public enum Category {
@@ -10,8 +11,8 @@ public enum Category {
     DAILY_COMMUNITY(5, "일상/소통"),
     QNA(6, "질문/답변");
 
-    public Integer id;
-    public String title;
+    private Integer id;
+    private String title;
 
     Category(Integer id, String title) {
         this.id = id;

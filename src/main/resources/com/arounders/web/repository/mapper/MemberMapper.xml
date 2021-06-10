@@ -4,7 +4,47 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.arounders.web.repository.MemberRepository">
-    <select id="" resultType="com.arounders.web.entity.Member">
-        select * from MEMBER
+
+    <select id="getMember" resultType="Member">
+        SELECT * FROM MEMBER WHERE ID = #{id}
     </select>
+
+    <select id="getMembers" resultType="Member">
+        SELECT * FROM MEMBER WHERE DROPPED_AT IS NULL
+    </select>
+
+    <insert id="insert" parameterType="Member">
+        INSERT INTO MEMBER(EMAIL, PASSWORD, NICKNAME, PHONE, ADDR, ADDR_DTL)
+        VALUES(#{email}, #{password}, #{nickname}, #{phone}, #{addr}, #{addrDtl})
+
+        <selectKey keyProperty="id" order="AFTER" resultType="Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="Member">
+        UPDATE MEMBER
+        <set>
+            <if test="password != null">PASSWORD = #{password},</if>
+            <if test="nickname != null">NICKNAME = #{nickname},</if>
+            <if test="phone != null">PHONE = #{phone},</if>
+            <if test="addr != null">ADDR = #{addr},</if>
+            <if test="addrDtl != null">ADDR_DTL = #{addrDtl},</if>
+            <if test="roleId != null">ROLE_ID = #{roleId}</if>
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <update id="delete">
+        UPDATE MEMBER
+        SET
+        EMAIL = NULL,
+        PASSWORD = NULL,
+        NICKNAME = NULL,
+        PHONE = NULL,
+        ADDR = NULL,
+        ADDR_DTL = NULL,
+        DROPPED_AT = NOW()
+        WHERE ID = #{id}
+    </update>
 </mapper>

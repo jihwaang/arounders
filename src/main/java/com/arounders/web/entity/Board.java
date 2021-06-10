@@ -21,3 +21,4 @@ public class Board {
     private Long memberId;
     private Long categoryId;
 }
+
