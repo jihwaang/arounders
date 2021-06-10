@@ -13,12 +13,15 @@
     </select>
 
     <insert id="insert" parameterType="Board">
-        INSERT INTO BOARD(TITLE, CONTENT, REGION, CREATED_AT, UPDATED_AT, MEMBER_ID, CATEGORY_ID)
-        VALUES(#{title}, #{content}, #{region}, NOW(), NOW(), #{memberId}, #{categoryId})
+        INSERT INTO BOARD(TITLE, CONTENT, REGION, CREATED_AT, MEMBER_ID, CATEGORY_ID)
+        VALUES(#{title}, #{content}, #{region}, NOW(), #{memberId}, #{categoryId})
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
     </insert>
 
     <update id="update" parameterType="Board">
-        UPDATE BOARD SET TITLE = #{title}, CONTENT = #{content} WHERE ID = #{id}
+        UPDATE BOARD SET TITLE = #{title}, CONTENT = #{content}, MEMBER_ID = #{memberId}, UPDATED_AT = NOW() WHERE ID = #{id}
     </update>
 
     <delete id="delete" parameterType="java.lang.Integer">
