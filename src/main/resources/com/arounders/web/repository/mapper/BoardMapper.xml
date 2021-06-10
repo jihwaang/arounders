@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.arounders.web.repository.BoardRepository">
+    <select id="getList" resultType="Board">
+        select * from BOARD
+    </select>
+
+    <select id="getBoard" resultType="Board">
+        select * from BOARD where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="Board">
+        INSERT INTO BOARD(TITLE, CONTENT, REGION, CREATED_AT, UPDATED_AT, MEMBER_ID, CATEGORY_ID)
+        VALUES(#{title}, #{content}, #{region}, NOW(), NOW(), #{memberId}, #{categoryId})
+    </insert>
+
+    <update id="update" parameterType="Board">
+        UPDATE BOARD SET TITLE = #{title}, CONTENT = #{content} WHERE ID = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+        DELETE FROM BOARD WHERE ID = #{id}
+    </delete>
+</mapper>
