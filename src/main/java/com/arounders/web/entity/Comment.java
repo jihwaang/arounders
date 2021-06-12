@@ -12,10 +12,11 @@ public class Comment {
     private Long id;
     private String content;
     private Integer isHidden;
-    private Integer upperId;
+    private Long upperId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     private Long memberId;
     private Long boardId;
+
 }

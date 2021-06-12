@@ -13,10 +13,8 @@ import java.util.Optional;
 public class BoardRepositoryImpl implements BoardRepository {
 
     private final BoardRepository mapper;
-    private final SqlSession sqlSession;
 
     public BoardRepositoryImpl(SqlSession sqlSession) {
-        this.sqlSession = sqlSession;
         mapper = sqlSession.getMapper(BoardRepository.class);
     }
 
@@ -42,7 +40,13 @@ public class BoardRepositoryImpl implements BoardRepository {
     }
 
     @Override
+    public int renew(String name, String path, Long id) {
+        return mapper.renew(name, path, id);
+    }
+
+    @Override
     public int delete(Integer id) {
         return mapper.delete(id);
     }
+
 }

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+      justify-content: center;
+      align-items: center;
+    }
+</style>
+<body>
+<form method="post" action="/board/createBoard" enctype="multipart/form-data">
+    <input type="file" name="file" id="file" multiple="multiple">
+    <input type="hidden" name="thumbIdx" id="thumbIdx" value="1">
+    <input type="hidden" name="memberId" id="memberId" value="4">
+    <textarea name="content" id="content" cols="30" rows="10"></textarea>
+    <button type="submit">submit</button>
+</form>
+</body>
+</html>

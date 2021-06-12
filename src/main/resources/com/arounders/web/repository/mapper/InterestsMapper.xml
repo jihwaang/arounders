@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.arounders.web.repository.InterestsRepository">
+    <select id="getExsistingCount" parameterType="Interests" resultType="java.lang.Integer">
+        select count(*) from INTERESTS where MEMBER_ID = #{memberId} AND BOARD_ID = #{boardId}
+    </select>
+
+    <select id="getCountOfMember" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(*) from INTERESTS where MEMBER_ID = #{memberId}
+    </select>
+
+    <select id="getCountOfBoard" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(*) from INTERESTS where BOARD_ID = #{boardId}
+    </select>
+
+    <insert id="insert" parameterType="Interests">
+        INSERT INTO INTERESTS(MEMBER_ID, BOARD_ID)
+        VALUES(#{memberId}, #{boardId})
+    </insert>
+
+    <!--<update id="update" parameterType="Attachment">
+
+    </update>-->
+
+    <delete id="delete" parameterType="Interests">
+        DELETE FROM INTERESTS WHERE MEMBER_ID = #{memberId} AND BOARD_ID = #{boardId}
+    </delete>
+</mapper>

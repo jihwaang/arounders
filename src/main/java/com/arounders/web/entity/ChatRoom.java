@@ -16,4 +16,5 @@ public class ChatRoom {
     private LocalDateTime finishedAt;
 
     private Long memberId;
+
 }

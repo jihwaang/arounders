@@ -5,11 +5,19 @@
 
 <mapper namespace="com.arounders.web.repository.BoardRepository">
     <select id="getList" resultType="Board">
-        select * from BOARD
+        select * from BOARD WHERE IS_HIDDEN = 0
+    </select>
+
+    <select id="getHiddenList" resultType="Board">
+        select * from BOARD WHERE IS_HIDDEN = 1
     </select>
 
     <select id="getBoard" parameterType="java.lang.Integer" resultType="Board">
-        select * from BOARD where id = #{id}
+        select * from BOARD where id = #{id} AND IS_HIDDEN = 0
+    </select>
+
+    <select id="getHiddenBoard" parameterType="java.lang.Integer" resultType="Board">
+        select * from BOARD where id = #{id} AND IS_HIDDEN = 1
     </select>
 
     <insert id="insert" parameterType="Board">
@@ -22,6 +30,10 @@
 
     <update id="update" parameterType="Board">
         UPDATE BOARD SET TITLE = #{title}, CONTENT = #{content}, MEMBER_ID = #{memberId}, UPDATED_AT = NOW() WHERE ID = #{id}
+    </update>
+
+    <update id="renew" parameterType="java.lang.Object">
+        UPDATE BOARD SET THUMBNAIL_NAME = #{param1}, THUMBNAIL_PATH = #{param2} WHERE ID = #{param3}
     </update>
 
     <delete id="delete" parameterType="java.lang.Integer">

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.arounders.web.repository.AttachmentRepository">
+    <select id="getList" resultType="Attachment">
+        select * from ATTACHMENT
+    </select>
+
+    <select id="getAttachment" parameterType="java.lang.Integer" resultType="Attachment">
+        select * from ATTACHMENT where id = #{id}
+    </select>
+
+    <select id="findThumbInfo" parameterType="java.lang.Object" resultType="Attachment">
+        SELECT * FROM ATTACHMENT WHERE BOARD_ID = #{param1} AND MEMBER_ID = #{param2} AND SUBSTRING(NAME, 1, 1) = #{param3}
+    </select>
+
+    <insert id="insert" parameterType="Attachment">
+        INSERT INTO ATTACHMENT(ID, NAME, PATH, CREATED_AT, BOARD_ID, MEMBER_ID)
+        VALUES(#{id}, #{name}, #{path}, NOW(), #{boardId}, #{memberId})
+        <selectKey resultType="java.lang.String" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <!--<update id="update" parameterType="Attachment">
+
+    </update>-->
+
+    <delete id="delete" parameterType="java.lang.Integer">
+        DELETE FROM ATTACHMENT WHERE ID = #{id}
+    </delete>
+</mapper>

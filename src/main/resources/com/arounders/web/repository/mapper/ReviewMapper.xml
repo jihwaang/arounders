@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.arounders.web.repository.ReviewRepository">
+    <select id="getReviewListOfBoard" parameterType="java.lang.Integer" resultType="Review">
+        select * from REVIEW WHERE BOARD_ID = #{boardId}
+    </select>
+
+    <select id="getReviewListOfMember" parameterType="java.lang.Integer" resultType="Review">
+        select * from REVIEW WHERE MEMBER_ID = #{memberId}
+    </select>
+
+    <insert id="insert" parameterType="Review">
+        INSERT INTO REVIEW(RATE, CONTENT, CREATED_AT, MEMBER_ID, BOARD_ID)
+        VALUES(#{rate}, #{content}, NOW(), #{memberId}, #{boardId})
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="Review">
+        UPDATE REVIEW
+        SET
+        RATE = #{rate},
+        CONTENT = #{content}
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="delete" parameterType="Review">
+        DELETE
+        FROM REVIEW
+        WHERE ID = #{id}
+    </delete>
+</mapper>

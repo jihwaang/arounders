@@ -15,4 +15,6 @@ public interface BoardRepository {
     int update(Board board);
 
     int delete(Integer id);
+
+    int renew(String name, String path, Long id);
 }

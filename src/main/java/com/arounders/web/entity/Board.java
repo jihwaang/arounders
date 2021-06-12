@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Board {
+
     private Long id;
     private String title;
     private String content;
@@ -24,5 +25,6 @@ public class Board {
 
     private Long memberId;
     private Long categoryId;
+
 }
 

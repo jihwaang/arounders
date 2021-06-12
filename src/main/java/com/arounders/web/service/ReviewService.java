@@ -1,17 +1,17 @@
-package com.arounders.web.repository;
+package com.arounders.web.service;
 
 import com.arounders.web.entity.Review;
 
 import java.util.List;
 
-public interface ReviewRepository {
+public interface ReviewService {
     List<Review> getReviewListOfBoard(Integer boardId);
 
     List<Review> getReviewListOfMember(Integer memberId);
 
-    int insert(Review review);
+    int createReview(Review review);
 
-    int update(Review review);
+    int editReview(Review review);
 
-    int delete(Review review);
+    int removeReview(Review review);
 }
