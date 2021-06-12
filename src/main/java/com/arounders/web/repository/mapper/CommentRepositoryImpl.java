@@ -1,5 +1,6 @@
 package com.arounders.web.repository.mapper;
 
+import com.arounders.web.dto.CommentDTO;
 import com.arounders.web.entity.Comment;
 import com.arounders.web.repository.CommentRepository;
 import org.apache.ibatis.session.SqlSession;
@@ -17,13 +18,18 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     @Override
-    public Comment getComment(Long id) {
+    public CommentDTO getComment(Long id) {
         return repository.getComment(id);
     }
 
     @Override
-    public List<Comment> getComments(Long boardId) {
+    public List<CommentDTO> getComments(Long boardId) {
         return repository.getComments(boardId);
+    }
+
+    @Override
+    public List<CommentDTO> getMyComments(Long id) {
+        return repository.getMyComments(id);
     }
 
     @Override

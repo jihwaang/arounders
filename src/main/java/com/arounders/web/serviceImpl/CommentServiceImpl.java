@@ -1,5 +1,6 @@
 package com.arounders.web.serviceImpl;
 
+import com.arounders.web.dto.CommentDTO;
 import com.arounders.web.entity.Comment;
 import com.arounders.web.repository.CommentRepository;
 import com.arounders.web.service.CommentService;
@@ -17,28 +18,37 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository repository;
 
     @Override
-    public Comment getComment(Long id) {
+    public CommentDTO getComment(Long id) {
 
         return repository.getComment(id);
     }
 
     @Override
-    public List<Comment> getComments(Long boardId) {
+    public List<CommentDTO> getComments(Long boardId) {
 
         return repository.getComments(boardId);
     }
 
     @Override
-    public Long create(Comment comment) {
+    public List<CommentDTO> getMyComments(Long id) {
+        return repository.getMyComments(id);
+    }
 
+    @Override
+    public Long create(CommentDTO commentDTO) {
+
+        Comment comment = dtoToEntity(commentDTO);
         int result = repository.insert(comment);
+
         return result == 1? comment.getId() : null;
     }
 
     @Override
-    public Long update(Comment comment) {
+    public Long update(CommentDTO commentDTO) {
 
+        Comment comment = dtoToEntity(commentDTO);
         int result = repository.update(comment);
+
         return result == 1? comment.getId() : null;
     }
 

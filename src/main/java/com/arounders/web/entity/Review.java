@@ -16,4 +16,5 @@ public class Review {
 
     private Long memberId;
     private Long boardId;
+
 }

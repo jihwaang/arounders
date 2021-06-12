@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.arounders.web.repository.ReportRepository">
+
+    <select id="findAllByStatus" resultType="Report">
+        SELECT * FROM REPORT
+        <where>
+            <if test="#{status} != null">
+                IS_FINISHED = #{status}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="Report">
+        INSERT INTO REPORT(MEMBER_ID, BOARD_ID)
+        VALUES(#{memberId}, #{boardId})
+
+        <selectKey keyProperty="id" order="AFTER" resultType="Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="update">
+        UPDATE REPORT SET IS_FINISHED = 0 WHERE ID = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.arounders.web.repository.LikesRepository">
+
+    <insert id="insert" parameterType="Likes">
+        INSERT INTO LIKES(MEMBER_ID, BOARD_ID)
+        VALUES(#{memberId}, #{boardId})
+    </insert>
+
+    <delete id="delete" parameterType="Likes">
+        DELETE FROM LIKES WHERE MEMBER_ID = #{memberId} AND BOARD_ID = #{boardId}
+    </delete>
+
+    <select id="getCount">
+        SELECT COUNT(MEMBER_ID) FROM LIKES WHERE BOARD_ID = #{boardId}
+    </select>
+</mapper>

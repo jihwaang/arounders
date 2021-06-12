@@ -1,22 +1,26 @@
-package com.arounders.web.entity;
+package com.arounders.web.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class Comment {
+@NoArgsConstructor
+@AllArgsConstructor
+public class CommentDTO {
 
     private Long id;
     private String content;
-    private Integer isHidden;
-    private Long upperId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Long upperId;
 
-    private Long memberId;
     private Long boardId;
+    private Long memberId;
+    private String nickname;
 
 }

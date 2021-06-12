@@ -5,12 +5,16 @@
 
 <mapper namespace="com.arounders.web.repository.CommentRepository">
 
-    <select id="getComment" resultType="Comment">
-        SELECT * FROM COMMENT WHERE ID = #{id}
+    <select id="getComment" resultType="com.arounders.web.dto.CommentDTO">
+        SELECT * FROM COMMENT_VIEW WHERE ID = #{id}
     </select>
 
-    <select id="getComments" resultType="Comment">
-        SELECT * FROM COMMENT WHERE BOARD_ID = #{boardId}
+    <select id="getComments" resultType="com.arounders.web.dto.CommentDTO">
+        SELECT * FROM COMMENT_VIEW WHERE BOARD_ID = #{boardId}
+    </select>
+
+    <select id="getMyComments" resultType="com.arounders.web.dto.CommentDTO">
+        SELECT * FROM COMMENT_VIEW WHERE MEMBER_ID = #{id}
     </select>
 
     <insert id="insert" parameterType="Comment">

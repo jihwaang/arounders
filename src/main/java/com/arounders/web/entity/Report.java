@@ -15,4 +15,5 @@ public class Report {
 
     private Long memberId;
     private Long boardId;
+
 }

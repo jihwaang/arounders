@@ -9,4 +9,5 @@ public class Likes {
 
     private Long memberId;
     private Long boardId;
+
 }

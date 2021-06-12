@@ -4,6 +4,7 @@ package com.arounders.web.entity;
 import lombok.Data;
 
 public enum Category {
+
     ALL(1, "전체"),
     SHARE(2, "공유"),
     RECRUIT(3, "모집"),
@@ -18,4 +19,5 @@ public enum Category {
         this.id = id;
         this.title = title;
     }
+
 }

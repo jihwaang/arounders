@@ -9,4 +9,5 @@ public class Interests {
 
     private Long memberId;
     private Long boardId;
+
 }
