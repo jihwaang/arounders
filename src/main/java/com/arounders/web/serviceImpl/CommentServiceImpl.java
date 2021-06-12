@@ -56,6 +56,6 @@ public class CommentServiceImpl implements CommentService {
     public Long delete(Long id) {
 
         int result = repository.delete(id);
-        return result == 1? id : null;
+        return result > 0? id : null;
     }
 }

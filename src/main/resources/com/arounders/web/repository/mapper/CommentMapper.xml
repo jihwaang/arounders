@@ -10,11 +10,11 @@
     </select>
 
     <select id="getComments" resultType="com.arounders.web.dto.CommentDTO">
-        SELECT * FROM COMMENT_VIEW WHERE BOARD_ID = #{boardId}
+        SELECT * FROM COMMENT_VIEW WHERE BOARD_ID = #{boardId} ORDER BY ID DESC
     </select>
 
     <select id="getMyComments" resultType="com.arounders.web.dto.CommentDTO">
-        SELECT * FROM COMMENT_VIEW WHERE MEMBER_ID = #{id}
+        SELECT * FROM COMMENT_VIEW WHERE MEMBER_ID = #{id} ORDER BY ID DESC
     </select>
 
     <insert id="insert" parameterType="Comment">
@@ -45,6 +45,6 @@
     </update>
 
     <delete id="delete">
-        DELETE FROM COMMENT WHERE ID = #{id}
+        DELETE FROM COMMENT WHERE ID = #{id} OR UPPER_ID = #{id}
     </delete>
 </mapper>
