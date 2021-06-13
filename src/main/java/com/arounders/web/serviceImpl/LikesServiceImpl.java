@@ -15,6 +15,11 @@ public class LikesServiceImpl implements LikesService {
     private final LikesRepository repository;
 
     @Override
+    public Boolean isLike(Long memberId, Long boardId) {
+        return repository.getLikesByMemberIdAndBoardId(memberId, boardId) == 1;
+    }
+
+    @Override
     public Long like(Likes likes) {
 
         repository.insert(likes);

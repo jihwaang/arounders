@@ -5,6 +5,10 @@
 
 <mapper namespace="com.arounders.web.repository.LikesRepository">
 
+    <select id="getLikesByMemberIdAndBoardId" resultType="Integer">
+        SELECT COUNT(MEMBER_ID) FROM LIKES WHERE MEMBER_ID = #{memberId} AND BOARD_ID = #{boardId}
+    </select>
+
     <insert id="insert" parameterType="Likes">
         INSERT INTO LIKES(MEMBER_ID, BOARD_ID)
         VALUES(#{memberId}, #{boardId})
@@ -14,7 +18,7 @@
         DELETE FROM LIKES WHERE MEMBER_ID = #{memberId} AND BOARD_ID = #{boardId}
     </delete>
 
-    <select id="getCount">
+    <select id="getCount" resultType="Integer">
         SELECT COUNT(MEMBER_ID) FROM LIKES WHERE BOARD_ID = #{boardId}
     </select>
 </mapper>

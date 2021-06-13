@@ -4,6 +4,8 @@ import com.arounders.web.entity.Likes;
 
 public interface LikesService {
 
+    /* 좋아요 여부 */
+    Boolean isLike(Long memberId, Long boardId);
     /* 좋아요 등록 */
     Long like(Likes likes);
     /* 좋아요 취소 */

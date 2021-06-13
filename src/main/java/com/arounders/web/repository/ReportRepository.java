@@ -1,13 +1,16 @@
 package com.arounders.web.repository;
 
+import com.arounders.web.dto.ReportDTO;
 import com.arounders.web.entity.Report;
 
 import java.util.List;
 
 public interface ReportRepository {
 
+    /* 특정 신고된 글 조회 */
+    ReportDTO findById(Long id);
     /* 신고 목록 조회*/
-    List<Report> findAllByStatus(Integer status);
+    List<ReportDTO> findAllByStatus(Integer status);
     /* 신고 등록 */
     int insert(Report report);
     /* 신고 처리 */

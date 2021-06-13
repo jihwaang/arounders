@@ -16,22 +16,54 @@ public class LikesApiController {
 
     private final LikesService service;
 
-    @PostMapping("/members/{memberId}/boards/{boardId}")
-    public ResponseEntity<String> like(@PathVariable("memberId") Long memberId,
-                               @PathVariable("boardId") Long boardId){
+    @GetMapping("/{boardId}")
+    public ResponseEntity<Boolean> isLike(@PathVariable("boardId") Long boardId){
+
+        /* test용 */
+        Long memberId = 12L;
+        /* 실제 사용 */
+        //Long memberId = (Long) session.getAttribute("id");
+
+        Boolean result =  service.isLike(memberId, boardId);
+        log.info("#LikesApiController : isLike -> " + result);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/boards/{boardId}")
+    public ResponseEntity<Integer> getCounts(@PathVariable("boardId") Long boardId){
+
+        Integer count = service.getCount(boardId);
+        log.info(boardId + "번 게시글의 좋아요 갯수 : " + count + "개");
+
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+
+    @PostMapping("/boards/{boardId}")
+    public ResponseEntity<Long> like(@PathVariable("boardId") Long boardId){
+
+        /* test용 */
+        Long memberId = 12L;
+        /* 실제 사용 */
+        //Long memberId = (Long) session.getAttribute("id");
 
         log.info(memberId + "번 회원이 " + boardId + "번 게시글을 좋아합니다.");
-        service.like(Likes.builder().memberId(memberId).boardId(boardId).build());
+        Long id = service.like(Likes.builder().memberId(memberId).boardId(boardId).build());
 
-        return new ResponseEntity<>("success", HttpStatus.OK);
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
-    @DeleteMapping("/members/{memberId}/boards/{boardId}")
-    public ResponseEntity<String> dislike(@PathVariable("memberId") Long memberId,
-                                       @PathVariable("boardId") Long boardId){
+
+    @DeleteMapping("/boards/{boardId}")
+    public ResponseEntity<Long> dislike(@PathVariable("boardId") Long boardId){
+
+        /* test용 */
+        Long memberId = 12L;
+        /* 실제 사용 */
+        //Long memberId = (Long) session.getAttribute("id");
 
         log.info(memberId + "번 회원이 " + boardId + "번 게시글 좋아요를 취소합니다.");
-        service.cancel(Likes.builder().memberId(memberId).boardId(boardId).build());
+        Long id = service.cancel(Likes.builder().memberId(memberId).boardId(boardId).build());
 
-        return new ResponseEntity<>("success", HttpStatus.OK);
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 }

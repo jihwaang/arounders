@@ -1,5 +1,6 @@
 package com.arounders.web.serviceImpl;
 
+import com.arounders.web.dto.ReportDTO;
 import com.arounders.web.entity.Report;
 import com.arounders.web.repository.ReportRepository;
 import com.arounders.web.service.ReportService;
@@ -17,8 +18,13 @@ public class ReportServiceImpl implements ReportService {
     private final ReportRepository repository;
 
     @Override
-    public List<Report> getReports(Integer status) {
+    public List<ReportDTO> getReports(Integer status) {
         return repository.findAllByStatus(status);
+    }
+
+    @Override
+    public ReportDTO getReport(Long id) {
+        return getReport(id);
     }
 
     @Override

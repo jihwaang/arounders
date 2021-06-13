@@ -5,13 +5,18 @@
 
 <mapper namespace="com.arounders.web.repository.ReportRepository">
 
-    <select id="findAllByStatus" resultType="Report">
-        SELECT * FROM REPORT
-        <where>
-            <if test="#{status} != null">
-                IS_FINISHED = #{status}
-            </if>
-        </where>
+    <select id="findById" resultType="com.arounders.web.dto.ReportDTO">
+        SELECT * FROM REPORT_VIEW WHERE ID = #{id}
+    </select>
+
+    <select id="findAllByStatus" resultType="com.arounders.web.dto.ReportDTO">
+        SELECT * FROM REPORT_VIEW
+            <where>
+                <if test="status != null">
+                    IS_FINISHED = #{status}
+                </if>
+            </where>
+        ORDER BY ID DESC
     </select>
 
     <insert id="insert" parameterType="Report">
@@ -24,6 +29,6 @@
     </insert>
 
     <update id="update">
-        UPDATE REPORT SET IS_FINISHED = 0 WHERE ID = #{id}
+        UPDATE REPORT SET IS_FINISHED = 1 WHERE ID = #{id}
     </update>
 </mapper>

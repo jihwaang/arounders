@@ -1,5 +1,6 @@
 package com.arounders.web.api;
 
+import com.arounders.web.dto.ReportDTO;
 import com.arounders.web.entity.Report;
 import com.arounders.web.service.ReportService;
 import lombok.RequiredArgsConstructor;
@@ -18,22 +19,37 @@ public class ReportApiController {
 
     private final ReportService service;
 
-    @GetMapping("/{status}")
-    public List<Report> getReports(@PathVariable("status") Integer status){
+    /* None Using */
+    @GetMapping("/{id}")
+    public ResponseEntity<ReportDTO> getReport(@PathVariable("id") Long id){
 
-        /* 목록 조회 */
-        List<Report> list = service.getReports(status);
+        ReportDTO report = service.getReport(id);
+        log.info("#ReportApiController : getReport -> " + report);
 
-        log.info("#ReportApiController : getReports -> ");
-        list.forEach(log::info);
-
-        return list;
+        return report != null? new ResponseEntity<>(report, HttpStatus.OK) :
+                new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @PostMapping("/members/{memberId}/boards/{boardId}")
-    public ResponseEntity<Long> report(@PathVariable("memberId") Long memberId,
-                                       @PathVariable("boardId") Long boardId){
+    /* /reports/api/v1?status=? */
+    @GetMapping("")
+    public ResponseEntity<List<ReportDTO>> getReports(@RequestParam(value = "status", required = false) Integer status){
 
+        /* 목록 조회 */
+        List<ReportDTO> list = service.getReports(status);
+
+        log.info("#ReportApiController : getReports -> " + status);
+        list.forEach(log::info);
+
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @PostMapping("/boards/{boardId}")
+    public ResponseEntity<Long> report(@PathVariable("boardId") Long boardId){
+
+        /* test용 */
+        Long memberId = 12L;
+        /* 실제 사용 */
+        //Long memberId = (Long) session.getAttribute("id");
         log.info(memberId + "번 회원이 " + boardId + "번 게시글을 신고했습니다.");
         Long id = service.register(Report.builder().memberId(memberId).boardId(boardId).build());
 

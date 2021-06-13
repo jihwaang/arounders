@@ -1,5 +1,6 @@
 package com.arounders.web.repository.mapper;
 
+import com.arounders.web.dto.ReportDTO;
 import com.arounders.web.entity.Report;
 import com.arounders.web.repository.ReportRepository;
 import org.apache.ibatis.session.SqlSession;
@@ -17,7 +18,12 @@ public class ReportRepositoryImpl implements ReportRepository{
     }
 
     @Override
-    public List<Report> findAllByStatus(Integer status) {
+    public ReportDTO findById(Long id) {
+        return repository.findById(id);
+    }
+
+    @Override
+    public List<ReportDTO> findAllByStatus(Integer status) {
         return repository.findAllByStatus(status);
     }
 

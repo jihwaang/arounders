@@ -15,6 +15,11 @@ public class LikesRepositoryImpl implements LikesRepository{
     }
 
     @Override
+    public int getLikesByMemberIdAndBoardId(Long memberId, Long boardId) {
+        return repository.getLikesByMemberIdAndBoardId(memberId, boardId);
+    }
+
+    @Override
     public int insert(Likes likes) {
         return repository.insert(likes);
     }
