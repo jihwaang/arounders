@@ -7,13 +7,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+
 @RequestMapping("/board")
 @Slf4j
+@Controller
 public class BoardController {
 
     private final BoardService boardService;
@@ -38,13 +43,23 @@ public class BoardController {
     }
 
     @PostMapping("/createBoard")
-    public String createBoard(Model model, @RequestBody Board board) {
+    @ResponseBody
+    public String createBoard(Model model, Board board, @RequestParam(name = "file") MultipartFile[] postFiles, Integer thumbIdx, HttpServletRequest request) {
+
         log.info("request board : {}", board);
-        int result = boardService.createBoard(board);
+        log.info("request postFiles : {}", Arrays.toString(postFiles));
+        log.info("request thumbIdx : {}", thumbIdx);
+
+        String uploadPath = request.getServletContext().getRealPath("/upload");
+
+        int boardResult = boardService.createBoard(board, postFiles, uploadPath, thumbIdx);
+
         log.info("generated id : {}", board.getId());
         model.addAttribute("id", board.getId());
-        return "";
+        return "result.html";
+
     }
+
 
     @PutMapping("/editBoard")
     public String editBoard(Model model, @RequestBody Board board) {
@@ -60,6 +75,5 @@ public class BoardController {
         int result = boardService.removeBoard(id);
         return "";
     }
-
 
 }

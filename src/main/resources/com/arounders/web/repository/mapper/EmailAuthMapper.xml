@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.arounders.web.repository.EmailAuthRepository">
+
+    <select id="findEmailByEmail" parameterType="EmailAuth" resultType="EmailAuth">
+        SELECT * FROM EMAIL_AUTH WHERE ID = #{email}
+    </select>
+
+    <select id="findEmailById" parameterType="EmailAuth" resultType="EmailAuth">
+        SELECT * FROM EMAIL_AUTH WHERE ID = #{id}
+    </select>
+
+    <select id="findConfirmedByEmail" parameterType="EmailAuth" resultType="EmailAuth">
+        SELECT IS_CONFIRMED FROM EMAIL_AUTH WHERE ID = #{email}
+    </select>
+
+    <insert id="insert" parameterType="EmailAuth">
+        INSERT INTO EMAIL_AUTH(EMAIL, CREATED_AT) VALUES(#{email}, NOW())
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="EmailAuth">
+        UPDATE EMAIL_AUTH SET IS_CONFIRMED = 1, CONFIRMED_AT = NOW() WHERE ID = #{id} and EMAIL = #{email}
+    </update>
+</mapper>

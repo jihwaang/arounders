@@ -1,24 +1,21 @@
 package com.arounders.web.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Data
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class Review {
+@NoArgsConstructor
+@Data
+public class EmailAuth {
 
     private Long id;
-    private Integer rate;
-    private String content;
+    private String email;
+    private boolean isConfirmed;
+    private LocalDateTime confirmedAt;
     private LocalDateTime createdAt;
-
-    private Long memberId;
-    private Long boardId;
+    private String confirmKey;
 
 }
