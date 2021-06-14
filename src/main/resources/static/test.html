@@ -24,20 +24,27 @@
         cursor: pointer
     }
 </style>
-<form action="127.0.0.1:8080/auth" method="post" style="width: 550px;
+<form style="width: 550px;
       height: 200px;
       display: flex;
       flex-direction: column;
       place-items: center;">
     <h1>Arounder에 오신것을 환영합니다.</h1>
     <p>회원가입 인증을 위해 아래 인증버튼을 눌러주세요.</p>
-    <input type="submit" id="auth" value="인증하기" onclick="alert('회원가입을 마무리해주세요 :)')" style="width: 200px;
+    <div style="width: 200px;
         height: 50px;
         background-color: skyblue;
         border: none;
         color: #fff;
         font-size: 1rem;
-        cursor: pointer"/>
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;">
+        <a href="">인증하기</a>
+    </div>
+
+
 </form>
 </body>
 <!--<script type="text/javascript">-->

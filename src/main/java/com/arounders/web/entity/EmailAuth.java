@@ -16,5 +16,6 @@ public class EmailAuth {
     private boolean isConfirmed;
     private LocalDateTime confirmedAt;
     private LocalDateTime createdAt;
+    private String confirmKey;
 
 }
