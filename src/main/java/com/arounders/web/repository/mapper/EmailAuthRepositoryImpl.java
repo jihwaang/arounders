@@ -20,6 +20,26 @@ public class EmailAuthRepositoryImpl implements EmailAuthRepository {
     }
 
     @Override
+    public EmailAuth findByConfirmKey(EmailAuth email) {
+        return mapper.findByConfirmKey(email);
+    }
+
+    @Override
+    public String findConfirmKeyById(EmailAuth email) {
+        return mapper.findConfirmKeyById(email);
+    }
+
+    @Override
+    public Long updateByKey(String confirmKey) {
+        return mapper.updateByKey(confirmKey);
+    }
+
+    @Override
+    public Long getCountConfirmed(String confirmKey) {
+        return mapper.getCountConfirmed(confirmKey);
+    }
+
+    @Override
     public Long insert(EmailAuth email) {
         Long result = mapper.insert(email);
         return email.getId();
@@ -29,5 +49,10 @@ public class EmailAuthRepositoryImpl implements EmailAuthRepository {
     public Long update(EmailAuth email) {
         Long result = mapper.update(email);
         return email.getId();
+    }
+
+    @Override
+    public String findConfirmKeyByEmail(EmailAuth email) {
+        return mapper.findConfirmKeyByEmail(email);
     }
 }

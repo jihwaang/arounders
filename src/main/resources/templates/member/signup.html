@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Arounders | Sign up page</title>
+    <script defer src="/js/member/emailAuthModule.js"></script>
+  </head>
+  <body>
+    <form action="/member/signup" method="POST">
+      <div class="form-raw">
+        <label for="email">이메일(아이디)</label>
+        <input type="text" id="email" name="email" />
+      </div>
+      <div class="form-raw">
+        <input type="button" value="이메일 인증" id="requestAuth" />
+        <p>입력하신 이메일에서 인증해주세요.</p>
+      </div>
+      <div class="form-raw">
+        <label for="password">비밀번호</label>
+        <input type="password" id="password" name="password" />
+      </div>
+      <div class="form-raw">
+        <label for="passwordConfirmed">비밀번호 확인</label>
+        <input type="password" id="passwordConfirmed" />
+      </div>
+      <div class="form-raw">
+        <label for="nickName">닉네임(유저명)</label>
+        <input type="text" id="nickName" name="nickName"/>
+      </div>
+      <div class="form-raw">
+        <label for="phone">휴대폰번호</label>
+        <input type="text" id="phone" name="phone"/>
+      </div>
+      <div class="form-raw">
+        <label for="addr">주소</label>
+        <input type="button" value="검색" />
+        <input type="text" id="addr" name="addr" readonly/>
+      </div>
+      <div class="form-raw">
+        <label for="addrDtl"></label>
+        <input type="text" id="addrDtl" name="addrDtl" readonly/>
+      </div>
+      <input type="button" id="submitBtn" value="Join Now">
+    </form>
+    <div class="btn-container">
+      <a href="#" class="btn join-btn">Join Now</a>
+    </div>
+  </body>
+</html>
