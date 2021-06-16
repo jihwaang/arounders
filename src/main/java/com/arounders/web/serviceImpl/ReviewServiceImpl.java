@@ -1,5 +1,6 @@
 package com.arounders.web.serviceImpl;
 
+import com.arounders.web.dto.ReviewDTO;
 import com.arounders.web.entity.Review;
 import com.arounders.web.repository.ReviewRepository;
 import com.arounders.web.service.ReviewService;
@@ -17,27 +18,38 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<Review> getReviewListOfBoard(Integer boardId) {
+    public List<ReviewDTO> getReviewListOfBoard(Long boardId) {
         return reviewRepository.getReviewListOfBoard(boardId);
     }
 
     @Override
-    public List<Review> getReviewListOfMember(Integer memberId) {
+    public List<ReviewDTO> getReviewListOfMember(Long memberId) {
         return reviewRepository.getReviewListOfMember(memberId);
     }
 
     @Override
-    public int createReview(Review review) {
-        return reviewRepository.insert(review);
+    public Long createReview(ReviewDTO reviewDTO) {
+
+        Review review = dtoToEntity(reviewDTO);
+        int result = reviewRepository.insert(review);
+
+        return result > 0? review.getId() : null;
     }
 
     @Override
-    public int editReview(Review review) {
-        return reviewRepository.update(review);
+    public Long editReview(ReviewDTO reviewDTO) {
+
+        Review review = dtoToEntity(reviewDTO);
+        int result = reviewRepository.update(review);
+
+        return result > 0? review.getId() : null;
     }
 
     @Override
-    public int removeReview(Review review) {
-        return reviewRepository.delete(review);
+    public Long removeReview(Long reviewId) {
+
+        int result = reviewRepository.delete(reviewId);
+
+        return result > 0? reviewId : null;
     }
 }

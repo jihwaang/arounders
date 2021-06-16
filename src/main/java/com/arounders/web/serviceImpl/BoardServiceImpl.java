@@ -1,5 +1,6 @@
 package com.arounders.web.serviceImpl;
 
+import com.arounders.web.dto.BoardDTO;
 import com.arounders.web.entity.Attachment;
 import com.arounders.web.entity.Board;
 import com.arounders.web.repository.BoardRepository;
@@ -18,60 +19,54 @@ public class BoardServiceImpl implements BoardService {
 
     private final BoardRepository boardRepository;
 
-    private final AttachmentService attachmentService;
 
     public BoardServiceImpl(BoardRepository boardRepository, AttachmentService attachmentService) {
         this.boardRepository = boardRepository;
-        this.attachmentService = attachmentService;
     }
 
     @Override
-    public List<Board> getList() {
+    public List<BoardDTO> getHiddenList() {
+        return boardRepository.getHiddenList();
+    }
+
+    @Override
+    public List<BoardDTO> getList() {
         return boardRepository.getList();
     }
 
     @Override
-    public Board getBoard(Integer id) {
+    public BoardDTO getBoard(Long id) {
         return boardRepository.getBoard(id);
     }
 
-    @Transactional
     @Override
-    public int createBoard(Board board, MultipartFile[] postFiles, String uploadPath, Integer thumbIdx) {
+    public Long createBoard(BoardDTO boardDTO) {
 
-        if (board == null) return -1; // null check on board
+        Board board = dtoToEntity(boardDTO);
 
-        int result = -1;
+        int result = boardRepository.insert(board);
 
-        result = boardRepository.insert(board); // generate board
-        Long generatedBoardId = board.getId();
-        Long memberId = board.getMemberId();
-
-        // #1 add thumbnail img if existing
-        //if (thumbIdx != null && thumbIdx < postFiles.length) postFiles = addThumbNail(postFiles, thumbIdx);
-
-
-        // upload images if existing
-        if (postFiles != null) result = attachmentService.uploadFiles(postFiles, uploadPath, generatedBoardId, memberId);
-        if (thumbIdx != null) {
-            Attachment thumbnailInfo = attachmentService.findThumbInfo(generatedBoardId, memberId, thumbIdx);
-            result = boardRepository.renew(thumbnailInfo.getName(), thumbnailInfo.getPath(), thumbnailInfo.getBoardId());
-        }
-        return result;
-
+        return result > 0? board.getId() : null;
     }
 
     @Override
-    public int editBoard(Board board) {
-        return boardRepository.update(board);
+    public Long editBoard(BoardDTO boardDTO) {
+
+        Board board = dtoToEntity(boardDTO);
+        int result = boardRepository.update(board);
+
+        return result > 0? board.getId() : null;
     }
 
     @Override
-    public int removeBoard(Integer id) {
-        return boardRepository.delete(id);
+    public Long removeBoard(Long id) {
+
+        int result = boardRepository.delete(id);
+
+        return result > 0? id : null;
     }
 
-    private MultipartFile[] addThumbNail(MultipartFile[] postFiles, Integer thumbIdx) {
+/*    private MultipartFile[] addThumbNail(MultipartFile[] postFiles, Integer thumbIdx) {
 
         MultipartFile[] postFilesWithThumbNail = new MultipartFile[postFiles.length+1];
         for (int i = 0 ; i < postFilesWithThumbNail.length; i++) {
@@ -82,5 +77,5 @@ public class BoardServiceImpl implements BoardService {
         }
         return postFilesWithThumbNail;
 
-    }
+    }*/
 }

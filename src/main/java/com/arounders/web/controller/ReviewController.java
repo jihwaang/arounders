@@ -1,5 +1,7 @@
+/*
 package com.arounders.web.controller;
 
+import com.arounders.web.dto.ReviewDTO;
 import com.arounders.web.entity.Attachment;
 import com.arounders.web.entity.Review;
 import com.arounders.web.service.ReviewService;
@@ -22,17 +24,17 @@ public class ReviewController {
     }
 
     @GetMapping("/getReviewListOfBoard/{boardId}")
-    public List<Review> getReviewListOfBoard(Model model, @PathVariable Integer boardId) {
+    public List<ReviewDTO> getReviewListOfBoard(Model model, @PathVariable Long boardId) {
         log.info("id : {}", boardId);
-        List<Review> list = reviewService.getReviewListOfBoard(boardId);
+        List<ReviewDTO> list = reviewService.getReviewListOfBoard(boardId);
         model.addAttribute("list", list);
         return list;
     }
 
     @GetMapping("/getReviewListOfMember/{memberId}")
-    public List<Review> getReviewListOfMember(Model model, @PathVariable Integer memberId) {
+    public List<ReviewDTO> getReviewListOfMember(Model model, @PathVariable Long memberId) {
         log.info("id : {}", memberId);
-        List<Review> list = reviewService.getReviewListOfMember(memberId);
+        List<ReviewDTO> list = reviewService.getReviewListOfMember(memberId);
         model.addAttribute("list", list);
         return list;
     }
@@ -62,3 +64,4 @@ public class ReviewController {
     }
 
 }
+*/

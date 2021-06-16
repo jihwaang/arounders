@@ -4,31 +4,33 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.arounders.web.repository.AttachmentRepository">
-    <select id="getList" resultType="Attachment">
-        select * from ATTACHMENT
-    </select>
 
-    <select id="getAttachment" parameterType="java.lang.Integer" resultType="Attachment">
+    <select id="getAttachment" resultType="Attachment">
         select * from ATTACHMENT where id = #{id}
-    </select>
-
-    <select id="findThumbInfo" parameterType="java.lang.Object" resultType="Attachment">
-        SELECT * FROM ATTACHMENT WHERE BOARD_ID = #{param1} AND MEMBER_ID = #{param2} AND SUBSTRING(NAME, 1, 1) = #{param3}
     </select>
 
     <insert id="insert" parameterType="Attachment">
         INSERT INTO ATTACHMENT(ID, NAME, PATH, CREATED_AT, BOARD_ID, MEMBER_ID)
-        VALUES(#{id}, #{name}, #{path}, NOW(), #{boardId}, #{memberId})
+        VALUES
+            <foreach collection="list" item="attach" separator=", ">
+                (#{attach.id}, #{attach.name}, #{attach.path},
+                 NOW(), #{attach.boardId}, #{attach.memberId})
+            </foreach>
+
         <selectKey resultType="java.lang.String" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
     </insert>
 
-    <!--<update id="update" parameterType="Attachment">
-
-    </update>-->
-
-    <delete id="delete" parameterType="java.lang.Integer">
-        DELETE FROM ATTACHMENT WHERE ID = #{id}
+    <delete id="delete">
+        DELETE FROM ATTACHMENT WHERE BOARD_ID = #{boardId}
     </delete>
+
+    <select id="findAttachesByBoardId" resultType="Attachment">
+        SELECT * FROM ATTACHMENT WHERE BOARD_ID = #{boardId}
+    </select>
+
+    <select id="findAttachesByMemberId" resultType="Attachment">
+        SELECT * FROM ATTACHMENT WHERE MEMBER_ID = #{memberId} AND BOARD_ID = NULL
+    </select>
 </mapper>

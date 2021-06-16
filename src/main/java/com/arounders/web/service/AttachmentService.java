@@ -1,23 +1,24 @@
 package com.arounders.web.service;
 
+import com.arounders.web.dto.BoardDTO;
 import com.arounders.web.entity.Attachment;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface AttachmentService {
-    List<Attachment> getList();
 
-    Attachment getAttachment(Integer id);
+    Attachment getAttachment(Long id);
 
-    int createAttachment(Attachment attachment);
+    int createAttachment(List<Attachment> attachments);
 
-    int editAttachment(Attachment attachment);
+    int removeAttachment(Long id);
 
-    int removeAttachment(Integer id);
+    void save(MultipartFile file, Attachment attachment, String realPath);
 
-    int uploadFiles(MultipartFile[] postFiles, String uploadPath, Long boardId, Long memberId);
+    List<Attachment> getBoardAttachments(Long boardId);
 
-    Attachment findThumbInfo(Long generatedBoardId, Long memberId, Integer thumbIdx);
+    Attachment getMemberProfile(Long memberId);
+
+    List<Attachment> attachmentsProcess(MultipartFile[] postFiles, BoardDTO boardDTO, String realPath, Long memberId, Integer thumbIdx);
 }

@@ -1,17 +1,18 @@
 package com.arounders.web.repository;
 
+import com.arounders.web.dto.ReviewDTO;
 import com.arounders.web.entity.Review;
 
 import java.util.List;
 
 public interface ReviewRepository {
-    List<Review> getReviewListOfBoard(Integer boardId);
+    List<ReviewDTO> getReviewListOfBoard(Long boardId);
 
-    List<Review> getReviewListOfMember(Integer memberId);
+    List<ReviewDTO> getReviewListOfMember(Long memberId);
 
     int insert(Review review);
 
     int update(Review review);
 
-    int delete(Review review);
+    int delete(Long reviewId);
 }

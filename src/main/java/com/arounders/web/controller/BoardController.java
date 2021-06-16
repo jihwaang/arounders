@@ -1,79 +1,161 @@
 package com.arounders.web.controller;
 
+import com.arounders.web.dto.BoardDTO;
+import com.arounders.web.entity.Attachment;
 import com.arounders.web.entity.Board;
+import com.arounders.web.service.AttachmentService;
 import com.arounders.web.service.BoardService;
+import com.arounders.web.serviceImpl.AttachmentServiceImpl;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
+import net.coobird.thumbnailator.Thumbnailator;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
-
-@RequestMapping("/board")
-@Slf4j
 @Controller
+@RequiredArgsConstructor
+@RequestMapping("/board")
+@Log4j2
 public class BoardController {
 
     private final BoardService boardService;
+    private final AttachmentService attachmentService;
 
-    public BoardController(BoardService boardService) {
-        this.boardService = boardService;
-    }
-
-    @GetMapping("/getList")
+    @GetMapping("/list")
     public String getList(Model model) {
-        List<Board> list = boardService.getList();
+
+        List<BoardDTO> list = boardService.getList();
+
+        log.info("#BoardController -> getList : ");
+        /*list.forEach(log::info);*/
+
         model.addAttribute("list", list);
-        return "";
+
+        return "/board/list";
     }
 
-    @GetMapping("/getBoard/{id}")
-    public String getBoard(Model model, @PathVariable Integer id) {
-        log.info("id : {}", id.toString());
-        Board board = boardService.getBoard(id);
-        model.addAttribute("board", board);
-        return "";
+    @GetMapping("/read")
+    public String getBoard(Long id, Model model) {
+
+        BoardDTO boardDTO = boardService.getBoard(id);
+        List<Attachment> attachments = attachmentService.getBoardAttachments(id);
+
+        boardDTO.setAttachments(attachments);
+
+        log.info("#BoardController -> getBoard : " + boardDTO);
+
+        model.addAttribute("board", boardDTO);
+
+        return "/board/read";
     }
 
-    @PostMapping("/createBoard")
-    @ResponseBody
-    public String createBoard(Model model, Board board, @RequestParam(name = "file") MultipartFile[] postFiles, Integer thumbIdx, HttpServletRequest request) {
+    @GetMapping("/register")
+    public String register(Model model){
 
-        log.info("request board : {}", board);
-        log.info("request postFiles : {}", Arrays.toString(postFiles));
-        log.info("request thumbIdx : {}", thumbIdx);
+        model.addAttribute("board", new BoardDTO());
 
-        String uploadPath = request.getServletContext().getRealPath("/upload");
+        return "/board/register";
+    }
+    @PostMapping("/register")
+    public String createBoard(BoardDTO boardDTO,
+                              @RequestParam(name = "file") MultipartFile[] postFiles,
+                              @RequestParam(name = "thumbIdx", defaultValue = "0") Integer thumbIdx,
+                              HttpServletRequest request,
+                              RedirectAttributes rttr) {
 
-        int boardResult = boardService.createBoard(board, postFiles, uploadPath, thumbIdx);
+        /* test */
+        Long memberId = 12L;
+        /* develop */
+        //Long memberId = (Long) session.getAttribute("id");
+        boardDTO.setMemberId(memberId);
 
-        log.info("generated id : {}", board.getId());
-        model.addAttribute("id", board.getId());
-        return "result.html";
+        String realPath = request.getServletContext().getRealPath("/upload");
 
+        List<Attachment> attachments = attachmentService.attachmentsProcess(postFiles, boardDTO, realPath, memberId, thumbIdx);
+
+        log.info("#BoardController -> createBoard : " +  boardDTO);
+        log.info(Arrays.toString(postFiles));
+        log.info("thumbIdx : " + thumbIdx);
+
+        /* Board -> DB */
+        Long boardId = boardService.createBoard(boardDTO);
+
+        /* Attachment -> DB */
+        if(attachments != null){
+            attachments.forEach(attch -> attch.setBoardId(boardId));
+            attachmentService.createAttachment(attachments);
+        }
+
+        return "redirect:/board/list";
     }
 
+    @GetMapping("/edit")
+    public String editBoard(Long id, Model model){
 
-    @PutMapping("/editBoard")
-    public String editBoard(Model model, @RequestBody Board board) {
-        log.info("request board : {}", board);
-        int result = boardService.editBoard(board);
-        model.addAttribute("id", board.getId());
-        return "";
+        BoardDTO boardDTO = boardService.getBoard(id);
+        List<Attachment> attachments = attachmentService.getBoardAttachments(id);
+
+        boardDTO.setAttachments(attachments);
+
+        log.info("#BoardController -> editBoard : " + boardDTO);
+
+        model.addAttribute("board", boardDTO);
+
+        return "board/edit";
+    }
+    @PostMapping("/edit")
+    public String editBoard(BoardDTO boardDTO,
+                            @RequestParam(name = "file") MultipartFile[] postFiles,
+                            @RequestParam(name = "thumbIdx", defaultValue = "0") Integer thumbIdx,
+                            HttpServletRequest request,
+                            RedirectAttributes rttr) {
+
+        String realPath = request.getServletContext().getRealPath("/upload");
+
+        if(postFiles[0].getSize() > 0) {
+            List<Attachment> attachments = attachmentService.attachmentsProcess(postFiles, boardDTO, realPath, boardDTO.getMemberId(), thumbIdx);
+
+            attachments.forEach(attch -> attch.setBoardId(boardDTO.getId()));
+            /* Attachment -> DB */
+            attachmentService.removeAttachment(boardDTO.getId());
+            attachmentService.createAttachment(attachments);
+        }
+
+        log.info("#BoardController -> editBoard : " +  boardDTO);
+        log.info(Arrays.toString(postFiles));
+        log.info("thumbIdx : " + thumbIdx);
+
+        Long boardId = boardService.editBoard(boardDTO);
+
+        rttr.addAttribute("id", boardId);
+
+        return "redirect:/board/read";
     }
 
-    @DeleteMapping("/removeBoard/{id}")
-    public String removeBoard(Model model, @PathVariable Integer id) {
-        log.info("request id : {}", id);
-        int result = boardService.removeBoard(id);
-        return "";
+    @PostMapping("/remove")
+    public String removeBoard(Long id, RedirectAttributes rttr) {
+
+        log.info("#BoardController -> removeBoard : " + id);
+        Long boardId = boardService.removeBoard(id);
+        rttr.addAttribute("boardId", id);
+
+        return "redirect:/board/list";
     }
 
 }

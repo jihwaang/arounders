@@ -4,12 +4,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.arounders.web.repository.ReviewRepository">
-    <select id="getReviewListOfBoard" parameterType="java.lang.Integer" resultType="Review">
-        select * from REVIEW WHERE BOARD_ID = #{boardId}
+    <select id="getReviewListOfBoard" resultType="com.arounders.web.dto.ReviewDTO">
+        SELECT * FROM REVIEW_VIEW WHERE BOARD_ID = #{boardId} ORDER BY ID DESC
     </select>
 
-    <select id="getReviewListOfMember" parameterType="java.lang.Integer" resultType="Review">
-        select * from REVIEW WHERE MEMBER_ID = #{memberId}
+    <select id="getReviewListOfMember" resultType="com.arounders.web.dto.ReviewDTO">
+        SELECT * FROM REVIEW_VIEW WHERE MEMBER_ID = #{memberId} ORDER BY ID DESC
     </select>
 
     <insert id="insert" parameterType="Review">
@@ -22,15 +22,16 @@
 
     <update id="update" parameterType="Review">
         UPDATE REVIEW
-        SET
-        RATE = #{rate},
-        CONTENT = #{content}
+        <set>
+        <if test="rate != null">RATE = #{rate},</if>
+        <if test="content != null">CONTENT = #{content}</if>
+        </set>
         WHERE ID = #{id}
     </update>
 
-    <delete id="delete" parameterType="Review">
+    <delete id="delete">
         DELETE
         FROM REVIEW
-        WHERE ID = #{id}
+        WHERE ID = #{reviewId}
     </delete>
 </mapper>

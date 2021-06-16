@@ -21,6 +21,7 @@ public class AttachmentController {
     public AttachmentController(AttachmentService attachmentService) {
         this.attachmentService = attachmentService;
     }
+/*
 
     @GetMapping("/getList")
     public List<Attachment> getList(Model model) {
@@ -60,5 +61,6 @@ public class AttachmentController {
         int result = attachmentService.removeAttachment(id);
         return result;
     }
+*/
 
 }

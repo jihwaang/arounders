@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .thumbnail{
+            width: 100px;
+            height: 100px;
+            margin: 5px;
+        }
+        .selected{
+            border: 2px solid orange;
+        }
+    </style>
+
+    <script defer th:src="@{/js/board/register.js}"></script>
+</head>
+<body>
+
+<form id="regForm" th:action="@{edit}" th:object="${board}" method="post" enctype="multipart/form-data">
+    <input type="hidden" th:value="*{id}" th:field="*{id}">
+    <input type="hidden" th:value="*{memberId}" th:field="*{memberId}">
+    <input type="hidden" name="thumbIdx">
+
+    <div>Title</div>
+    <input th:field="*{title}" th:value="*{title}" type="text">
+
+    <div>Writer</div>
+    <input type="text" th:field="*{writer}" th:value="*{writer}" readonly>
+
+    <div>Content</div>
+    <textarea th:field="*{content}" rows="10" cols="20" th:value="*{content}"></textarea>
+
+    <div>Created At</div>
+    <span th:text="*{#temporals.format(createdAt, 'yyyy/MM/dd')}"></span>
+
+    <div>Updated At</div>
+    <span th:text="*{#temporals.format(updatedAt, 'yyyy/MM/dd')}"></span>
+
+    <div>Files</div>
+    <input type="file" name="file" multiple>
+
+    <div class="thumbnail-frame">
+        <ul>
+            <li th:each="file : *{attachments}">
+                <img th:class="'thumbnail'" th:src="@{/upload/{path}/{name}(path=${file.path}, name=${file.id + '_' + file.name})}">
+                <!--<a th:download="${file.name}" th:text="${file.name}" th:href="|/upload/${file.path}/${file.id}_${file.name}|"></a>-->
+            </li>
+        </ul>
+    </div>
+
+    <button class="btn-save">Save</button>
+    <button class="btn-cancel">Cancel</button>
+    <button class="btn-remove">Remove</button>
+</form>
+
+</body>
+</html>

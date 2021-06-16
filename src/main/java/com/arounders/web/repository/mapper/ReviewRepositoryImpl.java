@@ -1,5 +1,6 @@
 package com.arounders.web.repository.mapper;
 
+import com.arounders.web.dto.ReviewDTO;
 import com.arounders.web.entity.Review;
 import com.arounders.web.repository.ReviewRepository;
 import org.apache.ibatis.session.SqlSession;
@@ -17,12 +18,12 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     }
 
     @Override
-    public List<Review> getReviewListOfBoard(Integer boardId) {
+    public List<ReviewDTO> getReviewListOfBoard(Long boardId) {
         return mapper.getReviewListOfBoard(boardId);
     }
 
     @Override
-    public List<Review> getReviewListOfMember(Integer memberId) {
+    public List<ReviewDTO> getReviewListOfMember(Long memberId) {
         return mapper.getReviewListOfMember(memberId);
     }
 
@@ -37,7 +38,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     }
 
     @Override
-    public int delete(Review review) {
-        return mapper.delete(review);
+    public int delete(Long reviewId) {
+        return mapper.delete(reviewId);
     }
 }

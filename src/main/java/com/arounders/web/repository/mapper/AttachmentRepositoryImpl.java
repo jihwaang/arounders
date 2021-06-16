@@ -17,33 +17,27 @@ public class AttachmentRepositoryImpl implements AttachmentRepository {
     }
 
     @Override
-    public List<Attachment> getList() {
-        return mapper.getList();
-    }
-
-    @Override
-    public Attachment getAttachment(Integer id) {
+    public Attachment getAttachment(Long id) {
         return mapper.getAttachment(id);
     }
 
     @Override
-    public Attachment findThumbInfo(Long boardId, Long memberId, Integer index) {
-        return mapper.findThumbInfo(boardId, memberId, index);
+    public int insert(List<Attachment> attachments) {
+        return mapper.insert(attachments);
     }
 
     @Override
-    public int insert(Attachment attachment) {
-        return mapper.insert(attachment);
+    public int delete(Long boardId) {
+        return mapper.delete(boardId);
     }
 
     @Override
-    public int update(Attachment attachment) {
-        return mapper.update(attachment);
+    public List<Attachment> findAttachesByBoardId(Long boardId) {
+        return mapper.findAttachesByBoardId(boardId);
     }
 
     @Override
-    public int delete(Integer id) {
-        return mapper.delete(id);
+    public Attachment findAttachesByMemberId(Long memberId) {
+        return mapper.findAttachesByMemberId(memberId);
     }
-
 }

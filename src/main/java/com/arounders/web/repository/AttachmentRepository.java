@@ -5,15 +5,16 @@ import com.arounders.web.entity.Attachment;
 import java.util.List;
 
 public interface AttachmentRepository {
-    List<Attachment> getList();
+    Attachment getAttachment(Long id);
 
-    Attachment getAttachment(Integer id);
+    int insert(List<Attachment> attachments);
 
-    Attachment findThumbInfo(Long boardId, Long memberId, Integer thumbIdx);
+    /* 특정 게시글의 파일 삭제 */
+    int delete(Long boardId);
 
-    int insert(Attachment attachment);
+    /* 특정 게시글의 파일 목록 조회 */
+    List<Attachment> findAttachesByBoardId(Long boardId);
 
-    int update(Attachment attachment);
-
-    int delete(Integer id);
+    /* 특정 사용자의 프로필 */
+    Attachment findAttachesByMemberId(Long memberId);
 }

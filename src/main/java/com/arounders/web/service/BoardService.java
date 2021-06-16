@@ -1,5 +1,6 @@
 package com.arounders.web.service;
 
+import com.arounders.web.dto.BoardDTO;
 import com.arounders.web.entity.Board;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,15 +10,31 @@ import java.util.Optional;
 
 public interface BoardService {
 
-    List<Board> getList();
+    List<BoardDTO> getHiddenList();
 
-    Board getBoard(Integer id);
+    List<BoardDTO> getList();
 
-    int createBoard(Board board, MultipartFile[] postFiles, String uploadPath, Integer thumbIdx);
+    BoardDTO getBoard(Long id);
 
-    int editBoard(Board board);
+    Long createBoard(BoardDTO boardDTO);
 
-    int removeBoard(Integer id);
+    Long editBoard(BoardDTO boardDTO);
 
+    Long removeBoard(Long id);
 
+    default Board dtoToEntity(BoardDTO dto){
+
+        return Board.builder()
+                .id(dto.getId())
+                .title(dto.getTitle())
+                .content(dto.getContent())
+                .createdAt(dto.getCreatedAt())
+                .updatedAt(dto.getUpdatedAt())
+                .memberId(dto.getMemberId())
+                .categoryId(dto.getCategoryId())
+                .isHidden(dto.getIsHidden())
+                .region(dto.getRegion())
+                .thumbnailName(dto.getThumbnailName())
+                .thumbnailPath(dto.getThumbnailPath()).build();
+    }
 }

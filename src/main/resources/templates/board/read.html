@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:object="${board}">
+    <input type="hidden" th:value="*{id}" th:field="*{id}">
+    <div>Title</div>
+    <input th:field="*{title}" th:value="*{title}" type="text" readonly>
+
+    <div>Writer</div>
+    <input type="text" th:field="*{writer}" th:value="*{writer}" readonly>
+
+    <div>Content</div>
+    <textarea th:field="*{content}" rows="10" cols="20" th:value="*{content}" readonly></textarea>
+
+    <div>Created At</div>
+    <span th:text="*{#temporals.format(createdAt, 'yyyy/MM/dd')}"></span>
+
+    <div>Updated At</div>
+    <span th:text="*{#temporals.format(updatedAt, 'yyyy/MM/dd')}"></span>
+
+    <div>Files</div>
+    <ul>
+        <li th:each="file : *{attachments}">
+            <a th:download="${file.name}" th:text="${file.name}" th:href="|/upload/${file.path}/${file.id}_${file.name}|"></a>
+            <img th:src="@{/upload/{path}/{name}(path=${file.path}, name=${file.id + '_' + file.name})}">
+        </li>
+    </ul>
+
+</div>
+
+</body>
+</html>

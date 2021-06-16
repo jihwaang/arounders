@@ -1,13 +1,12 @@
 package com.arounders.web.repository.mapper;
 
+import com.arounders.web.dto.BoardDTO;
 import com.arounders.web.entity.Board;
 import com.arounders.web.repository.BoardRepository;
-import org.apache.ibatis.javassist.bytecode.stackmap.TypeData;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class BoardRepositoryImpl implements BoardRepository {
@@ -18,14 +17,18 @@ public class BoardRepositoryImpl implements BoardRepository {
         mapper = sqlSession.getMapper(BoardRepository.class);
     }
 
+    @Override
+    public List<BoardDTO> getHiddenList() {
+        return mapper.getHiddenList();
+    }
 
     @Override
-    public List<Board> getList() {
+    public List<BoardDTO> getList() {
         return mapper.getList();
     }
 
     @Override
-    public Board getBoard(Integer id) {
+    public BoardDTO getBoard(Long id) {
         return mapper.getBoard(id);
     }
 
@@ -40,12 +43,7 @@ public class BoardRepositoryImpl implements BoardRepository {
     }
 
     @Override
-    public int renew(String name, String path, Long id) {
-        return mapper.renew(name, path, id);
-    }
-
-    @Override
-    public int delete(Integer id) {
+    public int delete(Long id) {
         return mapper.delete(id);
     }
 
