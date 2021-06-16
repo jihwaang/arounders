@@ -1,5 +1,6 @@
 package com.arounders.web.controller;
 
+import com.arounders.web.dto.EmailAuthDTO;
 import com.arounders.web.entity.EmailAuth;
 import com.arounders.web.service.EmailAuthService;
 import lombok.RequiredArgsConstructor;
@@ -16,16 +17,31 @@ public class EmailAuthController {
     private final EmailAuthService emailAuthService;
 
     @GetMapping("/auth/{email}")
-    public EmailAuth getAuthEmail(@RequestBody EmailAuth email) {
-        EmailAuth emailAuth = emailAuthService.getAuthEmail(email);
+    public EmailAuth getAuthEmail(@PathVariable("email") String email) {
+        EmailAuth emailAuth = emailAuthService.getAuthEmail(EmailAuth.builder().email(email).build());
         return emailAuth;
     }
 
-    @PostMapping("/auth")
-    public Long requestAuth(@RequestBody EmailAuth email) {
+    @PostMapping("/confirmCheck")
+    public EmailAuth checkConfirmations(@RequestBody EmailAuth emailAuth) {
+        EmailAuth responseEmailAuth = emailAuthService.findByConfirmKey(emailAuth);
+        return responseEmailAuth;
+    }
+
+    @GetMapping("/confirm")
+    public String confirmAuthEmail(String confirmKey) {
+        log.info("confirmKey: {}", confirmKey);
+        Long count = emailAuthService.checkDuplicatedConfirm(confirmKey);
+        if (count > 0) return "이미 인증이 완료되었습니다.";
+        Long result = emailAuthService.confirmAuthByKey(confirmKey);
+        return result == 1 ? "인증에 성공하였습니다. 회원가입을 마무리 해주세요." : "인증에 실패하였습니다. 다시 시도해주세요.";
+    }
+
+    @PostMapping(value = "/auth")
+    public EmailAuthDTO requestAuth(@RequestBody EmailAuth email) {
         log.info("email: {}", email);
-        Long id = emailAuthService.requestAuth(email);
-        return id;
+        String confirmKey = emailAuthService.requestAuth(email);
+        return EmailAuthDTO.builder().confirmKey(confirmKey).build();
     }
 
     @PutMapping("/auth")

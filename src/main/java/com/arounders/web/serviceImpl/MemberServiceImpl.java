@@ -1,5 +1,6 @@
 package com.arounders.web.serviceImpl;
 
+import com.arounders.web.dto.MemberDTO;
 import com.arounders.web.entity.Member;
 import com.arounders.web.repository.MemberRepository;
 import com.arounders.web.service.MemberService;
@@ -32,11 +33,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Long signup(Member member) {
+    public Long signup(MemberDTO requestMember) {
 
-        log.info("#MemberService : signup -> " + member);
+        log.info("#MemberService : signup -> " + requestMember);
+        Member member = toEntity(requestMember);
         int result = memberRepository.insert(member);
-
         return result == 1? member.getId() : null;
     }
 

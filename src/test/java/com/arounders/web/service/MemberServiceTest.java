@@ -1,5 +1,6 @@
 package com.arounders.web.service;
 
+import com.arounders.web.dto.MemberDTO;
 import com.arounders.web.entity.Member;
 import com.arounders.web.repository.MemberRepository;
 import org.assertj.core.api.Assertions;
@@ -45,7 +46,9 @@ class MemberServiceTest {
                 .addrDtl(addrDtl)
                 .build();
 
-        Long id = service.signup(member);
+        MemberDTO memberDTO = new MemberDTO(email, password, nickname, phone, addr, addrDtl);
+
+        Long id = service.signup(memberDTO);
 
         Assertions.assertThat(id).isNotEqualTo(null);
     }

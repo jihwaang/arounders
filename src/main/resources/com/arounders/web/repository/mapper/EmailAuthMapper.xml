@@ -6,19 +6,35 @@
 <mapper namespace="com.arounders.web.repository.EmailAuthRepository">
 
     <select id="findEmailByEmail" parameterType="EmailAuth" resultType="EmailAuth">
-        SELECT * FROM EMAIL_AUTH WHERE ID = #{email}
+        SELECT * FROM EMAIL_AUTH WHERE EMAIL = #{email}
     </select>
 
     <select id="findEmailById" parameterType="EmailAuth" resultType="EmailAuth">
         SELECT * FROM EMAIL_AUTH WHERE ID = #{id}
     </select>
 
+    <select id="findByConfirmKey" parameterType="EmailAuth" resultType="EmailAuth">
+        SELECT * FROM EMAIL_AUTH WHERE CONFIRM_KEY = #{confirmKey}
+    </select>
+
+    <select id="findConfirmKeyById" parameterType="EmailAuth" resultType="java.lang.String">
+        SELECT CONFIRM_KEY FROM EMAIL_AUTH WHERE ID = #{id}
+    </select>
+
+    <select id="getCountConfirmed" parameterType="java.lang.String" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM EMAIL_AUTH WHERE CONFIRM_KEY = #{confirmKey} AND IS_CONFIRMED = 1
+    </select>
+
+    <select id="findConfirmKeyByEmail" parameterType="EmailAuth" resultType="java.lang.String">
+        SELECT CONFIRM_KEY FROM EMAIL_AUTH WHERE EMAIL = #{email}
+    </select>
+
     <select id="findConfirmedByEmail" parameterType="EmailAuth" resultType="EmailAuth">
-        SELECT IS_CONFIRMED FROM EMAIL_AUTH WHERE ID = #{email}
+        SELECT IS_CONFIRMED FROM EMAIL_AUTH WHERE EMAIL = #{email}
     </select>
 
     <insert id="insert" parameterType="EmailAuth">
-        INSERT INTO EMAIL_AUTH(EMAIL, CREATED_AT) VALUES(#{email}, NOW())
+        INSERT INTO EMAIL_AUTH(EMAIL, CREATED_AT, CONFIRM_KEY) VALUES(#{email}, NOW(), #{confirmKey})
         <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -26,5 +42,9 @@
 
     <update id="update" parameterType="EmailAuth">
         UPDATE EMAIL_AUTH SET IS_CONFIRMED = 1, CONFIRMED_AT = NOW() WHERE ID = #{id} and EMAIL = #{email}
+    </update>
+
+    <update id="updateByKey" parameterType="java.lang.String">
+        UPDATE EMAIL_AUTH SET IS_CONFIRMED = 1, CONFIRMED_AT = NOW() WHERE CONFIRM_KEY = #{confirmKey}
     </update>
 </mapper>
