@@ -1,6 +1,7 @@
 package com.arounders.web.repository.mapper;
 
 import com.arounders.web.dto.BoardDTO;
+import com.arounders.web.dto.criteria.BoardCriteria;
 import com.arounders.web.entity.Board;
 import com.arounders.web.repository.BoardRepository;
 import org.apache.ibatis.session.SqlSession;
@@ -23,8 +24,8 @@ public class BoardRepositoryImpl implements BoardRepository {
     }
 
     @Override
-    public List<BoardDTO> getList() {
-        return mapper.getList();
+    public List<BoardDTO> getList(BoardCriteria criteria) {
+        return mapper.getList(criteria);
     }
 
     @Override
@@ -47,4 +48,14 @@ public class BoardRepositoryImpl implements BoardRepository {
         return mapper.delete(id);
     }
 
+    /* About Mypage */
+    @Override
+    public List<BoardDTO> getMyList(BoardCriteria criteria, Long memberId) {
+        return mapper.getMyList(criteria, memberId);
+    }
+
+    @Override
+    public Integer getCountByCategory(Long memberId, Integer categoryId) {
+        return mapper.getCountByCategory(memberId, categoryId);
+    }
 }

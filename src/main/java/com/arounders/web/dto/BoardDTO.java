@@ -25,9 +25,11 @@ public class BoardDTO {
     private Integer isHidden;
     private String thumbnailName;
     private String thumbnailPath;
+    private String status;
 
     private Long memberId;
     private Long categoryId;
+    private Integer cityId;
 
     /* 작성자 */
     private String writer;

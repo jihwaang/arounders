@@ -1,11 +1,12 @@
 package com.arounders.web.api;
 
 import com.arounders.web.dto.CommentDTO;
+import com.arounders.web.dto.criteria.CommentCriteria;
 import com.arounders.web.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,10 +56,12 @@ public class CommentApiController {
     }
 
     /* 특정 게시글의 댓글 목록 조회 */
+    /* /comments/api/v1/boards/12?page=1 */
     @GetMapping(value = "/boards/{boardId}")
-    public ResponseEntity<List<CommentDTO>> getComments(@PathVariable("boardId") Long boardId){
+    public ResponseEntity<List<CommentDTO>> getComments(@PathVariable("boardId") Long boardId, CommentCriteria criteria){
 
-        List<CommentDTO> comments = service.getComments(boardId);
+        criteria.init();
+        List<CommentDTO> comments = service.getComments(boardId, criteria);
 
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
@@ -72,7 +75,7 @@ public class CommentApiController {
         commentDTO.setMemberId(12L);
         commentDTO.setNickname("admin");
 
-        /*session의 memberId와 nickname 넣기
+        /*session의 memberId와 nickname 넣기 (nickname은 안넣어도 될듯)
         commentDTO.setMemberId(session.getAttribute("id");
         commentDTO.setNickname(session.getAttribute("nickname");
         */
@@ -105,20 +108,6 @@ public class CommentApiController {
 
         return id != null? new ResponseEntity<>(id, HttpStatus.OK) :
                 new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    /* 내가 쓴 댓글 목록 조회 */
-    @GetMapping(value = "")
-    public ResponseEntity<List<CommentDTO>> getMyComments(){
-
-        /* test용 id */
-        Long id = 12L;
-        /* 실제 사용될 session에 저장된 id */
-        //Long id = (Long) session.getAttribute("id");
-
-        List<CommentDTO> comments = service.getMyComments(id);
-
-        return new ResponseEntity<>(comments, HttpStatus.OK);
     }
 
 }

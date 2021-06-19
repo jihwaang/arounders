@@ -3,6 +3,11 @@ package com.arounders.web.entity;
 
 import lombok.Data;
 
+import java.util.Collections;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public enum Category {
 
     ALL(1, "전체"),
@@ -20,4 +25,11 @@ public enum Category {
         this.title = title;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
 }

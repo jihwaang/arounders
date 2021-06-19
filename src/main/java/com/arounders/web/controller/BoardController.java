@@ -40,13 +40,6 @@ public class BoardController {
     @GetMapping("/list")
     public String getList(Model model) {
 
-        List<BoardDTO> list = boardService.getList();
-
-        log.info("#BoardController -> getList : ");
-        /*list.forEach(log::info);*/
-
-        model.addAttribute("list", list);
-
         return "/board/list";
     }
 

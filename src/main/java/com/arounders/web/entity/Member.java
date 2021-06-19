@@ -21,5 +21,6 @@ public class Member {
     private LocalDateTime lastLoginAt;
 
     private Long roleId;
+    private Integer cityId;
 
 }

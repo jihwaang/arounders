@@ -79,18 +79,34 @@ const commentModule = {
         });
     },
     /* 내가 쓴 댓글 목록 조회 */
-    getMyComments: function (){
+    getMyComments: function (cri){
+
+        let result = null;
+        let query = '?';
+
+        query += `page=${cri.page}`;
 
         ajax({
-            url: `/comments/api/v1`,
+            url: `/mypages/api/v1/comments${query}`,
             method: 'GET',
+            async: false,
             loadend: (comments) => {
-                const json = JSON.parse(comments);
 
-                json.forEach((comment, idx) => {
-                    console.log(comment);
-                });
+                result = JSON.parse(comments);
             }
         });
+
+        return result;
+    }
+}
+
+const CommentCriteria = {
+
+    page: 1,
+    init: function() {
+        this.page = 1;
+    },
+    set: function (){
+        /* NOT_USING */
     }
 }

@@ -22,9 +22,11 @@ public class Board {
     private Integer isHidden;
     private String thumbnailName;
     private String thumbnailPath;
+    private String status;
 
     private Long memberId;
     private Long categoryId;
+    private Integer cityId;
 
 }
 

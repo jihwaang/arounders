@@ -21,4 +21,6 @@ public interface AttachmentService {
     Attachment getMemberProfile(Long memberId);
 
     List<Attachment> attachmentsProcess(MultipartFile[] postFiles, BoardDTO boardDTO, String realPath, Long memberId, Integer thumbIdx);
+
+    List<Attachment> attachmentProcess(MultipartFile[] postFile, String realPath, Long memberId);
 }

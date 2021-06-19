@@ -21,6 +21,28 @@
 
 <form th:action="@{register}" method="post" th:object="${board}" id="regForm" enctype="multipart/form-data">
     <div>
+        <label>Category</label>
+        <select th:field="*{categoryId}">
+            <option value="1">전체</option>
+            <option value="2">공유</option>
+            <option value="3">모집</option>
+            <option value="4">맛집</option>
+            <option value="5">일상/소통</option>
+            <option value="6">질문/답변</option>
+        </select>
+    </div>
+    <div>
+        <label>Region</label>
+        <select th:field="*{region}">
+            <option value="도봉구">도봉구</option>
+            <option value="종로구">종로구</option>
+            <option value="영등포구">영등포구</option>
+            <option value="용산구">용산구</option>
+            <option value="강서구">강서구</option>
+            <option value="중구">중구</option>
+        </select>
+    </div>
+    <div>
         <label>Title</label>
         <input type="text" th:field="*{title}">
     </div>

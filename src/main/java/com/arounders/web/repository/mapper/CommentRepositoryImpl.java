@@ -1,8 +1,10 @@
 package com.arounders.web.repository.mapper;
 
 import com.arounders.web.dto.CommentDTO;
+import com.arounders.web.dto.criteria.CommentCriteria;
 import com.arounders.web.entity.Comment;
 import com.arounders.web.repository.CommentRepository;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -23,13 +25,13 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     @Override
-    public List<CommentDTO> getComments(Long boardId) {
-        return repository.getComments(boardId);
+    public List<CommentDTO> getComments(Long boardId, CommentCriteria criteria) {
+        return repository.getComments(boardId, criteria);
     }
 
     @Override
-    public List<CommentDTO> getMyComments(Long id) {
-        return repository.getMyComments(id);
+    public List<CommentDTO> getMyComments(Long memberId, @Param("cri") CommentCriteria criteria) {
+        return repository.getMyComments(memberId, criteria);
     }
 
     @Override

@@ -1,8 +1,10 @@
 package com.arounders.web.serviceImpl;
 
 import com.arounders.web.dto.BoardDTO;
+import com.arounders.web.dto.criteria.BoardCriteria;
 import com.arounders.web.entity.Attachment;
 import com.arounders.web.entity.Board;
+import com.arounders.web.entity.Category;
 import com.arounders.web.repository.BoardRepository;
 import com.arounders.web.service.AttachmentService;
 import com.arounders.web.service.BoardService;
@@ -11,14 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @Service
 public class BoardServiceImpl implements BoardService {
 
     private final BoardRepository boardRepository;
-
 
     public BoardServiceImpl(BoardRepository boardRepository, AttachmentService attachmentService) {
         this.boardRepository = boardRepository;
@@ -30,8 +32,8 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public List<BoardDTO> getList() {
-        return boardRepository.getList();
+    public List<BoardDTO> getList(BoardCriteria criteria) {
+        return boardRepository.getList(criteria);
     }
 
     @Override
@@ -66,16 +68,22 @@ public class BoardServiceImpl implements BoardService {
         return result > 0? id : null;
     }
 
-/*    private MultipartFile[] addThumbNail(MultipartFile[] postFiles, Integer thumbIdx) {
+    /* About Mypage */
+    @Override
+    public List<BoardDTO> getMyList(BoardCriteria criteria, Long memberId) {
+        return boardRepository.getMyList(criteria, memberId);
+    }
 
-        MultipartFile[] postFilesWithThumbNail = new MultipartFile[postFiles.length+1];
-        for (int i = 0 ; i < postFilesWithThumbNail.length; i++) {
-            if (i == postFilesWithThumbNail.length-1)
-                postFilesWithThumbNail[i] = postFiles[thumbIdx];
-            else
-                postFilesWithThumbNail[i] = postFiles[i];
-        }
-        return postFilesWithThumbNail;
+    @Override
+    public Map<String, Integer> getCountListByCategory(Long memberId) {
 
-    }*/
+        Map<String, Integer> countMap = new LinkedHashMap<>();
+
+        Arrays.stream(Category.values())
+                .forEach(c -> countMap
+                        .put(c.getTitle()
+                                ,boardRepository.getCountByCategory(memberId, c.getId())));
+
+        return countMap;
+    }
 }

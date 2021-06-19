@@ -9,12 +9,9 @@
         SELECT * FROM COMMENT_VIEW WHERE ID = #{id}
     </select>
 
-    <select id="getComments" resultType="com.arounders.web.dto.CommentDTO">
+    <select id="getComments" resultType="com.arounders.web.dto.CommentDTO" parameterType="com.arounders.web.dto.criteria.CommentCriteria">
         SELECT * FROM COMMENT_VIEW WHERE BOARD_ID = #{boardId} ORDER BY ID DESC
-    </select>
-
-    <select id="getMyComments" resultType="com.arounders.web.dto.CommentDTO">
-        SELECT * FROM COMMENT_VIEW WHERE MEMBER_ID = #{id} ORDER BY ID DESC
+        LIMIT #{cri.size} OFFSET #{cri.offset}
     </select>
 
     <insert id="insert" parameterType="Comment">
@@ -47,4 +44,13 @@
     <delete id="delete">
         DELETE FROM COMMENT WHERE ID = #{id} OR UPPER_ID = #{id}
     </delete>
+
+    <!-- Mypage -> 내가 쓴 댓글의 게시글 조회 -->
+    <select id="getMyComments" resultType="com.arounders.web.dto.CommentDTO" parameterType="com.arounders.web.dto.criteria.CommentCriteria">
+        SELECT C.*, B.TITLE FROM COMMENT_VIEW C
+            LEFT JOIN BOARD B ON C.BOARD_ID = B.ID
+        WHERE C.MEMBER_ID = #{memberId}
+        ORDER BY ID DESC
+        LIMIT #{cri.size} OFFSET #{cri.offset}
+    </select>
 </mapper>

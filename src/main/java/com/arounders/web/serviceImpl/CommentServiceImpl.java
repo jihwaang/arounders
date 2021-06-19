@@ -1,11 +1,13 @@
 package com.arounders.web.serviceImpl;
 
 import com.arounders.web.dto.CommentDTO;
+import com.arounders.web.dto.criteria.CommentCriteria;
 import com.arounders.web.entity.Comment;
 import com.arounders.web.repository.CommentRepository;
 import com.arounders.web.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,14 +26,14 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentDTO> getComments(Long boardId) {
+    public List<CommentDTO> getComments(Long boardId, CommentCriteria criteria) {
 
-        return repository.getComments(boardId);
+        return repository.getComments(boardId, criteria);
     }
 
     @Override
-    public List<CommentDTO> getMyComments(Long id) {
-        return repository.getMyComments(id);
+    public List<CommentDTO> getMyComments(Long memberId, CommentCriteria criteria) {
+        return repository.getMyComments(memberId, criteria);
     }
 
     @Override

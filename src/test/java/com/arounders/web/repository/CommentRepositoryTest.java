@@ -33,7 +33,7 @@ class CommentRepositoryTest {
 
         Long boardId = 6L;
 
-        List<CommentDTO> comments = repository.getComments(boardId);
+        List<CommentDTO> comments = repository.getComments(boardId, null);
 
         Assertions.assertThat(comments.size()).isEqualTo(2);
     }

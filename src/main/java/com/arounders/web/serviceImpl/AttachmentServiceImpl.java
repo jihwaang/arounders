@@ -90,6 +90,7 @@ public class AttachmentServiceImpl implements AttachmentService {
             folders.mkdirs();
     }
 
+    /* About Board Attachments */
     @Override
     public List<Attachment> attachmentsProcess(MultipartFile[] postFiles, BoardDTO boardDTO, String realPath, Long memberId, Integer thumbIdx) {
 
@@ -136,6 +137,37 @@ public class AttachmentServiceImpl implements AttachmentService {
             /* 로컬 저장소 파일 저장, BoardDTO에 Thumbnail 정보가 심어짐, Attachment List OK */
         }
 
+        return attachments;
+    }
+
+    /* About Member Profile */
+    @Override
+    public List<Attachment> attachmentProcess(MultipartFile[] postFiles, String realPath, Long memberId) {
+
+        List<Attachment> attachments = null;
+
+        if (postFiles[0].getSize() > 0) {
+            String uploadPath = createFilePath(realPath);
+            attachments = new ArrayList<>();
+
+            /* Multipart -> Attachment */
+            for (MultipartFile file : postFiles) {
+
+                String uuid = UUID.randomUUID().toString();
+                String fileName = file.getOriginalFilename();
+
+                Attachment attachment = Attachment.builder()
+                        .id(uuid)
+                        .name(fileName)
+                        .path(uploadPath)
+                        .memberId(memberId)
+                        .build();
+
+                attachments.add(attachment);
+                /* 파일 저장 */
+                save(file, attachment, realPath);
+            }
+        }
         return attachments;
     }
 }
