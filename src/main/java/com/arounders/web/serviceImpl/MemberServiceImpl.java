@@ -3,10 +3,15 @@ package com.arounders.web.serviceImpl;
 import com.arounders.web.dto.MemberDTO;
 import com.arounders.web.entity.Member;
 import com.arounders.web.repository.MemberRepository;
+import com.arounders.web.service.AttachmentService;
+import com.arounders.web.service.MailService;
 import com.arounders.web.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -16,6 +21,12 @@ import java.util.List;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+
+    private final PasswordEncoder passwordEncoder;
+
+    private final MailService mailService;
+
+    private final AttachmentService attachmentService;
 
     @Override
     public Member getMember(Long id) {
@@ -37,14 +48,20 @@ public class MemberServiceImpl implements MemberService {
 
         log.info("#MemberService : signup -> " + requestMember);
         Member member = toEntity(requestMember);
+        member = encodePassword(member);
+        member.setCityId();
+        //member.setPassword(passwordEncoder.encode(member.getPassword()));
         int result = memberRepository.insert(member);
         return result == 1? member.getId() : null;
     }
+
+
 
     @Override
     public Long update(Member member) {
 
         log.info("#MemberService : update -> " + member);
+        member.setPassword(passwordEncoder.encode(member.getPassword()));
         int result = memberRepository.update(member);
 
         return result == 1? member.getId() : null;
@@ -56,5 +73,79 @@ public class MemberServiceImpl implements MemberService {
         int result = memberRepository.delete(id);
 
         return result == 1? id : null;
+    }
+
+    @Override
+    public Integer isOverlapped(String field, String value) {
+        return memberRepository.getCount(field, value);
+    }
+
+    @Override
+    public Member getMemberByEmail(String email) {
+        return memberRepository.findMemberByEmail(email);
+    }
+
+    @Override
+    public int updateLastLogin(Member user) {
+        return memberRepository.updateLastLogin(user);
+    }
+
+    @Override
+    public Integer countByEmailandNickName(MemberDTO member) {
+        return memberRepository.countByEmailandNickName(member);
+    }
+
+    @Transactional
+    @Override
+    public int updatePassword(MemberDTO member) {
+        Member memberEntity = toEntity(member);
+        //generate new password here
+        memberEntity.generateNewPassword();
+        log.info("new password: {}", memberEntity.getPassword());
+
+        //send new password here by email
+        int mailResult = sendNewPassword(memberEntity);
+
+        //encrypt new password here to save to database here
+        memberEntity = encodePassword(memberEntity);
+
+        int updateResult = memberRepository.updatePassword(memberEntity);
+
+        return (mailResult == 1 && updateResult == 1) ? 1 : -1;
+    }
+
+    @Override
+    public int updateAddress(MemberDTO requestMember) {
+        Member member =  toEntity(requestMember);
+        return memberRepository.updateAddress(member);
+    }
+
+    @Override
+    public Integer findCityId(String addr) {
+        return memberRepository.findCityId(addr);
+    }
+
+    @Transactional
+    @Override
+    public int updateMember(MemberDTO memberDTO, MultipartFile multipartFile, String realPath) {
+        /* update Member data here */
+        Member member = toEntity(memberDTO);
+        member = encodePassword(member);
+        int memberResult = memberRepository.update(member);
+        /* save profile image then insert into database here if existing */
+        int fileResult =
+                multipartFile.getSize() == 0 ?
+                1 : attachmentService.saveOneFile(multipartFile, realPath, member);
+
+        return (memberResult == 1 && fileResult == 1) ? 1 : 0;
+    }
+
+    public Member encodePassword(Member member) {
+        member.setPassword(passwordEncoder.encode(member.getPassword()));
+        return member;
+    }
+
+    public int sendNewPassword(Member member) {
+        return mailService.sendNewPassword(member);
     }
 }

@@ -22,6 +22,17 @@
         </selectKey>
     </insert>
 
+    <insert id="insertProfileImage" parameterType="Attachment">
+        INSERT INTO ATTACHMENT
+        (ID, NAME, PATH, CREATED_AT, MEMBER_ID)
+        VALUES
+        (#{id}, #{name}, #{path}, NOW(), #{memberId})
+
+        <selectKey resultType="java.lang.String" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
     <delete id="delete">
         DELETE FROM ATTACHMENT WHERE BOARD_ID = #{boardId}
     </delete>
@@ -32,5 +43,14 @@
 
     <select id="findAttachesByMemberId" resultType="Attachment">
         SELECT * FROM ATTACHMENT WHERE MEMBER_ID = #{memberId} AND BOARD_ID = NULL
+    </select>
+
+    <select id="findProfileImgPathById" parameterType="java.lang.Long" resultType="java.lang.String">
+        SELECT CONCAT("/upload/", PATH, "/", ID, "_", NAME) PROF_IMG_PATH
+        FROM ATTACHMENT
+        WHERE BOARD_ID IS NULL
+        AND MEMBER_ID = #{param1}
+        ORDER BY CREATED_AT DESC
+        LIMIT 1
     </select>
 </mapper>

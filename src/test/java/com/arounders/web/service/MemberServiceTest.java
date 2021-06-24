@@ -29,13 +29,16 @@ class MemberServiceTest {
     @Test
     @Transactional
     void signup() {
-
+        //Long id = 1L;
         String email = "admin@gorany.com";
         String password = "12345";
         String nickname = "q1w2w2e3";
         String phone = "010-1010-2020";
         String addr = "서울시 강북구 삼양동 귀로 102";
         String addrDtl = "OO빌라 201호";
+
+        Long roleId = 1L;
+        Long cityId = 1L;
 
         Member member = Member.builder()
                 .email(email)
@@ -46,7 +49,7 @@ class MemberServiceTest {
                 .addrDtl(addrDtl)
                 .build();
 
-        MemberDTO memberDTO = new MemberDTO(email, password, nickname, phone, addr, addrDtl);
+        MemberDTO memberDTO = new MemberDTO();
 
         Long id = service.signup(memberDTO);
 

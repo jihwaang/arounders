@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script defer src="/js/member/accountFinderModule.js"></script>
+</head>
+<body>
+<form th:action="@{/member/update/password}" method="post">
+    <label for="email">EMAIL</label>
+    <input type="text" name="email" id="email">
+    <label for="nickname">NICKNAME</label>
+    <input type="text" name="nickname" id="nickname">
+    <input type="button" id="password-btn" value="비밀번호 찾기">
+</form>
+</body>
+</html>

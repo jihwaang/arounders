@@ -2,6 +2,7 @@ package com.arounders.web.serviceImpl;
 
 import com.arounders.web.dto.RequestMail;
 import com.arounders.web.entity.EmailAuth;
+import com.arounders.web.entity.Member;
 import com.arounders.web.service.MailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -67,8 +68,8 @@ public class MailServiceImpl implements MailService {
                 ;
         try {
             messageHelper.setText(htmlMsg, true);
-            messageHelper.setTo("jihwaang@naver.com");
-            messageHelper.setSubject("Email Test");
+            messageHelper.setTo(mail.getEmail());
+            messageHelper.setSubject("Arounders Confirmation Request");
             messageHelper.setFrom("Arounders");
 
             mailSender.send(message);
@@ -76,6 +77,37 @@ public class MailServiceImpl implements MailService {
         } catch (MessagingException e) {
             e.printStackTrace();
             return -1L;
+        }
+    }
+
+    @Override
+    public int sendNewPassword(Member memberEntity) {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper messageHelper = new MimeMessageHelper(message, "utf-8");
+        String htmlMsg = "<form style=\"width: 550px;\n" +
+                "      height: 200px;\n" +
+                "      display: flex;\n" +
+                "      flex-direction: column;\n" +
+                "      place-items: center;\">\n" +
+                "    <h1>Arounder를 이용해주셔서 감사합니다.</h1>\n" +
+                "    <p>변경된 임시비밀번호는 아래와 같습니다.</p></br></br>\n" +
+                "    <p>"+memberEntity.getPassword()+"</p>"+
+                "    </div>\n" +
+                "\n" +
+                "\n" +
+                "</form>"
+                ;
+        try {
+            messageHelper.setText(htmlMsg, true);
+            messageHelper.setTo(memberEntity.getEmail());
+            messageHelper.setSubject("Arounders Temporary Password Notification");
+            messageHelper.setFrom("Arounders");
+
+            mailSender.send(message);
+            return 1;
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return -1;
         }
     }
 

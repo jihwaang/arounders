@@ -17,4 +17,10 @@ public interface AttachmentRepository {
 
     /* 특정 사용자의 프로필 */
     Attachment findAttachesByMemberId(Long memberId);
+
+    /* 프로필 등록 */
+    int insertProfileImage(Attachment attachment);
+
+    /* 프로필 사진 경로 조회 */
+    String findProfileImgPathById(Long id);
 }

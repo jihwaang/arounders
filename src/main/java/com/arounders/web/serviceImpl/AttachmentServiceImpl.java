@@ -2,11 +2,13 @@ package com.arounders.web.serviceImpl;
 
 import com.arounders.web.dto.BoardDTO;
 import com.arounders.web.entity.Attachment;
+import com.arounders.web.entity.Member;
 import com.arounders.web.repository.AttachmentRepository;
 import com.arounders.web.service.AttachmentService;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -137,5 +139,35 @@ public class AttachmentServiceImpl implements AttachmentService {
         }
 
         return attachments;
+    }
+
+    @Transactional
+    @Override
+    public int saveOneFile(MultipartFile multipartFile, String realPath, Member member) {
+
+        String uuid = UUID.randomUUID().toString();
+        String fileName = multipartFile.getOriginalFilename();
+        String uploadPath = createFilePath(realPath);
+
+        Attachment attachment = Attachment.builder()
+                                    .id(uuid)
+                                    .name(fileName)
+                                    .path(uploadPath)
+                                    .memberId(member.getId())
+                                    .build();
+        /* save file here */
+        save(multipartFile, attachment, realPath);
+
+        return createOneAttachment(attachment);
+    }
+
+    @Override
+    public int createOneAttachment(Attachment attachment) {
+        return attachmentRepository.insertProfileImage(attachment);
+    }
+
+    @Override
+    public String findProfileImgPathById(Long id) {
+        return attachmentRepository.findProfileImgPathById(id);
     }
 }

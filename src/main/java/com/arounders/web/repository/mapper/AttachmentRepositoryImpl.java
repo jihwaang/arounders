@@ -40,4 +40,14 @@ public class AttachmentRepositoryImpl implements AttachmentRepository {
     public Attachment findAttachesByMemberId(Long memberId) {
         return mapper.findAttachesByMemberId(memberId);
     }
+
+    @Override
+    public int insertProfileImage(Attachment attachment) {
+        return mapper.insertProfileImage(attachment);
+    }
+
+    @Override
+    public String findProfileImgPathById(Long id) {
+        return mapper.findProfileImgPathById(id);
+    }
 }

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+<form id="form" name="form" method="post">
+  <input type="hidden" id="confmKey" name="confmKey" value="" th:value="${confmKey}"/>
+  <input type="hidden" id="returnUrl" name="returnUrl" value=""/>
+  <input type="hidden" id="resultType" name="resultType" value="" th:value="${resultType}"/>
+</form>
+<input type="hidden" id="inputYn" value="" th:value="${inputYn}" />
+<input type="hidden" id="roadAddrPart1" value="" th:value="${roadAddrPart1 == null ? '' : roadAddrPart1}" />
+<input type="hidden" id="addrDetail" value="" th:value="${addrDetail == null ? '' : addrDetail}" />
+</body>
+<script>
+    window.addEventListener('load', init());
+    function init(){
+	const url = location.href;
+	const inputYn= document.querySelector('#inputYn').value;
+	if(inputYn != "Y"){
+		document.form.returnUrl.value = url;
+		if (navigator.userAgent.indexOf('Mob') === -1) {
+		    document.form.action="https://www.juso.go.kr/addrlink/addrLinkUrl.do"; // 인터넷망
+		} else {
+		    document.form.action="https://www.juso.go.kr/addrlink/addrMobileLinkUrl.do"; //모바일 웹인 경우, 인터넷망
+		}
+		document.form.submit();
+	}else{
+		opener.putAddr(document.getElementById('roadAddrPart1').value, document.getElementById('addrDetail').value);
+		window.close();
+	}
+}
+</script>
+
+</html>
