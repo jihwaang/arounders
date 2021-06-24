@@ -149,10 +149,10 @@ public class MypageController {
 
         session.setAttribute("id", user.getId());
         session.setAttribute("nickname", user.getNickname());
-        session.setAttribute("addr", user.getAddr().split(" ")[1]);
+        session.setAttribute("region", user.getAddr().split(" ")[1]);
         session.setAttribute("role", user.getRoleId());
         session.setAttribute("profileImg", profileImg);
-        log.info("reset session user info id : {}, nickname: {}, addr: {}, role: {}, profileImg: {}",
+        log.info("reset session user info id : {}, nickname: {}, region: {}, role: {}, profileImg: {}",
                 user.getId(), user.getNickname(), user.getAddr(), user.getRoleId(), profileImg);
     }
 }

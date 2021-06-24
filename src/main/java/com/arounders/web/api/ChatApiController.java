@@ -1,6 +1,6 @@
 package com.arounders.web.api;
 
-import com.arounders.web.controller.dto.BufferMap;
+import com.arounders.web.dto.BufferMap;
 import com.arounders.web.dto.ChatDTO;
 import com.arounders.web.service.ChatService;
 import com.fasterxml.jackson.core.JsonProcessingException;

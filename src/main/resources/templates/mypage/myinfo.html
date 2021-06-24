@@ -19,8 +19,8 @@
     <div class="form-raw">
         <label>프로필이미지</label>
         <input type="file" name="profileImg" id="profileImg" accept="image/*"/>
-        <div th:if="${session.profileImg != null}" th:style="'width:50px; height: 50px; background: url('+ @{${session.profileImg}} +') no-repeat center center / cover; border-radius: 50%;'"></div>
-        <div th:if="${session.profileImg == null}" th:style="'width:50px; height: 50px; background: url('+ @{/upload/anonymous.svg} +') no-repeat center center / cover; border-radius: 50%;'"></div>
+        <div th:if="${session.profileImg != null}" th:style="'width:50px; height: 50px; background: url('+ @{${session.profileImg}} +') no-repeat center center / contain; border-radius: 50%;'"></div>
+        <div th:if="${session.profileImg == null}" th:style="'width:50px; height: 50px; background: url(' @{/upload/anonymous.svg} +') no-repeat center center / contain; border-radius: 50%;'"></div>
     </div>
     <div class="form-raw">
         <label for="password">비밀번호</label>

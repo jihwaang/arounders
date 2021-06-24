@@ -48,7 +48,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
         /* individual values to session settings */
         session.setAttribute("id", user.getId());
         session.setAttribute("nickname", user.getNickname());
-        session.setAttribute("addr", user.getAddr());
+        session.setAttribute("region", user.getAddr());
         session.setAttribute("role", user.getRoleId());
         session.setAttribute("profileImg", profileImg);
         super.onAuthenticationSuccess(request, response, authentication);
