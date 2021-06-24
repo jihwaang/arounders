@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.arounders.web.repository.ChatRoomRepository">
+
+    <select id="findAllByRegionAndCityId" resultType="ChatRoom">
+        SELECT * FROM CHAT_ROOM
+        WHERE REGION = #{region} AND CITY_ID = #{cityId} AND FINISHED_AT IS NULL
+        ORDER BY ID DESC
+    </select>
+
+    <select id="findById" resultType="com.arounders.web.dto.ChatRoomDTO">
+        SELECT C.*, M.NICKNAME CREATOR FROM CHAT_ROOM C
+            LEFT JOIN MEMBER M ON C.MEMBER_ID = M.ID
+        WHERE C.ID = #{id}
+    </select>
+
+    <insert id="insert" parameterType="ChatRoom">
+        INSERT INTO CHAT_ROOM(TITLE, REGION, MEMBER_ID, CITY_ID)
+        VALUES(#{title}, #{region}, #{memberId}, #{cityId})
+
+        <selectKey resultType="Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="close">
+        UPDATE CHAT_ROOM SET FINISHED_AT = NOW() WHERE ID = #{id}
+    </update>
+
+    <update id="update">
+        UPDATE CHAT_ROOM SET TITLE = #{title} WHERE ID = #{id}
+    </update>
+
+</mapper>

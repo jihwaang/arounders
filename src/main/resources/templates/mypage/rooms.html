@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/ajax/ajax.js"></script>
+</head>
+<body>
+
+<div>
+    <ul class="chat-rooms">
+
+    </ul>
+</div>
+
+<script defer>
+    const rooms = document.querySelector('.chat-rooms');
+
+    (async () => {
+        const data = await getRooms();
+        console.log(data);
+        let html = '';
+        data.forEach((room, idx) => {
+            html += `<li>
+                        <span>${room.region}</span>
+                        <a href="/chat/room?id=${room.id}&region=${room.region}&cityId=${room.cityId}">${room.title}</a>
+                        <span>${room.createdAt}</span>
+                    </li>`;
+        });
+
+        rooms.insertAdjacentHTML('beforeend', html);
+    })();
+
+    function getRooms(){
+        return new Promise((resolve, reject) => {
+
+            ajax({
+                url: `/chatMember/api/v1`,
+                method: 'GET',
+                loadend: (rooms) => {
+                    resolve(JSON.parse(rooms));
+                }
+            });
+        });
+    }
+</script>
+</body>
+</html>

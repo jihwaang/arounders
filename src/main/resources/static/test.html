@@ -46,6 +46,39 @@
 
 
 </form>
+
+<script>
+
+    /*const exam = {
+        kor: 20,
+        eng: 30,
+        print: function() {
+            console.log(this);
+            console.log(this.kor);
+        }
+    }*/
+
+    class Exam{
+        constructor() {
+
+            this.kor = 10;
+            this.eng = 20;
+        }
+        print (){
+            console.log(this);
+            console.log(this.kor);
+        }
+    }
+
+    const exam = new Exam();
+
+    exam.print();
+
+    const copy = exam.print.bind(exam);
+    copy();
+
+</script>
+
 </body>
 <!--<script type="text/javascript">-->
 <!--    document.getElementById('auth').addEventListener('click', ()=>alert('회원가입을 마무리 해주세요.'));-->

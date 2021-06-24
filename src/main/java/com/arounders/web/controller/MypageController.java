@@ -45,4 +45,10 @@ public class MypageController {
 
         return "mypage/comments";
     }
+
+    @GetMapping(value = "/rooms")
+    public String rooms(){
+
+        return "mypage/rooms";
+    }
 }

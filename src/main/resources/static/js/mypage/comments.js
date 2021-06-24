@@ -10,6 +10,11 @@ if(window.innerHeight >= document.body.offsetHeight){
 
 /* Scroll Down -> Board List Request */
 window.addEventListener('scroll', () => {
+
+    console.log(`window.innerHeight : ${window.innerHeight}`);
+    console.log(`window.scrollY : ${window.scrollY}`);
+    console.log(`document.body.offsetHeight : ${document.body.offsetHeight}`);
+    console.log('----------------------------');
     let val = window.innerHeight + window.scrollY;
 
     if(val >= document.body.offsetHeight){
@@ -17,8 +22,6 @@ window.addEventListener('scroll', () => {
         showList(cri);
     }
 });
-
-
 
 function showList(cri){
 
