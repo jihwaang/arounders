@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -17,12 +17,12 @@
     }
 </style>
 <body>
-<form method="post" action="/board/createBoard" enctype="multipart/form-data">
-    <input type="file" name="file" id="file" multiple="multiple">
-    <input type="hidden" name="thumbIdx" id="thumbIdx" value="1">
-    <input type="hidden" name="memberId" id="memberId" value="4">
-    <textarea name="content" id="content" cols="30" rows="10"></textarea>
-    <button type="submit">submit</button>
+<form method="post" th:action="@{/login}">
+    <label for="email">email</label>
+    <input type="text" name="email" id="email">
+    <label for="password">password</label>
+    <input type="password" name="password" id="password">
+    <button type="submit">sign in</button>
 </form>
 </body>
 </html>

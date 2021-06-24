@@ -6,16 +6,45 @@
 <mapper namespace="com.arounders.web.repository.MemberRepository">
 
     <select id="getMember" resultType="Member">
-        SELECT * FROM MEMBER WHERE ID = #{id}
+        SELECT
+        ID
+        , EMAIL
+        , NICKNAME
+        , CAST(AES_DECRYPT(UNHEX(PHONE), 'df') AS CHAR(32) CHARACTER SET UTF8) PHONE
+        , ADDR
+        , ADDR_DTL
+        , ROLE_ID
+        , CITY_ID
+        FROM MEMBER WHERE ID = #{id}
     </select>
 
     <select id="getMembers" resultType="Member">
         SELECT * FROM MEMBER WHERE DROPPED_AT IS NULL
     </select>
 
+    <select id="getMemberForSession" resultType="Member">
+        SELECT ID, NICKNAME,
+    </select>
+
+    <select id="getCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM MEMBER WHERE ${param1} = #{param2}
+    </select>
+
+    <select id="countByEmailandNickName" parameterType="Member" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM MEMBER WHERE EMAIL = #{email} AND NICKNAME = #{nickname}
+    </select>
+
+    <select id="findCityIdByAddr" parameterType="java.lang.String" resultType="java.lang.Long">
+        SELECT ID FROM CITY WHERE NAME = #{address}
+    </select>
+
+    <select id="findMemberByEmail" parameterType="java.lang.String" resultType="Member">
+        SELECT ID, EMAIL, NICKNAME, ADDR, ADDR_DTL, ROLE_ID, CITY_ID FROM MEMBER WHERE EMAIL = #{param1}
+    </select>
+
     <insert id="insert" parameterType="Member">
-        INSERT INTO MEMBER(EMAIL, PASSWORD, NICKNAME, PHONE, ADDR, ADDR_DTL)
-        VALUES(#{email}, #{password}, #{nickname}, #{phone}, #{addr}, #{addrDtl})
+        INSERT INTO MEMBER(EMAIL, PASSWORD, NICKNAME, PHONE, ADDR, ADDR_DTL, CITY_ID)
+        VALUES(#{email}, #{password}, #{nickname}, (HEX(AES_ENCRYPT(#{phone},'df'))), #{addr}, #{addrDtl}, #{cityId})
 
         <selectKey keyProperty="id" order="AFTER" resultType="Long">
             SELECT LAST_INSERT_ID()
@@ -27,7 +56,7 @@
         <set>
             <if test="password != null">PASSWORD = #{password},</if>
             <if test="nickname != null">NICKNAME = #{nickname},</if>
-            <if test="phone != null">PHONE = #{phone},</if>
+            <if test="phone != null">PHONE = (HEX(AES_ENCRYPT(#{phone},'df'))),</if>
             <if test="addr != null">ADDR = #{addr},</if>
             <if test="addrDtl != null">ADDR_DTL = #{addrDtl},</if>
             <if test="roleId != null">ROLE_ID = #{roleId}</if>
@@ -46,5 +75,23 @@
         ADDR_DTL = NULL,
         DROPPED_AT = NOW()
         WHERE ID = #{id}
+    </update>
+
+    <update id="updateLastLogin" parameterType="Member">
+        UPDATE MEMBER SET LAST_LOGIN_AT = NOW() WHERE ID = #{id}
+    </update>
+
+    <update id="updatePassword" parameterType="Member">
+        UPDATE MEMBER SET PASSWORD = #{password} WHERE EMAIL = #{email} AND NICKNAME = #{nickname}
+    </update>
+
+    <update id="updateAddress" parameterType="Member">
+        UPDATE MEMBER
+        SET
+        ADDR = #{addr},
+        ADDR_DTL = #{addrDtl},
+        CITY_ID = #{cityId}
+        WHERE
+        ID = #{id}
     </update>
 </mapper>

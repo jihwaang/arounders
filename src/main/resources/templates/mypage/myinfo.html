@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script defer src="/js/mypage/myInfoModule.js"></script>
+    <script defer src="/js/member/emailAuthModule.js"></script>
+</head>
+<body>
+<form th:action="@{/mypage/update/info}" method="POST" th:object="${member}" enctype="multipart/form-data" id="user-info">
+    <div class="form-raw">
+        <label for="email">이메일(아이디)</label>
+        <input type="text" id="email" name="email" th:field="*{email}" disabled />
+    </div>
+<!--    <div class="form-raw">-->
+<!--        <input type="button" value="이메일 인증" id="requestAuth" />-->
+<!--        <p>입력하신 이메일에서 인증해주세요.</p>-->
+<!--    </div>-->
+    <div class="form-raw">
+        <label>프로필이미지</label>
+        <input type="file" name="profileImg" id="profileImg" accept="image/*"/>
+        <div th:if="${session.profileImg != null}" th:style="'width:50px; height: 50px; background: url('+ @{${session.profileImg}} +') no-repeat center center / cover; border-radius: 50%;'"></div>
+        <div th:if="${session.profileImg == null}" th:style="'width:50px; height: 50px; background: url('+ @{/upload/anonymous.svg} +') no-repeat center center / cover; border-radius: 50%;'"></div>
+    </div>
+    <div class="form-raw">
+        <label for="password">비밀번호</label>
+        <input type="password" id="password" name="password" th:field="*{password}"/>
+    </div>
+    <div class="form-raw">
+        <label for="passwordConfirmed">비밀번호 확인</label>
+        <input type="password" id="passwordConfirmed" name="passwordConfirmed" />
+    </div>
+    <div class="form-raw">
+        <label for="nickName">닉네임(유저명)</label>
+        <input type="text" id="nickname" name="nickname" th:field="*{nickname}"/>
+    </div>
+    <div class="form-raw">
+        <label for="phone">휴대폰번호</label>
+        <input type="tel"
+               class="form-control m-input"
+               name="phone"
+               id="phone"
+               required
+               pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}"
+               maxlength="13"
+               placeholder="예) 010-1234-5678"
+               th:field="*{phone}">
+    </div>
+    <div class="form-raw">
+        <label for="addr">주소</label>
+        <input type="button" value="검색" id="addr-finder"/>
+        <input type="text" id="addr" name="addr" th:field="*{addr}"readonly/>
+    </div>
+    <div class="form-raw">
+        <label for="addrDtl"></label>
+        <input type="text" id="addrDtl" name="addrDtl" th:field="*{addrDtl}" />
+    </div>
+    <input type="submit" id="submitBtn" value="변경">
+</form>
+<div class="btn-container">
+    <a href="#" class="btn join-btn">변경하기</a>
+</div>
+</body>
+</html>
