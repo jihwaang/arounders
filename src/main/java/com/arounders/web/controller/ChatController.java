@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -22,6 +23,7 @@ import java.util.List;
 public class ChatController {
 
     private final ChatRoomService service;
+    private final HttpSession session;
 
     @GetMapping(value = "/room")
     public String getChatRoom(Long id, Model model){
@@ -41,10 +43,12 @@ public class ChatController {
     }
 
     @GetMapping(value = "/list")
-    public String chatList(Integer cityId, String region, Model model){
+    public String chatList(Model model){
 
-        cityId = 1;
-        region = "용산구";
+        //cityId = 1;
+        //region = "용산구";
+        Integer cityId = (Integer) session.getAttribute("cityId");
+        String region = (String) session.getAttribute("region");
 
         List<ChatRoom> chatRoomList = service.getChatRoomList(region, cityId);
         model.addAttribute("list", chatRoomList);
@@ -54,14 +58,15 @@ public class ChatController {
     @PostMapping(value = "/list")
     public String createChatRoom(ChatRoomDTO chatRoomDTO, RedirectAttributes rttr){
 
-        chatRoomDTO.setMemberId(12L);
-        chatRoomDTO.setRegion("용산구");
-        chatRoomDTO.setCityId(1);
+        Long memberId = (Long) session.getAttribute("id");
+        Integer cityId = (Integer) session.getAttribute("cityId");
+        String region = (String) session.getAttribute("region");
+
+        chatRoomDTO.setMemberId(memberId);
+        chatRoomDTO.setRegion(region);
+        chatRoomDTO.setCityId(cityId);
 
         Long chatRoomId = service.create(chatRoomDTO);
-
-//        System.out.println("chatRoomId = " + chatRoomId);
-//        rttr.addFlashAttribute("chatRoomId", chatRoomId);
 
         return "redirect:/chat/list";
     }

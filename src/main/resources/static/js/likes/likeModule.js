@@ -29,52 +29,66 @@ const likeModule = {
     },
     getCounts: function (){
 
-        let result = null;
-
-        ajax({
-            url: `${this.url}/boards/${this.boardId}`,
-            method: 'GET',
-            async: false,
-            loadend: (count) => {
-                result = count;
-            }
+        return new Promise((resolve, reject) => {
+            ajax({
+                url: `${this.url}/boards/${this.boardId}`,
+                method: 'GET',
+                async: false,
+                loadend: (count) => {
+                    resolve(count);
+                },
+                error: (xhr, status, statusText) => {
+                    reject(xhr, status, statusText);
+                }
+            });
         });
-
-        return result;
     },
     like: function () {
 
-        ajax({
-            url: `${this.url}/boards/${this.boardId}`,
-            method: 'POST',
-            loadend: (boardId) => {
-                console.log(`${boardId}번 게시글을 좋아합니다.`);
-            }
+        return new Promise((resolve, reject) => {
+            ajax({
+                url: `${this.url}/boards/${this.boardId}`,
+                method: 'POST',
+                loadend: (boardId) => {
+                    console.log(`${boardId}번 게시글을 좋아합니다.`);
+                    resolve(boardId);
+                },
+                error: (xhr, status, statusText) => {
+                    reject(xhr, status, statusText);
+                }
+            });
         });
     },
     dislike: function (){
 
-        ajax({
-            url: `${this.url}/boards/${this.boardId}`,
-            method: 'DELETE',
-            loadend: (boardId) => {
-                console.log(`${boardId}번 게시글 좋아요를 취소합니다.`);
-            }
+        return new Promise((resolve, reject) => {
+            ajax({
+                url: `${this.url}/boards/${this.boardId}`,
+                method: 'DELETE',
+                loadend: (boardId) => {
+                    console.log(`${boardId}번 게시글 좋아요를 취소합니다.`);
+                    resolve(boardId);
+                },
+                error: (xhr, status, statusText) => {
+                    reject(xhr, status, statusText);
+                }
+            });
         });
     },
     isLike: function () {
 
-        let result = null;
-
-        ajax({
-            url: `${this.url}/${this.boardId}`,
-            method: 'GET',
-            async: false,
-            loadend: (data) => {
-                result = data === 'true';
-            }
+        return new Promise((resolve, reject) => {
+            ajax({
+                url: `${this.url}/${this.boardId}`,
+                method: 'GET',
+                async: false,
+                loadend: (data) => {
+                    resolve(data === 'true');
+                },
+                error: (xhr, status, statusText) => {
+                    reject(xhr, status, statusText);
+                }
+            });
         });
-
-        return result;
     }
 }

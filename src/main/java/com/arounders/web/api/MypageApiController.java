@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -25,14 +26,15 @@ public class MypageApiController {
 
     private final BoardService boardService;
     private final CommentService commentService;
+    private final HttpSession session;
 
     @GetMapping(value = "/boards")
     public ResponseEntity<List<BoardDTO>> getMyBoards(BoardCriteria criteria){
 
         /* Test용 */
-        Long memberId = 12L;
+        //Long memberId = 12L;
         /* Dev용 */
-        //Long memberId = (Long) session.getAttribute("id");
+        Long memberId = (Long) session.getAttribute("id");
 
         criteria.init();
         List<BoardDTO> myList = boardService.getMyList(criteria, memberId);
@@ -46,9 +48,9 @@ public class MypageApiController {
     public ResponseEntity<List<CommentDTO>> getMyComments(CommentCriteria criteria){
 
         /* test용 id */
-        Long memberId = 12L;
+        //Long memberId = 12L;
         /* 실제 사용될 session에 저장된 id */
-        //Long memberId = (Long) session.getAttribute("id");
+        Long memberId = (Long) session.getAttribute("id");
 
         criteria.init();
         List<CommentDTO> comments = commentService.getMyComments(memberId, criteria);

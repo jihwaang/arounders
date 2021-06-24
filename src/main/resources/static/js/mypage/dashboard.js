@@ -32,9 +32,9 @@ categoryList.addEventListener('click', (e) => {
     showList(cri);
 });
 
-function showList(cri){
+async function showList(cri){
 
-    const result = boardModule.getMyList(cri);
+    const result = await boardModule.getMyList(cri);
 
     /*if(result.length == 0) {
         alert('마지막 페이지입니다.');
@@ -49,7 +49,7 @@ function showList(cri){
                     <span>${board.category}</span>
                     <span>${board.region}</span>
                     <span>${board.status == '0'? '미완료':'완료'}</span>
-                    <div><a href="read?id=${board.id}">${board.title}</a></div>
+                    <div><a href="/board/read?id=${board.id}">${board.title}</a></div>
                     <div>${board.writer}</div>
                     <div>${board.createdAt}</div>
                     <div><img src="/upload/${board.thumbnailPath}/${board.thumbnailName}"></div>

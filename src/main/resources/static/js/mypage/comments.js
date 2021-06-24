@@ -23,9 +23,9 @@ window.addEventListener('scroll', () => {
     }
 });
 
-function showList(cri){
+async function showList(cri){
 
-    const result = commentModule.getMyComments(cri);
+    const result = await commentModule.getMyComments(cri);
 
     result.forEach((comment, idx) => {
         console.log(comment);

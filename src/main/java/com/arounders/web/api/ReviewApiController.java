@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -17,6 +18,7 @@ import java.util.List;
 public class ReviewApiController {
 
     private final ReviewService reviewService;
+    private final HttpSession session;
 
     @GetMapping("/boards/{boardId}")
     public ResponseEntity<List<ReviewDTO>> getReviewListOfBoard(@PathVariable("boardId") Long boardId) {
@@ -40,9 +42,9 @@ public class ReviewApiController {
     public ResponseEntity<Long> createReview(@RequestBody ReviewDTO reviewDTO) {
 
         /* test용 */
-        reviewDTO.setMemberId(12L);
+        //reviewDTO.setMemberId(12L);
         /* 실제 사용 */
-        //reviewDTO.setMemberId((Long) session.getAttribute("id"));
+        reviewDTO.setMemberId((Long) session.getAttribute("id"));
 
         log.info("request Review : {}", reviewDTO);
         Long id = reviewService.createReview(reviewDTO);

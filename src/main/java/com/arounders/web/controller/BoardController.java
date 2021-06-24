@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -36,6 +37,7 @@ public class BoardController {
 
     private final BoardService boardService;
     private final AttachmentService attachmentService;
+    private final HttpSession session;
 
     @GetMapping("/list")
     public String getList(Model model) {
@@ -73,9 +75,9 @@ public class BoardController {
                               RedirectAttributes rttr) {
 
         /* test */
-        Long memberId = 12L;
+        //Long memberId = 12L;
         /* develop */
-        //Long memberId = (Long) session.getAttribute("id");
+        Long memberId = (Long) session.getAttribute("id");
         boardDTO.setMemberId(memberId);
 
         String realPath = request.getServletContext().getRealPath("/upload");

@@ -14,19 +14,17 @@ const boardModule = {
         if(cri.field !== 'all')
             query += `field=${cri.field}&keyword=${cri.keyword}`;
 
-        let result = null;
-
-        ajax({
-            url: url + query,
-            method: 'GET',
-            async: false,
-            loadend: (json) => {
-                //console.log(boards);
-                result = JSON.parse(json);
-            }
+        return new Promise((resolve, reject) => {
+            ajax({
+                url: url + query,
+                method: 'GET',
+                async: false,
+                loadend: (json) => {
+                    //console.log(boards);
+                    resolve(JSON.parse(json));
+                }
+            });
         });
-
-        return result;
     },
     getMyList: function (cri){
 
@@ -37,27 +35,25 @@ const boardModule = {
         query += `page=${cri.page}&`;
         query += `category=${cri.category}`;
 
-        let result = null;
-
-        ajax({
-            url: url + query,
-            method: 'GET',
-            async: false,
-            loadend: (json) => {
-                //console.log(boards);
-                result = JSON.parse(json);
-            }
+        return new Promise((resolve, reject) => {
+            ajax({
+                url: url + query,
+                method: 'GET',
+                async: false,
+                loadend: (json) => {
+                    //console.log(boards);
+                    resolve(JSON.parse(json));
+                }
+            });
         });
-
-        return result;
     }
 }
 
 const BoardCriteria = {
 
     page: 1,
-    cityId: 1,
-    region: '용산구',
+    cityId: 1, //test용
+    region: '용산구', //test용
     order: 'desc',
     status: 'all',
     category: 1,

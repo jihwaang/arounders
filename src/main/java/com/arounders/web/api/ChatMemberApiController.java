@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -18,15 +19,16 @@ import java.util.List;
 public class ChatMemberApiController {
 
     private final ChatMemberService chatMemberService;
+    private final HttpSession session;
 
     /* 채팅방 참여 */
     @PostMapping(value = "/{chatRoomId}")
     public ResponseEntity<Long> join(@PathVariable("chatRoomId") Long chatRoomId){
 
         /* test */
-        Long memberId = 12L;
+        //Long memberId = 12L;
         /* dev */
-        //Long memberId = (Long) session.getAttribute("id");
+        Long memberId = (Long) session.getAttribute("id");
 
         Long id = chatMemberService.join(memberId, chatRoomId);
 
@@ -38,9 +40,9 @@ public class ChatMemberApiController {
     public ResponseEntity<Long> dropOut(@PathVariable("chatRoomId") Long chatRoomId){
 
         /* test */
-        Long memberId = 12L;
+        //Long memberId = 12L;
         /* dev */
-        //Long memberId = (Long) session.getAttribute("id");
+        Long memberId = (Long) session.getAttribute("id");
 
         Long id = chatMemberService.dropOut(memberId, chatRoomId);
 
@@ -53,9 +55,9 @@ public class ChatMemberApiController {
     public ResponseEntity<Boolean> isJoin(@PathVariable("chatRoomId") Long chatRoomId){
 
         /* test */
-        Long memberId = 12L;
+        //Long memberId = 12L;
         /* dev */
-        //Long memberId = (Long) session.getAttribute("id");
+        Long memberId = (Long) session.getAttribute("id");
 
         int result = chatMemberService.isJoin(memberId, chatRoomId);
 
@@ -67,9 +69,9 @@ public class ChatMemberApiController {
     public ResponseEntity<List<ChatRoomDTO>> getMyChatRooms(){
 
         /* test */
-        Long memberId = 12L;
+        //Long memberId = 12L;
         /* dev */
-        //Long memberId = (Long) session.getAttribute("id");
+        Long memberId = (Long) session.getAttribute("id");
 
         List<ChatRoomDTO> rooms = chatMemberService.getMyChatRooms(memberId);
 

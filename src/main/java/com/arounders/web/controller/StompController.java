@@ -25,7 +25,7 @@ public class StompController {
 
     private final BufferMap<Long, List<ChatDTO>> chatListMap;
 
-    private Map<Long, Integer> countMap = new HashMap<>();
+    private final Map<Long, Integer> countMap;
 
     @MessageMapping(value = "/chat/enter")
     public void enter(ChatDTO message){

@@ -67,9 +67,9 @@ function getStatus(){
         if(status.checked)
             return status.value;
 }
-function showList(cri){
+async function showList(cri){
 
-    const result = boardModule.getList(cri);
+    const result = await boardModule.getList(cri);
 
     /*if(result.length == 0) {
         alert('마지막 페이지입니다.');

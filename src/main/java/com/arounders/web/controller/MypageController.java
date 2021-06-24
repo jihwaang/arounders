@@ -1,5 +1,5 @@
 package com.arounders.web.controller;
-import com.arounders.web.entity.Category;
+
 import com.arounders.web.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -8,24 +8,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.arounders.web.dto.MemberDTO;
-import com.arounders.web.entity.Category;
+
 import com.arounders.web.entity.Member;
 import com.arounders.web.service.AttachmentService;
-import com.arounders.web.service.BoardService;
 import com.arounders.web.service.MemberService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -40,13 +31,15 @@ public class MypageController {
 
     private final AttachmentService attachmentService;
 
+    private final HttpSession session;
+
     @GetMapping(value = "/dashboard")
     public String dashboard(Model model){
 
         /* Test용 */
-        Long memberId = 12L;
+        //Long memberId = 12L;
         /* Dev용 */
-        //Long memberId = (Long) session.getAttribute("id");
+        Long memberId = (Long) session.getAttribute("id");
 
         Map<String, Integer> countMap = boardService.getCountListByCategory(memberId);
 
@@ -71,14 +64,14 @@ public class MypageController {
     }
 
     @GetMapping("/location")
-    public String getUserLocation(HttpSession session) {
+    public String getUserLocation() {
         Long id = (Long) session.getAttribute("id");
         log.info("request url -> /mypage/location, session user id: {}", id);
         return "mypage/my-location";
     }
 
     @GetMapping("/info")
-    public String getInfo(Model model, HttpSession session) {
+    public String getInfo(Model model) {
 
         Long id = (Long) session.getAttribute("id");
         log.info("request url -> /mypage/info, session user id: {}", id);
@@ -95,7 +88,7 @@ public class MypageController {
 
     @PostMapping("/update/info")
     @ResponseBody
-    public int updateMemberInfo(MemberDTO memberDTO, @RequestParam(name="profileImg")MultipartFile multipartFile, HttpSession session) {
+    public int updateMemberInfo(MemberDTO memberDTO, @RequestParam(name="profileImg")MultipartFile multipartFile) {
         log.info("request url -> /mypage/update/info, memberDTO: {}, multipartFile: {}"
                 , memberDTO, multipartFile.toString());
 
@@ -115,13 +108,13 @@ public class MypageController {
         int result = memberService.updateMember(memberDTO, multipartFile, realPath);
 
         /* reset session if successful */
-        if (result > 0) resetSession(session);
+        if (result > 0) resetSession();
 
         return result;
     }
 
     @PostMapping("/update/address")
-    public String updateAddress(MemberDTO memberDTO, HttpSession session) {
+    public String updateAddress(MemberDTO memberDTO) {
 
         Long id = (Long) session.getAttribute("id");
         log.info("request url -> /mypage/update/address, session user id: {}, memberDTO: {}",
@@ -134,12 +127,12 @@ public class MypageController {
         /* updateAddress here */
         int result = memberService.updateAddress(memberDTO);
         /* session refresh */
-        if (result > 0) resetSession(session);
+        if (result > 0) resetSession();
 
         return "mypage/my-location";
     }
 
-    public void resetSession(HttpSession session) {
+    public void resetSession() {
         Long id = (Long) session.getAttribute("id");
 
         /* get user info */
@@ -150,7 +143,8 @@ public class MypageController {
         session.setAttribute("id", user.getId());
         session.setAttribute("nickname", user.getNickname());
         session.setAttribute("region", user.getAddr().split(" ")[1]);
-        session.setAttribute("role", user.getRoleId());
+        session.setAttribute("roleId", user.getRoleId());
+        session.setAttribute("cityId", user.getCityId());
         session.setAttribute("profileImg", profileImg);
         log.info("reset session user info id : {}, nickname: {}, region: {}, role: {}, profileImg: {}",
                 user.getId(), user.getNickname(), user.getAddr(), user.getRoleId(), profileImg);

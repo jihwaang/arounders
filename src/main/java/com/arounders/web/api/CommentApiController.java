@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -19,6 +20,7 @@ import java.util.List;
 public class CommentApiController {
 
     private final CommentService service;
+    private final HttpSession session;
 
     /* 특정 댓글 조회 */
     @GetMapping(value = "/{commentId}")
@@ -72,13 +74,13 @@ public class CommentApiController {
                                          @RequestBody CommentDTO commentDTO){
 
         /*test용*/
-        commentDTO.setMemberId(12L);
-        commentDTO.setNickname("admin");
+        //commentDTO.setMemberId(12L);
+        //commentDTO.setNickname("admin");
 
-        /*session의 memberId와 nickname 넣기 (nickname은 안넣어도 될듯)
-        commentDTO.setMemberId(session.getAttribute("id");
-        commentDTO.setNickname(session.getAttribute("nickname");
-        */
+        //session의 memberId와 nickname 넣기 (nickname은 안넣어도 될듯)
+        commentDTO.setMemberId((Long) session.getAttribute("id"));
+        commentDTO.setNickname((String) session.getAttribute("nickname"));
+
         commentDTO.setBoardId(boardId);
         log.info("#CommentApiController -> register : " + commentDTO);
         Long id = service.create(commentDTO);
@@ -94,20 +96,20 @@ public class CommentApiController {
                                            @RequestBody CommentDTO commentDTO){
 
         /*test용*/
-        commentDTO.setMemberId(12L);
-        commentDTO.setNickname("admin");
+        //commentDTO.setMemberId(12L);
+        //commentDTO.setNickname("admin");
 
-        /*session의 memberId와 nickname 넣기
-        commentDTO.setMemberId(session.getAttribute("id");
-        commentDTO.setNickname(session.getAttribute("nickname");
-        */
+        //session의 memberId와 nickname 넣기
+        commentDTO.setMemberId((Long) session.getAttribute("id"));
+        commentDTO.setNickname((String) session.getAttribute("nickname"));
+
         commentDTO.setBoardId(boardId);
         commentDTO.setUpperId(upperId);
+
         log.info("#CommentApiController -> registerRe : " + commentDTO);
         Long id = service.create(commentDTO);
 
         return id != null? new ResponseEntity<>(id, HttpStatus.OK) :
                 new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
 }

@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 public class ChatDTO {
 
     private Long chatRoomId;
-    private String region;
 
     private Long memberId;
     private String writer;

@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @RestController
 @RequestMapping(value = "/likes/api/v1")
 @Log4j2
@@ -15,14 +17,15 @@ import org.springframework.web.bind.annotation.*;
 public class LikesApiController {
 
     private final LikesService service;
+    private final HttpSession session;
 
     @GetMapping("/{boardId}")
     public ResponseEntity<Boolean> isLike(@PathVariable("boardId") Long boardId){
 
         /* test용 */
-        Long memberId = 12L;
+        //Long memberId = 12L;
         /* 실제 사용 */
-        //Long memberId = (Long) session.getAttribute("id");
+        Long memberId = (Long) session.getAttribute("id");
 
         Boolean result =  service.isLike(memberId, boardId);
         log.info("#LikesApiController : isLike -> " + result);
@@ -43,9 +46,9 @@ public class LikesApiController {
     public ResponseEntity<Long> like(@PathVariable("boardId") Long boardId){
 
         /* test용 */
-        Long memberId = 12L;
+        //Long memberId = 12L;
         /* 실제 사용 */
-        //Long memberId = (Long) session.getAttribute("id");
+        Long memberId = (Long) session.getAttribute("id");
 
         log.info(memberId + "번 회원이 " + boardId + "번 게시글을 좋아합니다.");
         Long id = service.like(Likes.builder().memberId(memberId).boardId(boardId).build());
@@ -57,9 +60,9 @@ public class LikesApiController {
     public ResponseEntity<Long> dislike(@PathVariable("boardId") Long boardId){
 
         /* test용 */
-        Long memberId = 12L;
+        //Long memberId = 12L;
         /* 실제 사용 */
-        //Long memberId = (Long) session.getAttribute("id");
+        Long memberId = (Long) session.getAttribute("id");
 
         log.info(memberId + "번 회원이 " + boardId + "번 게시글 좋아요를 취소합니다.");
         Long id = service.cancel(Likes.builder().memberId(memberId).boardId(boardId).build());

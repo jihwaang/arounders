@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -18,6 +19,7 @@ import java.util.List;
 public class ReportApiController {
 
     private final ReportService service;
+    private final HttpSession session;
 
     /* None Using */
     @GetMapping("/{id}")
@@ -47,9 +49,9 @@ public class ReportApiController {
     public ResponseEntity<Long> report(@PathVariable("boardId") Long boardId){
 
         /* test용 */
-        Long memberId = 12L;
+        //Long memberId = 12L;
         /* 실제 사용 */
-        //Long memberId = (Long) session.getAttribute("id");
+        Long memberId = (Long) session.getAttribute("id");
         log.info(memberId + "번 회원이 " + boardId + "번 게시글을 신고했습니다.");
         Long id = service.register(Report.builder().memberId(memberId).boardId(boardId).build());
 
