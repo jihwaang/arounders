@@ -49,4 +49,6 @@ public interface MemberService {
     Integer findCityId(String addr);
 
     int updateMember(MemberDTO member, MultipartFile multipartFile, String realPath);
+
+    int countByEmail(String email);
 }

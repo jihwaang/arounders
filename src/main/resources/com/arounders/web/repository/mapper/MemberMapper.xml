@@ -30,6 +30,10 @@
         SELECT COUNT(*) FROM MEMBER WHERE ${param1} = #{param2}
     </select>
 
+    <select id="countByEmail" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM MEMBER WHERE EMAIL= #{param1}
+    </select>
+
     <select id="countByEmailandNickName" parameterType="Member" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM MEMBER WHERE EMAIL = #{email} AND NICKNAME = #{nickname}
     </select>

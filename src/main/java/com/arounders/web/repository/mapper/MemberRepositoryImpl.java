@@ -82,6 +82,10 @@ public class MemberRepositoryImpl implements MemberRepository {
         return memberRepository.countByEmailandNickName(member);
     }
 
+    public Integer countByEmail(String email) {
+        return memberRepository.countByEmail(email);
+    }
+
     @Override
     public int updatePassword(Member member) {
         return memberRepository.updatePassword(member);

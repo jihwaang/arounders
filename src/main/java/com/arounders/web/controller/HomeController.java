@@ -15,12 +15,10 @@ public class HomeController {
 
     @GetMapping("/")
     public String index(HttpSession session) {
-        if (session != null) {
-            Long id = (Long) session.getAttribute("id");
-            log.info("request url -> /, session user id: {}", id);
-            if(id != null) return "redirect:/board/list";
-        }
-        return "index";
+        Long id = (Long) session.getAttribute("id");
+        log.info("request url -> /, session user id: {}", id);
+        if(id != null) return "redirect:/board/list";
+        return "/index";
     }
     @PostMapping("/login")
     public String getIndex() {
