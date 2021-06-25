@@ -36,4 +36,6 @@ public interface MemberRepository {
     int updateAddress(Member member);
 
     Integer findCityId(String addr);
+
+    Integer countByEmail(String email);
 }

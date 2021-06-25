@@ -19,7 +19,7 @@ const memberModule = {
         const email = document.getElementById('email');
         const password = document.getElementById('password');
         const passwordConfirmed = document.getElementById('passwordConfirmed');
-        const nickName = document.getElementById('nickName');
+        const nickname = document.getElementById('nickname');
         const phone = document.getElementById('phone');
         const addressFinder = document.getElementById('addr-finder');
         const submitButton = document.getElementById('submitBtn');
@@ -30,7 +30,7 @@ const memberModule = {
         });
 
         //nickname check
-        nickName.addEventListener('blur', (e) => {
+        nickname.addEventListener('blur', (e) => {
             console.log(e.target.value);
             _this.isOverlapped(e.target.value);
         });

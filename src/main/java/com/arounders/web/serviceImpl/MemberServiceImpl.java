@@ -140,6 +140,11 @@ public class MemberServiceImpl implements MemberService {
         return (memberResult == 1 && fileResult == 1) ? 1 : 0;
     }
 
+    @Override
+    public int countByEmail(String email) {
+        return (int) memberRepository.countByEmail(email);
+    }
+
     public Member encodePassword(Member member) {
         member.setPassword(passwordEncoder.encode(member.getPassword()));
         return member;

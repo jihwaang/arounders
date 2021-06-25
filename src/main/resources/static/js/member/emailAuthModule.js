@@ -18,9 +18,26 @@ const emailAuthModule = {
 
     }, // end init
 
-    requestAuth(formObj) {
-        if(!formObj.email) return alert('이메일 아이디를 입력해주세요.');
-        if(emailAuth) return alert('인증메일이 이미 발송되었습니다.');
+    async requestAuth(formObj) {
+        if (!formObj.email) return alert('이메일 아이디를 입력해주세요.');
+
+        const emailCheckUrl = `/member/checkEmail`;
+        const emailCheckOptions = {
+            method: 'POST',
+            body: formObj.email,
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            }
+        };
+
+        let emailCount = await fetch(emailCheckUrl, emailCheckOptions).then(res => res.json()).then(data => data);
+
+        if (emailCount > 0) return alert('이미 가입되어있는 이메일 입니다.');
+
+        if (emailAuth) return alert('인증메일이 이미 발송되었습니다.');
+
+
+        alert('인증메일이 발송되었습니다.\n입력하신 메일을 통해 인증을 완료해주세요.');
 
         const url = '/emailAuth/auth';
         const options = {
@@ -35,60 +52,10 @@ const emailAuthModule = {
         .then(res => res.json())
         .then(data => {
             emailAuth = data;
-            alert('인증메일이 발송되었습니다.\n입력하신 메일을 통해 인증을 완료해주세요.');
             requestAuth.disabled = true;
-            console.log(emailAuth);
          })
         .catch(err => console.log(err));
     }, // end requestAuth
-
-//    submit(formObj) {
-//        if(!this.emailAuth) return alert('이메일 인증이 필요합니다.');
-//
-//        const url = '/emailAuth/confirmCheck';
-//        const options = {
-//            method: 'POST',
-//            body: JSON.stringify(this.emailAuth),
-//            headers: {
-//                'Content-type': 'application/json; charset=UTF-8'
-//            }
-//        };
-//
-//        //email confirm check
-//        fetch(url, options)
-//        .then(res => res.json())
-//        .then(data => {
-//            console.log(data);
-//            emailAuth = data;
-//            console.log(emailAuth);
-//            if (!emailAuth.confirmed) return alert('발송된 인증메일을 확인해주세요.');
-//            //this.formSelector.submit();
-//        })
-//        .catch(err => console.log(err));
-//
-//
-//    }, // end submit
-
-    /*async ajaxRequest(url, method, obj) {
-        console.log(url, method, obj);
-        const options = {
-            method: method,
-            body: JSON.stringify(obj),
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8'
-            }
-        };
-
-        try {
-            let response = await fetch(url, options);
-            let data = await response.json();
-            return data;
-        } catch(err) {
-            console.log(err);
-        }
-
-    } // end ajax*/
-
 }; // end object
 
 emailAuthModule.init();

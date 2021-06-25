@@ -1,7 +1,9 @@
 package com.arounders.web.controller;
 
 import com.arounders.web.dto.MemberDTO;
+import com.arounders.web.entity.Member;
 import com.arounders.web.entity.Role;
+import com.arounders.web.service.AttachmentService;
 import com.arounders.web.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,8 @@ import javax.servlet.http.HttpSession;
 public class MemberController {
 
     private final MemberService memberService;
+
+    private final AttachmentService attachmentService;
 
     @GetMapping("/signup")
     public String getSignUpPage() {
@@ -68,10 +72,21 @@ public class MemberController {
     }
 
     @PostMapping("/signup")
-    public String doSignUp(MemberDTO requestMember) {
+    public String doSignUp(MemberDTO requestMember, HttpSession session) {
       log.info("memberDTO : {}", requestMember);
       Long id = memberService.signup(requestMember);
-      return "redirect:/index.html";
+      String profileImg = attachmentService.findProfileImgPathById(id);
+      if (id != null) {
+          Member user = memberService.getMember(id);
+          /* individual values to session settings */
+          session.setAttribute("id", user.getId());
+          session.setAttribute("nickname", user.getNickname());
+          session.setAttribute("region", user.getAddr());
+          session.setAttribute("role", user.getRoleId());
+          session.setAttribute("profileImg", profileImg);
+      }
+
+      return "redirect:/index";
     }
 
     @PostMapping("/checkExist")
@@ -79,6 +94,13 @@ public class MemberController {
     public Integer checkExistingMember(@RequestBody MemberDTO member) {
         log.info("checkExistingMember invoked, request: {}", member);
         return memberService.countByEmailandNickName(member);
+    }
+
+    @PostMapping("/checkEmail")
+    @ResponseBody
+    public int checkEmail(@RequestBody String email) {
+        log.info("request url -> /member/checkEmail, email: {}", email);
+        return memberService.countByEmail(email);
     }
 
     @PostMapping("/update/password")
