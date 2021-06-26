@@ -22,6 +22,7 @@ public class HomeController {
     }
     @PostMapping("/login")
     public String getIndex() {
+        log.info("request url -> /login");
         return "/board/list";
     }
 }

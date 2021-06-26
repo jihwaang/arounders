@@ -1,0 +1,71 @@
+main {
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  position: relative;
+  top: 75px;
+  margin-bottom: 20px;
+}
+
+.main-svg {
+  background: url('../../image/common/welcome.svg') no-repeat center;
+  height: 40%;
+  background-size: contain;
+}
+
+.input-form {
+  border: 1px solid #979797;
+  padding: 1em;
+  border-radius: 1em;
+  margin-bottom: 25px;
+}
+
+.page-title {
+  text-align: center;
+}
+
+form,
+form > .fx-column {
+  gap: 0.8em;
+}
+
+.form-input-text,
+.form-input-password {
+  padding: 0.5em;
+  outline: none;
+  border: none;
+  background-color: #e8e8e8;
+}
+
+.form-input-text:focus-within,
+.form-input-password:focus-within {
+  border: 1px solid skyblue;
+}
+.find-section {
+  padding: 1em 0.3em;
+}
+.find-password {
+  color: var(--color-skyblue);
+}
+
+.btn-section {
+  gap: 1em;
+}
+
+.btn-section .btn {
+  padding: 0.5em;
+  background-color: var(--color-skyblue);
+  border: none;
+  color: #fff;
+  font-size: 1.12rem;
+}
+
+.btn-section .btn:hover {
+  opacity: 0.75;
+}
+
+@media screen and (min-width: 800px) {
+  main {
+    flex-direction: row;
+  }
+}

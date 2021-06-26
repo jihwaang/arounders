@@ -130,7 +130,12 @@ public class MemberServiceImpl implements MemberService {
     public int updateMember(MemberDTO memberDTO, MultipartFile multipartFile, String realPath) {
         /* update Member data here */
         Member member = toEntity(memberDTO);
-        member = encodePassword(member);
+        /* check if password should not be changed */
+        if (member.getPassword() != null && !member.getPassword().isBlank()) {
+            member = encodePassword(member);
+        } else {
+            member.setPassword(null);
+        }
         int memberResult = memberRepository.update(member);
         /* save profile image then insert into database here if existing */
         int fileResult =

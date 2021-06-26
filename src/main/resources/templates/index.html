@@ -5,24 +5,43 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Local Community | Welcome</title>
+    <link rel="stylesheet" href="/css/common/reset.css"/>
+    <link rel="stylesheet" href="/css/common/common-library.css"/>
+    <link rel="stylesheet" href="/css/common/common.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/include/header.css"/>
+    <link rel="stylesheet" href="/css/common/index.css"/>
+    <script defer src="/js/common/index.js"></script>
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+            integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+            crossorigin="anonymous"/>
 </head>
-<style>
-    form {
-      display: flex;
-      flex-direction: column;
-      width: 50%;
-      justify-content: center;
-      align-items: center;
-    }
-</style>
+</head>
 <body>
-<form method="post" th:action="@{/login}">
-    <label for="email">email</label>
-    <input type="text" name="email" id="email">
-    <label for="password">password</label>
-    <input type="password" name="password" id="password">
-    <button type="submit">sign in</button>
-</form>
+<main class="max-width-default center w-80 h-100">
+    <section class="main-svg w-100"></section>
+    <section class="input-form w-100 max-width-ms">
+        <h1 class="page-title">SIGN IN</h1>
+        <form th:action="@{/login}" id="form" method="POST" class="fx-column">
+            <div class="email fx-column">
+                <label for="email">Email ID</label>
+                <input type="text" name="email" id="email" class="form-input-text" />
+            </div>
+            <div class="password fx-column">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" class="form-input-password" />
+            </div>
+        </form>
+        <div class="find-section w-100 max-width-ms text-right">
+            <a class="find-password" th:href="@{/member/findAccount}">forget password?</a>
+        </div>
+        <div class="btn-section fx-column w-100 max-width-ms">
+            <button class="btn btn-sign-in">SIGN IN</button>
+            <button class="btn btn-sign-up">SIGN UP</button>
+        </div>
+    </section>
+</main>
 </body>
 </html>
