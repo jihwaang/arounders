@@ -1,6 +1,7 @@
 package com.arounders.web.serviceImpl;
 
 import com.arounders.web.dto.ChatRoomDTO;
+import com.arounders.web.entity.Member;
 import com.arounders.web.repository.ChatMemberRepository;
 import com.arounders.web.service.ChatMemberService;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +39,10 @@ public class ChatMemberServiceImpl implements ChatMemberService {
     @Override
     public List<ChatRoomDTO> getMyChatRooms(Long memberId) {
         return repository.findAllByMemberId(memberId);
+    }
+
+    @Override
+    public List<Member> getClientsFromChatRoom(Long chatRoomId) {
+        return repository.findByChatRoomId(chatRoomId);
     }
 }

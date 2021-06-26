@@ -1,6 +1,7 @@
 package com.arounders.web.repository.mapper;
 
 import com.arounders.web.dto.ChatRoomDTO;
+import com.arounders.web.entity.Member;
 import com.arounders.web.repository.ChatMemberRepository;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -34,5 +35,10 @@ public class ChatMemberRepositoryImpl implements ChatMemberRepository{
     @Override
     public List<ChatRoomDTO> findAllByMemberId(Long memberId) {
         return mapper.findAllByMemberId(memberId);
+    }
+
+    @Override
+    public List<Member> findByChatRoomId(Long chatRoomId) {
+        return mapper.findByChatRoomId(chatRoomId);
     }
 }

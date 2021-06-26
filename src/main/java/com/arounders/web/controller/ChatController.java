@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class ChatController {
     public String deleteChatRoom(Long id, RedirectAttributes rttr) {
 
         Long chatRoomId = service.close(id);
-        rttr.addFlashAttribute("chatRoodId", chatRoomId);
+        rttr.addAttribute("chatRoodId", chatRoomId);
 
         return "redirect:/chat/list";
     }

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<header class="fx-space-between" th:fragment="header">
+
+    <img class="logo" id="logo" th:src="@{/image/header/logo-black.svg}" src="../image/header/logo.png">
+
+    <div class="btn-box fx-space-between mg-left-auto">
+        <div class="search mg-left-auto" id="search">
+            <input type="text" class="search-input dp-none" id="search-input" />
+            <i class="fas fa-search search-btn" id="search-btn"></i>
+            <i class="fas fa-times cancel-btn dp-none" id="cancel-btn"></i>
+        </div>
+        <img class="btn-profile" th:src="@{{path}(path = ${session.profileImg != null? session.profileImg : '/image/header/person.png'})}" src="/image/header/person.png" id="profile">
+        <span class="btn-menu" id="menu"><i class="fas fa-bars"></i></span>
+    </div>
+
+    <div class="tooltip-box dp-none">
+
+        <div class="profile-box">
+            <img th:src="@{{path}(path = ${session.profileImg != null? session.profileImg : '/image/header/person.png'})}" src="../image/header/person.png" alt="프로필 아이콘" class="icon-profile">
+            <div class="nickname" th:text="${session.nickname}">NickName</div>
+        </div>
+        <div class="local-box" th:text="${session.region}">
+            서울특별시 종로구
+        </div>
+        <a href="#" class="btn btn-logout">로그아웃</a>
+        <a href="#" class="btn btn-mypage">마이페이지</a>
+    </div>
+</header>
+</html>

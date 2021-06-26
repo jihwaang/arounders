@@ -29,7 +29,8 @@ public class StompController {
 
     @MessageMapping(value = "/chat/enter")
     public void enter(ChatDTO message){
-        message.setMessage(message.getWriter() + "님이 참여하였습니다.");
+        message.setTime(getDate());
+        message.setMessage("님이 참여하였습니다.");
 
         /* Temp Logic */
         Long roomId = message.getChatRoomId();
@@ -46,7 +47,7 @@ public class StompController {
 
     @MessageMapping(value = "/chat/exit")
     public void exit(ChatDTO message){
-        message.setMessage(message.getWriter() + "님이 나가셨습니다.");
+        message.setMessage("님이 나가셨습니다.");
 
         /* Temp Logic */
         Long roomId = message.getChatRoomId();

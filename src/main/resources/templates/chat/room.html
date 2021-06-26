@@ -1,219 +1,65 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{include/layout/layout-only}">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <style>
-        .mine{
-            border: 1px solid #000;
-            background-color: darkblue;
-            color: #fff;
-        }
-        .yours{
-            border: 1px solid #000;
-            background-color: yellow;
-        }
-    </style>
+    <title>AROUNDERS | 채팅</title>
+
+    <!-- CSS -->
+    <link href="/css/chat/room.css" rel="stylesheet" type="text/css">
+
+    <!-- WebSocket / STOMP / SockJS -->
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <!-- JS -->
+    <script th:inline="javascript">
+        const chatRoomId = [[${room.id}]];
+        const region = [[${session.region}]];
+        const memberId= [[${session.id}]];
+        const nickname = [[${session.nickname}]];
+    </script>
     <script src="/js/ajax/ajax.js"></script>
+    <script defer type="module" src="/js/chat/room.js"></script>
 </head>
-<body>
-<h1>Chat STOMP Page</h1>
-<h2 th:text="${room.title}"></h2>
-<h3 th:text="${room.creator}"></h3>
-<span th:text="${#temporals.format(room.createdAt, 'yyyy-MM-dd')}"></span>
-<span id="chatRoom-id" th:text="${room.id}"></span>
-<div>
-    <div>
-        <label>User name</label>
+<!-- Main -->
+<main th:object="${room}" layout:fragment="main">
+
+    <div class="room-box">
+        <h1 class="room-title" th:text="*{title}"></h1>
+
+        <div class="room-inner-box">
+            <div class="room-button-box">
+                <button class="btn-disconnect">목록</button>
+                <button class="btn-clients">유저 목록</button>
+                <button th:if="${room.memberId == session.id}" class="btn-close">채팅방 삭제</button>
+                <button th:if="${room.memberId != session.id}" class="btn-exit">채팅방 탈퇴</button>
+            </div>
+
+            <div class="room-info">
+                <span>Creator : &nbsp</span>
+                <span class="room-creator" th:text="*{creator}"></span>
+                <!--&nbsp/&nbsp<span class="room-created-at" th:text="*{#temporals.format(createdAt, 'yyyy-MM-dd')}"></span>-->
+            </div>
+        </div>
     </div>
-    <input type="text" name="username">
-    <input type="text" name="memberId">
-    <div>
-        <button class="btn-connect">Connect</button>
-        <button class="btn-disconnect">Disconnect</button>
-        <button th:if="${room.memberId == 12}" class="btn-close">채팅방 없애기</button>
-        <button th:if="${room.memberId == 12}" class="btn-exit">채팅방 나가기</button>
+    <div class="clients-box hide">
+        <h1 class="clients-title" th:text="'참여중인 사람'">참여중인 사람</h1>
+        <div class="clients">
+
+        </div>
     </div>
-</div>
 
-<div>
-    <button class="btn-more">더보기</button>
-    <div class="chats">
+    <div class="chat-box">
+        <div class="block-load" th:text="'이전 채팅내역을 가져옵니다.'">이전 채팅내역을 가져옵니다.</div>
+        <div class="chats">
 
+        </div>
     </div>
-</div>
 
-<div>
-    <form>
-        <input type="text" name="content">
-        <input type="submit" class="btn-send" value="Send">
-    </form>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-<script th:inline="javascript">
-    const chatRoomName = [[${room.title}]];
-    const chatRoomId = [[${room.id}]];
-
-</script>
-<script defer>
-    const btnMore = document.querySelector('.btn-more');
-    const btnSend = document.querySelector('.btn-send');
-    const btnExit = document.querySelector('.btn-exit');
-    const btnClose = document.querySelector('.btn-close');
-    const btnDisconnect = document.querySelector('.btn-disconnect');
-    const btnConnect = document.querySelector(".btn-connect");
-    const inputMemberId = document.querySelector('input[name="memberId"]');
-    const inputName = document.querySelector('input[name="username"]');
-    const inputContent = document.querySelector('input[name="content"]');
-    const chats = document.querySelector('.chats');
-
-    let page = 1;
-    let chatArr = [];
-    let maxSize = 0;
-
-    function showList(){
-        let offset = (page - 1) * 30;
-        let html = '';
-
-        console.log(`page : ${page}, offset : ${offset}, maxSize : ${maxSize}`);
-
-        for(let i = (maxSize) - offset - 30; i < maxSize - offset; i++){
-
-            if(i < 0) continue;
-
-            const chat = JSON.parse(chatArr[i]);
-
-            let className = 'yours';
-
-            if(chat.memberId == 12)
-                className = 'mine';
-
-            html += `<div class="${className}"><b>${chat.writer}</b> : ${chat.message} <small>${chat.time}</small></div>`;
-        }
-
-        page++;
-        chats.insertAdjacentHTML('afterbegin', html);
-    }
-</script>
-<script type="module">
-    import {chatModule} from '/js/chat/chatModule.js';
-
-
-
-    /* 채팅목록 관련 */
-    btnMore.addEventListener('click', showList);
-    /* 채팅목록 관련 */
-
-    console.log(`${chatRoomName} : ${chatRoomId}`);
-
-    const sock = new SockJS('/stomp/chat', null, {transports: ["websocket", "xhr-streaming", "xhr-polling"]});
-    const stomp = Stomp.over(sock);
-
-    stomp.connect({}, function (frame){
-        console.log('STOMP Connection!');
-
-        stomp.subscribe(`/sub/chat/room/${chatRoomId}`, function (chat) {
-
-            const content = JSON.parse(chat.body);
-
-            const writer = content.writer;
-            const memberId = content.memberId;
-            const currentId = inputMemberId.value;
-
-            let className = 'yours';
-            if(memberId == currentId)
-                className = 'mine';
-
-            let html = `<div class="${className}"><b>${writer}</b> : ${content.message} <small>${content.time}</small></div>`;
-
-            chats.insertAdjacentHTML('beforeend', html);
-        });
-
-        stomp.send('/pub/chat/enter', {}, JSON.stringify({
-            chatRoomId: `${chatRoomId}`,
-            region: `용산구`,
-            writer: `${inputName.value}`,
-            memberId: `${inputMemberId.value}`
-        }));
-
-        /* 채팅 목록 불러오기 */
-        (async () => {
-            chatArr = await chatModule.getChats(chatRoomId);
-            maxSize = chatArr.length;
-            showList();
-        })();
-    });
-
-    btnDisconnect.addEventListener('click', () => {
-
-        stomp.send('/pub/chat/exit', {}, JSON.stringify({
-            chatRoomId: `${chatRoomId}`,
-            region: `용산구`,
-            writer: `${inputName.value}`,
-            memberId: `${inputMemberId.value}`
-        }));
-
-        stomp.disconnect();
-    });
-
-    btnSend.addEventListener('click', function (e){
-
-        e.preventDefault();
-
-        const currentUser = inputName.value;
-        const content = inputContent.value;
-
-        inputContent.value = '';
-
-        stomp.send('/pub/chat/message', {}, JSON.stringify({
-            chatRoomId: `${chatRoomId}`,
-            message: `${content}`,
-            writer: `${currentUser}`,
-            memberId: `${inputMemberId.value}`
-        }));
-    });
-
-
-    btnClose.addEventListener('click', () => {
-        const form = document.createElement('FORM');
-        const html = `<input type="hidden" name="id" value="${chatRoomId}">`;
-
-        alert(`${chatRoomId}번 채팅방의 서비스를 종료합니다. 감사합니다.`);
-
-        form.method = 'post';
-        form.action = '/chat/room';
-        form.insertAdjacentHTML('beforeend', html);
-
-        document.querySelector('body').insertAdjacentElement('beforeend', form);
-        form.submit();
-    });
-
-    btnExit.addEventListener('click', async (e) => {
-
-        const result = await chatModule.dropOut(chatRoomId);
-
-        alert(`${result}번 채팅방을 나가셨습니다. 감사합니다.`);
-
-        window.location = '/chat/list';
-    });
-</script>
-
-<script>
-    /* 서버에 세션종료를 알림 */
-    window.addEventListener('beforeunload', function (e) {
-
-        stomp.send('/pub/chat/exit', {}, JSON.stringify({
-            chatRoomId: `${chatRoomId}`,
-            region: `용산구`,
-            writer: `${inputName.value}`,
-            memberId: `${inputMemberId.value}`
-        }));
-
-        stomp.disconnect();
-
-    });
-</script>
-</body>
+    <div class="form-box">
+        <form>
+            <input type="text" name="content" id="chat-content" autocomplete="off">
+            <input type="submit" class="btn-send" value="Send" id="chat-send">
+        </form>
+    </div>
+</main>
 </html>

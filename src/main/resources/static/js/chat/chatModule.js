@@ -87,5 +87,21 @@ export const chatModule = {
                 }
             });
         });
+    },
+    /* 특정 채팅방에 참여 중인 클라이언트 목록 조회 (ID와 Nickname만) */
+    getClientsFromChatRoom (chatRoomId){
+        return new Promise((resolve, reject) => {
+
+            ajax({
+                url: `/chatMember/api/v1/clients/${chatRoomId}`,
+                method: 'GET',
+                loadend: (list) => {
+                    resolve(JSON.parse(list));
+                },
+                error: (xhr, status, statusText) => {
+                    reject(xhr, status, statusText);
+                }
+            });
+        });
     }
 };

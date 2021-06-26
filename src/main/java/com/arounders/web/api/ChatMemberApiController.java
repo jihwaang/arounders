@@ -1,6 +1,7 @@
 package com.arounders.web.api;
 
 import com.arounders.web.dto.ChatRoomDTO;
+import com.arounders.web.entity.Member;
 import com.arounders.web.service.ChatMemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -76,5 +77,12 @@ public class ChatMemberApiController {
         List<ChatRoomDTO> rooms = chatMemberService.getMyChatRooms(memberId);
 
         return new ResponseEntity<>(rooms, HttpStatus.OK);
+    }
+
+    /* 특정 채팅방의 참여중인 유저 목록 조회(ID, Nickname) */
+    @GetMapping(value = "/clients/{chatRoomId}")
+    public ResponseEntity<List<Member>> getClientsFromChatRoom(@PathVariable("chatRoomId") Long chatRoomId){
+
+        return new ResponseEntity<>(chatMemberService.getClientsFromChatRoom(chatRoomId), HttpStatus.OK);
     }
 }

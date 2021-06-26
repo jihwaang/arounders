@@ -26,7 +26,7 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public void save(Long chatRoomId, List<ChatDTO> list) {
 
-        if(list.isEmpty() || list == null) return;
+        if(list.isEmpty() || list.get(0).getMemberId() == null) return;
 
         List<String> jsonList = list.stream().map(c -> dtoToJson(c)).collect(Collectors.toList());
 

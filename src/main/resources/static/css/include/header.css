@@ -1,0 +1,73 @@
+header{
+    z-index: 800;
+    position: fixed;
+
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+
+    height: 70px;
+    width: 100%;
+    max-width: 1180px;
+
+    padding: 0 15px;
+}
+    header .logo{
+
+        width: 60px;
+        height: 60px;
+    }
+    header .btn-box{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        position: relative;
+    }
+        header > .btn-box .btn-profile{
+            display: block;
+            cursor: pointer;
+            width: 31px;
+            height: 31px;
+
+            margin: auto 0;;
+        }
+
+        .search {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            /* width: 50%; */
+        }
+        
+        .search-input {
+            border-radius: .5em;
+            border: 1px solid #333;
+            padding: 0 1em;
+            height: 2em;
+            outline: none;
+            /* width: 0; */
+            transition: all 1s ease;
+        }
+        
+        .search-btn {
+            cursor: pointer;
+        }
+        
+        .cancel-btn {
+            cursor: pointer;
+        }
+        
+        header .btn-profile{
+            background: url("/image/header/person.png") no-repeat center;
+            background-size: contain;
+        }
+
+@media screen and (min-width: 800px){
+
+    .btn-box > .btn-menu{
+        display: none;
+    }
+
+}

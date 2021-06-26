@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AROUDERS | </title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="/css/common/reset.css">
+    <link rel="stylesheet" type="text/css" href="/css/common/common-library.css">
+    <link rel="stylesheet" type="text/css" href="/css/common/common.css">
+
+    <link rel="stylesheet" type="text/css" href="/css/include/header.css">
+    <link rel="stylesheet" type="text/css" href="/css/include/aside.css">
+
+    <!-- JS -->
+    <script defer src="/js/include/header.js"></script>
+
+    <!-- Third-party libs -->
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+            integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+            crossorigin="anonymous"
+    />
+</head>
+<body th:fragment="body">
+
+<!-- Header -->
+<th:block th:replace="~{include/header :: header}"></th:block>
+<!-- Aside -->
+<th:block th:replace="~{include/aside :: aside}"></th:block>
+<!-- Main -->
+<th:block layout:fragment="main"></th:block>
+<!-- Footer -->
+<th:block th:replace="~{include/footer :: footer}"></th:block>
+</body>
+</html>
