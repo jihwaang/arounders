@@ -138,9 +138,14 @@ public class MemberServiceImpl implements MemberService {
         }
         int memberResult = memberRepository.update(member);
         /* save profile image then insert into database here if existing */
-        int fileResult =
-                multipartFile.getSize() == 0 ?
-                1 : attachmentService.saveOneFile(multipartFile, realPath, member);
+        int fileResult = 0;
+        if (multipartFile.getSize() == 0) {
+            fileResult = 1;
+        } else {
+            int result = attachmentService.deleteProfileImage(member);
+            log.info("deleted profile image result: {}", result);
+            fileResult = attachmentService.saveOneFile(multipartFile, realPath, member);
+        }
 
         return (memberResult == 1 && fileResult == 1) ? 1 : 0;
     }

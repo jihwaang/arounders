@@ -21,7 +21,7 @@ const memberModule = {
         const passwordConfirmed = document.getElementById('passwordConfirmed');
         const nickname = document.getElementById('nickname');
         const phone = document.getElementById('phone');
-        const addressFinder = document.getElementById('addr-finder');
+        const addressFinder = document.getElementById('addr');
         const submitButton = document.getElementById('submitBtn');
 
         //password check

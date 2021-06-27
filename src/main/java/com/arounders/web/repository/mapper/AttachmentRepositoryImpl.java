@@ -1,6 +1,7 @@
 package com.arounders.web.repository.mapper;
 
 import com.arounders.web.entity.Attachment;
+import com.arounders.web.entity.Member;
 import com.arounders.web.repository.AttachmentRepository;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -49,5 +50,10 @@ public class AttachmentRepositoryImpl implements AttachmentRepository {
     @Override
     public String findProfileImgPathById(Long id) {
         return mapper.findProfileImgPathById(id);
+    }
+
+    @Override
+    public int deleteProfileImage(Member member) {
+        return mapper.deleteProfileImage(member);
     }
 }

@@ -1,0 +1,78 @@
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 780px;
+    width: 100%;
+    height: 80%;
+    gap: 2em;
+}
+
+.img-section {
+    height: 30%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5em;
+}
+
+.background-img {
+    background: url('/image/common/password-find.svg') no-repeat center center/contain;
+    width: 100%;
+    height: 100%;
+}
+
+.backgound-title {
+    font-weight: bold;
+}
+
+.form-section {
+    border: 1px solid #999;
+    border-radius: 1.5em;
+    padding: 1.78em;
+}
+
+.form-section > form {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.form-section > form .form-raw {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.sub-desc {
+    text-align: right;
+    font-size: .3rem;
+    color: #999;
+}
+
+.btn-section {
+    margin-top: 2em;
+    width: 100%;
+}
+
+.btn-send {
+    color: #fff;
+    background-color: var( --color-skyblue);
+    padding: .3em 1em;
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-send:hover {
+    opacity: 0.75;
+}
+
+@media screen and (min-width: 780px) {
+    main {
+        flex-direction: row;
+        max-width: 1180px;
+    }
+}

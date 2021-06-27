@@ -1,6 +1,7 @@
 package com.arounders.web.repository;
 
 import com.arounders.web.entity.Attachment;
+import com.arounders.web.entity.Member;
 
 import java.util.List;
 
@@ -23,4 +24,7 @@ public interface AttachmentRepository {
 
     /* 프로필 사진 경로 조회 */
     String findProfileImgPathById(Long id);
+
+    /* 프로필 사진 삭제 */
+    int deleteProfileImage(Member member);
 }

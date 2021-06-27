@@ -192,13 +192,21 @@ public class AttachmentServiceImpl implements AttachmentService {
         return createOneAttachment(attachment);
     }
 
+
     @Override
     public int createOneAttachment(Attachment attachment) {
         return attachmentRepository.insertProfileImage(attachment);
     }
 
+
+
     @Override
     public String findProfileImgPathById(Long id) {
         return attachmentRepository.findProfileImgPathById(id);
+    }
+
+    @Override
+    public int deleteProfileImage(Member member) {
+        return attachmentRepository.deleteProfileImage(member);
     }
 }

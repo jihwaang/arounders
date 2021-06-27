@@ -1,57 +1,70 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Arounders | Sign up page</title>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AROUNDERS | 회원 가입</title>
+
+    <link rel="stylesheet" href="/css/common/reset.css" type="text/css">
+    <link rel="stylesheet" href="/css/common/common.css" type="text/css">
+    <link rel="stylesheet" href="/css/common/common-library.css" type="text/css">
+    <link rel="stylesheet" href="/css/member/signup.css" type="text/css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+          integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+          crossorigin="anonymous"/>
     <script defer src="/js/member/memberModule.js"></script>
-    <script defer src="/js/member/emailAuthModule.js"></script>
-  </head>
-  <body>
-    <form action="/member/signup" method="POST">
-      <div class="form-raw">
-        <label for="email">이메일(아이디)</label>
-        <input type="text" id="email" name="email" />
-      </div>
-      <div class="form-raw">
-        <input type="button" value="이메일 인증" id="requestAuth" />
-        <p>입력하신 이메일에서 인증해주세요.</p>
-      </div>
-      <div class="form-raw">
-        <label for="password">비밀번호</label>
-        <input type="password" id="password" name="password" />
-      </div>
-      <div class="form-raw">
-        <label for="passwordConfirmed">비밀번호 확인</label>
-        <input type="password" id="passwordConfirmed" />
-      </div>
-      <div class="form-raw">
-        <label for="nickname">닉네임(유저명)</label>
-        <input type="text" id="nickname" name="nickname"/>
-      </div>
-      <div class="form-raw">
-        <label for="phone">휴대폰번호</label>
-        <input type="tel"
-               class="form-control m-input"
-               name="phone"
-               id="phone"
-               required
-               pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}"
-               maxlength="13"
-               placeholder="예) 010-1234-5678">
-      </div>
-      <div class="form-raw">
-        <label for="addr">주소</label>
-        <input type="button" value="검색" id="addr-finder"/>
-        <input type="text" id="addr" name="addr" readonly/>
-      </div>
-      <div class="form-raw">
-        <label for="addrDtl"></label>
-        <input type="text" id="addrDtl" name="addrDtl" readonly/>
-      </div>
-      <input type="button" id="submitBtn" value="Join Now">
-    </form>
-    <div class="btn-container">
-      <a href="#" class="btn join-btn">Join Now</a>
+    <script defer src="/sjs/member/emailAuthModule.js"></script>
+</head>
+<body>
+<main class="w-100">
+    <div class="signup-box w-65">
+        <div class="mb-title text-center dp-none">
+            <span class="btn-back"></span>
+            <h1>SIGN UP</h1>
+        </div>
+        <div class="pc-title text-center">
+            <h1>SIGN UP</h1>
+        </div>
+        <form th:action="@{/member/signup}" method="POST" class="form-signup">
+            <div class="fx-column">
+                <label for="email">이메일(아이디)<span class="required">*</span></label>
+                <input class="form-input-text" type="email" id="email" name="email"/>
+
+                <input class="form-input-text pointer verify-btn w-30" type="button" value="인증하기" id="requestAuth"/>
+
+                <label for="password">비밀번호<span class="required">*</span></label>
+                <input class="form-input-text" type="password" id="password" name="password"/>
+
+                <label for="passwordConfirmed">비밀번호 확인<span class="required">*</span></label>
+                <input class="form-input-text" type="password" id="passwordConfirmed"/>
+
+                <label for="nickname">닉네임(유저명)<span class="required">*</span></label>
+                <input class="form-input-text" type="text" id="nickname" name="nickname"/>
+
+                <label for="phone">휴대폰번호</label>
+                <input class="form-input-text"
+                       type="tel"
+                       name="phone"
+                       id="phone"
+                       required
+                       pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}"
+                       maxlength="13"
+                       placeholder="예) 010-1234-5678">
+
+                <label for="addr">주소<span class="required">*</span></label>
+                <input class="form-input-text" type="text" id="addr" name="addr" readonly/>
+
+                <label for="addrDtl">상세주소(직접입력)</label>
+                <input class="form-input-text" type="text" id="addrDtl" name="addrDtl" readonly/>
+            </div>
+        </form>
+        <div class="btn-section">
+            <a class="btn-signup" id="submitBtn">Join Now</a>
+        </div>
     </div>
-  </body>
+</main>
+</body>
 </html>
