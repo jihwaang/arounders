@@ -22,7 +22,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     private final ChatMemberRepository chatMemberRepository;
 
     @Override
-    public List<ChatRoom> getChatRoomList(String region, Integer cityId) {
+    public List<ChatRoomDTO> getChatRoomList(String region, Integer cityId) {
         return repository.findAllByRegionAndCityId(region, cityId);
     }
 

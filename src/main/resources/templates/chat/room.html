@@ -16,6 +16,9 @@
         const region = [[${session.region}]];
         const memberId= [[${session.id}]];
         const nickname = [[${session.nickname}]];
+
+        const creator = [[${room.creator}]];
+        const roomTitle = [[${room.title}]];
     </script>
     <script src="/js/ajax/ajax.js"></script>
     <script defer type="module" src="/js/chat/room.js"></script>
@@ -29,20 +32,15 @@
         <div class="room-inner-box">
             <div class="room-button-box">
                 <button class="btn-disconnect">목록</button>
-                <button class="btn-clients">유저 목록</button>
+                <button class="btn-clients">유저</button>
                 <button th:if="${room.memberId == session.id}" class="btn-close">채팅방 삭제</button>
                 <button th:if="${room.memberId != session.id}" class="btn-exit">채팅방 탈퇴</button>
             </div>
 
-            <div class="room-info">
-                <span>Creator : &nbsp</span>
-                <span class="room-creator" th:text="*{creator}"></span>
-                <!--&nbsp/&nbsp<span class="room-created-at" th:text="*{#temporals.format(createdAt, 'yyyy-MM-dd')}"></span>-->
-            </div>
         </div>
     </div>
     <div class="clients-box hide">
-        <h1 class="clients-title" th:text="'참여중인 사람'">참여중인 사람</h1>
+        <h1 class="clients-title" th:text="'Members'">참여중인 사람</h1>
         <div class="clients">
 
         </div>

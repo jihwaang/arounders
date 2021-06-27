@@ -28,20 +28,28 @@ html,body{
 body{
     font-family: 'Noto', 'Sans KR', 
     'sans-serif' !important;
-    font-size: var(--fs-mb-md);
-    position: relative;
+    font-size: var(--fs-mb-md) !important;
+    position: relative !important;
 
-    max-width: 1180px;
-    margin: 0 auto;
+    max-width: 1180px !important;
+    margin: 0 auto !important;
+
+    display: flex;
+    flex-direction: column;
 }
 main{
-    position: relative;
-    top: 70px;
-}
+    position: relative !important;
+    top: 70px !important;
 
+    flex-grow: 1;
+}
+footer{
+    position: relative !important;
+    top: 70px !important;
+}
 @media screen and (min-width: 800px){
 
     body{
-        font-size: var(--fs-pc-md);
+        font-size: var(--fs-pc-md) !important;
     }
 }

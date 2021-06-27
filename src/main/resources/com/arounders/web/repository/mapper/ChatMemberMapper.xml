@@ -15,7 +15,7 @@
     <select id="findAllByMemberId" resultType="com.arounders.web.dto.ChatRoomDTO">
         SELECT C.* FROM CHAT_MEMBER CM
             LEFT JOIN CHAT_ROOM C ON CM.CHAT_ROOM_ID = C.ID
-        WHERE CM.MEMBER_ID = #{memberId}
+        WHERE CM.MEMBER_ID = #{memberId} AND C.FINISHED_AT IS NULL
         ORDER BY C.ID DESC
     </select>
 

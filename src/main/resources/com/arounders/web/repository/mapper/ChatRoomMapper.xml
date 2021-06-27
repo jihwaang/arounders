@@ -5,16 +5,14 @@
 
 <mapper namespace="com.arounders.web.repository.ChatRoomRepository">
 
-    <select id="findAllByRegionAndCityId" resultType="ChatRoom">
-        SELECT * FROM CHAT_ROOM
+    <select id="findAllByRegionAndCityId" resultType="com.arounders.web.dto.ChatRoomDTO">
+        SELECT * FROM CHAT_ROOM_VIEW
         WHERE REGION = #{region} AND CITY_ID = #{cityId} AND FINISHED_AT IS NULL
         ORDER BY ID DESC
     </select>
 
     <select id="findById" resultType="com.arounders.web.dto.ChatRoomDTO">
-        SELECT C.*, M.NICKNAME CREATOR FROM CHAT_ROOM C
-            LEFT JOIN MEMBER M ON C.MEMBER_ID = M.ID
-        WHERE C.ID = #{id}
+        SELECT * FROM CHAT_ROOM_VIEW WHERE ID = #{id}
     </select>
 
     <insert id="insert" parameterType="ChatRoom">

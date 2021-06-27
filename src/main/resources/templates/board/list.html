@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{include/layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>AROUNDERS | 글 목록</title>
 
     <script defer src="/js/ajax/ajax.js"></script>
     <script defer src="/js/board/boardModule.js"></script>
     <script defer src="/js/board/list.js"></script>
 </head>
-<body>
+<main layout:fragment="main">
     <form th:action="@{remove}" method="post">
         <input type="text" name="id">
         <button>submit</button>
@@ -62,5 +63,5 @@
 
     </div>
 
-</body>
+</main>
 </html>

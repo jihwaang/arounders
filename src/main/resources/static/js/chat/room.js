@@ -154,7 +154,7 @@ btnClose.addEventListener('click', () => {
     const form = document.createElement('FORM');
     const html = `<input type="hidden" name="id" value="${chatRoomId}">`;
 
-    alert(`${chatRoomId}번 채팅방이 삭제되었습니다. 감사합니다.`);
+    alert(`${roomTitle} 채팅방이 삭제되었습니다. 감사합니다.`);
 
     form.method = 'post';
     form.action = '/chat/room';
@@ -172,9 +172,10 @@ btnExit.addEventListener('click', async (e) => {
 
     const result = await chatModule.dropOut(chatRoomId);
 
-    alert(`${result}번 채팅방을 나가셨습니다. 감사합니다.`);
+    alert(`${roomTitle} 채팅방을 나가셨습니다. 감사합니다.`);
 
-    window.location = '/chat/list';
+    /*window.location = '/chat/list';*/
+    history.back();
 });
 
 /* 채팅 내역을 보여줄 Function */
@@ -186,7 +187,7 @@ function showList(){
     let offset = (page - 1) * 30;
     let html = '';
 
-    console.log(`page : ${page}, offset : ${offset}, maxSize : ${maxSize}`);
+    //console.log(`page : ${page}, offset : ${offset}, maxSize : ${maxSize}`);
 
     for(let i = (maxSize) - offset - 30; i < maxSize - offset; i++){
 
@@ -232,7 +233,10 @@ async function getClients() {
     let html = '';
 
     memberList.forEach((member, idx) => {
-        html += `<div class="client">${member.nickname}</div>`;
+
+        let highlight = member.nickname === creator? '<span class="highlight">*</span>' : '';
+
+        html += `<div class="client">${highlight}${member.nickname}</div>`;
     });
 
     clients.insertAdjacentHTML('beforeend', html);
