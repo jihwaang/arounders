@@ -37,6 +37,10 @@
         DELETE FROM ATTACHMENT WHERE BOARD_ID = #{boardId}
     </delete>
 
+    <delete id="deleteProfileImage" parameterType="Member">
+        DELETE FROM ATTACHMENT WHERE BOARD_ID IS NULL AND MEMBER_ID = #{id}
+    </delete>
+
     <select id="findAttachesByBoardId" resultType="Attachment">
         SELECT * FROM ATTACHMENT WHERE BOARD_ID = #{boardId}
     </select>

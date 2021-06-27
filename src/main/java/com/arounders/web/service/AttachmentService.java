@@ -28,4 +28,6 @@ public interface AttachmentService {
     int createOneAttachment(Attachment attachment);
 
     String findProfileImgPathById(Long id);
+
+    int deleteProfileImage(Member member);
 }
