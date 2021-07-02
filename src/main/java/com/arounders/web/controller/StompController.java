@@ -10,6 +10,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -30,7 +32,7 @@ public class StompController {
     @MessageMapping(value = "/chat/enter")
     public void enter(ChatDTO message){
         message.setTime(getDate());
-        message.setMessage("님이 참여하였습니다.");
+        message.setMessage("입장하였습니다.");
 
         /* Temp Logic */
         Long roomId = message.getChatRoomId();
@@ -47,7 +49,7 @@ public class StompController {
 
     @MessageMapping(value = "/chat/exit")
     public void exit(ChatDTO message){
-        message.setMessage("님이 나가셨습니다.");
+        message.setMessage("퇴장하셨습니다.");
 
         /* Temp Logic */
         Long roomId = message.getChatRoomId();

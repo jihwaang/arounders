@@ -18,5 +18,6 @@ public class ChatDTO {
     private String message;
 
     private String time;
+    private String profile;
 
 }

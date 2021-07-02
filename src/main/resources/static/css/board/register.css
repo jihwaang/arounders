@@ -1,0 +1,185 @@
+/* board-register.css */
+.thumbnail{
+    width: 100px;
+    height: 100px;
+
+    opacity: 0.6;
+
+    border: 1px solid #a7a7a7;
+}
+.selected{
+    opacity: 1;
+    border: 2px solid orange;
+}
+
+.back-box{
+    border: 1px solid #e9e9e9;
+    padding: 3px 5px;
+
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+    .back-box .register-title{
+
+        font-size: var(--fs-mb-lg);
+        margin: 0;
+        padding: 0;
+    }
+    .back-box .button-back{
+        display: block;
+        height: 26px;
+        width: 26px;
+        background: #fff url("/image/arrow.png") no-repeat left;
+        background-size: contain;
+
+        text-indent: -999px;
+        overflow-x: hidden;
+
+        position: absolute;
+        left: 5px;
+    }
+
+/* reg-form-box */
+.regForm-box{
+    margin-top: 5px;
+    padding: 5px;
+}
+/* regForm */
+#regForm{
+    border: 1px solid #e9e9e9;
+    padding: 5px;
+}
+    #regForm > *{
+        margin-top: 10px;
+    }
+    #regForm > *:first-child{
+        margin-top: 0;
+    }
+    #regForm .category{
+        width: 100%;
+        background: #ffffff;
+    }
+    /* title-box */
+    #regForm .title-box{
+
+    }
+        .title-box input[name="title"]{
+            width: 100%;
+
+            padding: 5px;
+        }
+    /* content-box */
+    #regForm .content-box{
+
+    }
+        .content-box textarea[name="content"]{
+            width: 100%;
+            resize: none;
+            min-height: 250px;
+
+            padding: 5px;
+        }
+    /* file-box */
+    #regForm .file-box{
+        display: flex;
+        justify-content: flex-end;
+    }
+        .file-box input[type="file"]{
+            display: none;
+        }
+        .file-box .btn-upload{
+            display: block;
+
+            height: 40px;
+            width: 40px;
+
+            text-indent: -999px;
+            overflow: hidden;
+
+            background: #ffffff url("/image/board/photo-off.png") no-repeat center;
+            background-size: contain;
+        }
+            .file-box .btn-upload:hover{
+                background: #ffffff url("/image/board/photo-on.png") no-repeat center;
+                background-size: contain;
+            }
+    /* thumbnail-box */
+    #regForm .thumbnail-box{
+
+    }
+        .thumbnail-box .thumbnail-frame{
+            display: flex;
+            gap: 10px;
+
+            overflow: scroll;
+        }
+            .thumbnail-frame::-webkit-scrollbar {
+                width: 8px;
+            }
+            .thumbnail-frame::-webkit-scrollbar-thumb {
+                background-color: #797979;
+                border-radius: 5px;
+                background-clip: padding-box;
+                border: 2px solid transparent;
+            }
+            .thumbnail-frame::-webkit-scrollbar-track {
+                background-color: #ffffff;
+                border-radius: 5px;
+                box-shadow: inset 0 0 5px #e9e9e9;
+            }
+        .thumbnail-box .hint{
+            margin-top: 10px;
+            text-align: center;
+            font-size: var(--fs-mb-sm);
+            color: #a0a0a0;
+        }
+    #regForm .button-box{
+        display: flex;
+        justify-content: flex-end;
+    }
+        .button-box .btn-submit{
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+
+            font-size: var(--fs-mb-md);
+            background: #707070;
+            color: #ffffff;
+        }
+
+@media screen and (min-width: 800px){
+
+    .back-box .button-back{
+        display: none;
+    }
+
+    .back-box .register-title{
+        font-size: var(--fs-pc-lg);
+    }
+
+    #regForm{
+        padding: 20px;
+    }
+    #regForm > *{
+        margin-top: 20px;
+    }
+    #regForm > *:first-child{
+        margin-top: 0;
+    }
+
+    .content-box textarea[name="content"]{
+        width: 100%;
+        resize: none;
+        min-height: 400px;
+    }
+
+    .thumbnail-box .hint{
+        font-size: var(--fs-pc-sm);
+    }
+
+    .button-box .btn-submit{
+        font-size: var(--fs-pc-md);
+    }
+}

@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -24,6 +26,10 @@ class MemberServiceTest {
 
     @Test
     void getMembers() {
+
+        List<Member> members = service.getMembers();
+
+        members.forEach(System.out::println);
     }
 
     @Test

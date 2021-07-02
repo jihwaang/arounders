@@ -1,5 +1,6 @@
 package com.arounders.web.serviceImpl;
 
+import com.arounders.web.dto.ChatMemberDTO;
 import com.arounders.web.dto.ChatRoomDTO;
 import com.arounders.web.entity.Member;
 import com.arounders.web.repository.ChatMemberRepository;
@@ -42,7 +43,7 @@ public class ChatMemberServiceImpl implements ChatMemberService {
     }
 
     @Override
-    public List<Member> getClientsFromChatRoom(Long chatRoomId) {
+    public List<ChatMemberDTO> getClientsFromChatRoom(Long chatRoomId) {
         return repository.findByChatRoomId(chatRoomId);
     }
 }

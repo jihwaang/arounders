@@ -14,7 +14,7 @@ public interface BoardService {
 
     List<BoardDTO> getHiddenList();
 
-    List<BoardDTO> getList(BoardCriteria criteria);
+    List<BoardDTO> getList(Long memberId, BoardCriteria criteria);
 
     BoardDTO getBoard(Long id);
 
@@ -23,6 +23,15 @@ public interface BoardService {
     Long editBoard(BoardDTO boardDTO);
 
     Long removeBoard(Long id);
+
+    /* 게시글 숨기기(본인만 가능) */
+    Long hideBoard(Long boardId);
+
+    /* 게시글 숨기기 해제(본인만 가능) */
+    Long showBoard(Long boardId);
+
+    /* 게시글 진행중 -> 종료 */
+    Long done(Long boardId);
 
     /* About Mypage */
     List<BoardDTO> getMyList(BoardCriteria criteria, Long memberId);
@@ -39,6 +48,7 @@ public interface BoardService {
                 .updatedAt(dto.getUpdatedAt())
                 .memberId(dto.getMemberId())
                 .categoryId(dto.getCategoryId())
+                .cityId(dto.getCityId())
                 .isHidden(dto.getIsHidden())
                 .region(dto.getRegion())
                 .thumbnailName(dto.getThumbnailName())

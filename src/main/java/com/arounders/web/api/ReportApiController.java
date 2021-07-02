@@ -52,10 +52,15 @@ public class ReportApiController {
         //Long memberId = 12L;
         /* 실제 사용 */
         Long memberId = (Long) session.getAttribute("id");
+
         log.info(memberId + "번 회원이 " + boardId + "번 게시글을 신고했습니다.");
+
         Long id = service.register(Report.builder().memberId(memberId).boardId(boardId).build());
 
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        log.info(id + " " + (id != null));
+
+        return id != null? new ResponseEntity<>(id, HttpStatus.OK) :
+                new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

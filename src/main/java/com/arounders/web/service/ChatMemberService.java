@@ -1,5 +1,6 @@
 package com.arounders.web.service;
 
+import com.arounders.web.dto.ChatMemberDTO;
 import com.arounders.web.dto.ChatRoomDTO;
 import com.arounders.web.entity.Member;
 import org.apache.ibatis.annotations.Param;
@@ -17,5 +18,5 @@ public interface ChatMemberService {
     /* 특정 유저가 가입한 채팅방 목록 조회 */
     List<ChatRoomDTO> getMyChatRooms(Long memberId);
     /* 특정 채팅방의 참여자 목록 */
-    List<Member> getClientsFromChatRoom(Long chatRoomId);
+    List<ChatMemberDTO> getClientsFromChatRoom(Long chatRoomId);
 }

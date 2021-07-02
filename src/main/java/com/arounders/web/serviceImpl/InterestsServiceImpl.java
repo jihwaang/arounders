@@ -17,12 +17,12 @@ public class InterestsServiceImpl implements InterestsService {
     }
 
     @Override
-    public int getCountOfMember(Integer memberId) {
+    public int getCountOfMember(Long memberId) {
         return interestsRepository.getCountOfMember(memberId);
     }
 
     @Override
-    public int getCountOfBoard(Integer boardId) {
+    public int getCountOfBoard(Long boardId) {
         return interestsRepository.getCountOfBoard(boardId);
     }
 

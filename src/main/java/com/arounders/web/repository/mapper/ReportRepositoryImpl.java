@@ -36,4 +36,9 @@ public class ReportRepositoryImpl implements ReportRepository{
     public int update(Long id) {
         return repository.update(id);
     }
+
+    @Override
+    public Integer isReport(Long memberId, Long boardId) {
+        return repository.isReport(memberId, boardId);
+    }
 }

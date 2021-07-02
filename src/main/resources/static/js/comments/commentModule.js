@@ -1,4 +1,4 @@
-const commentModule = {
+export const commentModule = {
     boardId: 0,
     /* 댓글 작성 */
     register: function (content) {

@@ -16,6 +16,7 @@
         const region = [[${session.region}]];
         const memberId= [[${session.id}]];
         const nickname = [[${session.nickname}]];
+        const profileImg = [[${session.profileImg}]];
 
         const creator = [[${room.creator}]];
         const roomTitle = [[${room.title}]];
@@ -55,7 +56,7 @@
 
     <div class="form-box">
         <form>
-            <input type="text" name="content" id="chat-content" autocomplete="off">
+            <textarea type="text" name="content" id="chat-content" autocomplete="off"></textarea>
             <input type="submit" class="btn-send" value="Send" id="chat-send">
         </form>
     </div>

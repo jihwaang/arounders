@@ -12,7 +12,7 @@ public interface BoardRepository {
 
     List<BoardDTO> getHiddenList();
 
-    List<BoardDTO> getList(@Param("cri") BoardCriteria criteria);
+    List<BoardDTO> getList(@Param("memberId") Long memberId, @Param("cri") BoardCriteria criteria);
 
     BoardDTO getBoard(Long id);
 
@@ -21,6 +21,15 @@ public interface BoardRepository {
     int update(Board board);
 
     int delete(Long id);
+
+    /* 게시글 숨기기 */
+    int hide(Long id);
+
+    /* 게시글 숨김 해제 */
+    int show(Long id);
+
+    /* 게시글 진행중 -> 종료 */
+    int done(Long boardId);
 
     /* About Mypage  */
     List<BoardDTO> getMyList(@Param("cri") BoardCriteria criteria, Long memberId);

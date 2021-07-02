@@ -1,11 +1,13 @@
 package com.arounders.web.dto;
 
 import com.arounders.web.entity.Attachment;
+import com.arounders.web.entity.City;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,8 @@ public class BoardDTO {
     private Long categoryId;
     private Integer cityId;
 
+    private String city;
+
     /* 작성자 */
     private String writer;
     /* 댓글 개수 */
@@ -43,5 +47,10 @@ public class BoardDTO {
     private String categoryTitle;
     /* 이미지 리스트 */
     private List<Attachment> attachments = new ArrayList<>();
+
+    /* 좋아요 여부 */
+    private Long isLike;
+    /* 관심 여부 */
+    private Long isInterest;
 
 }

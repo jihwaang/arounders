@@ -3,9 +3,9 @@ package com.arounders.web.repository;
 import com.arounders.web.entity.Interests;
 
 public interface InterestsRepository {
-    int getCountOfMember(Integer memberId);
+    int getCountOfMember(Long memberId);
 
-    int getCountOfBoard(Integer boardId);
+    int getCountOfBoard(Long boardId);
 
     int insert(Interests interests);
 

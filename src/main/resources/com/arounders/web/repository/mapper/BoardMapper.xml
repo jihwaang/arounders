@@ -4,8 +4,70 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.arounders.web.repository.BoardRepository">
+    <!--<select id="getList" resultType="com.arounders.web.dto.BoardDTO" parameterType="com.arounders.web.dto.criteria.BoardCriteria">
+        select B.*
+        , (SELECT COUNT(*) FROM LIKES L WHERE L.MEMBER_ID = #{memberId} AND L.BOARD_ID = B.ID) IS_LIKE
+        , (SELECT COUNT(*) FROM INTERESTS I WHERE I.MEMBER_ID = #{memberId} AND I.BOARD_ID = B.ID) IS_INTEREST
+       from BOARD_VIEW B
+        <trim prefix="where" prefixOverrides="AND | OR">
+            REGION = #{cri.region} AND
+            CITY_ID = #{cri.cityId} AND
+            <if test="cri.category != '1'.toString()">CATEGORY_ID = #{cri.category} AND </if>
+            <if test="cri.status != null">STATUS = #{cri.status} AND </if>
+
+            <choose>
+                &lt;!&ndash; 제목 &ndash;&gt;
+                <when test="cri.field == 't'.toString()">
+                    TITLE LIKE '%${cri.keyword}%' AND
+                </when>
+                &lt;!&ndash; 내용 &ndash;&gt;
+                <when test="cri.field == 'c'.toString()">
+                    CONTENT LIKE '%${cri.keyword}%' AND
+                </when>
+                &lt;!&ndash; 작성자 &ndash;&gt;
+                <when test="cri.field == 'w'.toString()">
+                    WRITER LIKE '%${cri.keyword}%' AND
+                </when>
+                &lt;!&ndash; 제목+내용 &ndash;&gt;
+                <when test="cri.field == 'tc'.toString()">
+                    (TITLE LIKE '%${cri.keyword}%' OR
+                     CONTENT LIKE '%${cri.keyword}%') AND
+                </when>
+                &lt;!&ndash; 제목+작성자 &ndash;&gt;
+                <when test="cri.field == 'tw'.toString()">
+                    (TITLE LIKE '%${cri.keyword}%' OR
+                    WRITER LIKE '%${cri.keyword}%') AND
+                </when>
+                &lt;!&ndash; 작성자+내용 &ndash;&gt;
+                <when test="cri.field == 'wc'.toString()">
+                    (WRITER LIKE '%${cri.keyword}%' OR
+                    CONTENT LIKE '%${cri.keyword}%') AND
+                </when>
+                &lt;!&ndash; 제목+내용+작성자 &ndash;&gt;
+                <when test="cri.field == 'tcw'.toString()">
+                    (TITLE LIKE '%${cri.keyword}%' OR
+                    WRITER LIKE '%${cri.keyword}%' OR
+                    CONTENT LIKE '%${cri.keyword}%') AND
+                </when>
+            </choose>
+
+            IS_HIDDEN = 0
+        </trim>
+        ORDER BY
+        <choose>
+            <when test="cri.order == 'desc'.toString()">ID DESC</when>
+            <when test="cri.order == 'asc'.toString()">ID ASC</when>
+            <otherwise>LIKE_COUNT DESC, ID DESC</otherwise>
+        </choose>
+        LIMIT ${cri.size} OFFSET ${cri.offset}
+    </select>-->
     <select id="getList" resultType="com.arounders.web.dto.BoardDTO" parameterType="com.arounders.web.dto.criteria.BoardCriteria">
-        select * from BOARD_VIEW
+        select B.*, L.BOARD_ID IS_LIKE, I.BOARD_ID IS_INTEREST
+        from BOARD_VIEW B
+        LEFT OUTER JOIN (SELECT LL.* FROM LIKES LL LEFT JOIN BOARD ON LL.BOARD_ID = BOARD.ID WHERE LL.MEMBER_ID = #{memberId}) L
+            ON B.ID = L.BOARD_ID
+        LEFT OUTER JOIN (SELECT II.* FROM INTERESTS II LEFT JOIN BOARD ON II.BOARD_ID = BOARD.ID WHERE II.MEMBER_ID = #{memberId}) I
+            ON B.ID = I.BOARD_ID
         <trim prefix="where" prefixOverrides="AND | OR">
             REGION = #{cri.region} AND
             CITY_ID = #{cri.cityId} AND
@@ -28,7 +90,7 @@
                 <!-- 제목+내용 -->
                 <when test="cri.field == 'tc'.toString()">
                     (TITLE LIKE '%${cri.keyword}%' OR
-                     CONTENT LIKE '%${cri.keyword}%') AND
+                    CONTENT LIKE '%${cri.keyword}%') AND
                 </when>
                 <!-- 제목+작성자 -->
                 <when test="cri.field == 'tw'.toString()">
@@ -68,12 +130,17 @@
     </select>
 
     <insert id="insert" parameterType="Board">
-        INSERT INTO BOARD(TITLE, CONTENT, REGION, MEMBER_ID, CATEGORY_ID, THUMBNAIL_NAME, THUMBNAIL_PATH)
-        VALUES(#{title}, #{content}, #{region}, #{memberId}, #{categoryId}, #{thumbnailName}, #{thumbnailPath})
+        INSERT INTO BOARD(TITLE, CONTENT, REGION, MEMBER_ID, CATEGORY_ID, THUMBNAIL_NAME, THUMBNAIL_PATH, CITY_ID)
+        VALUES(#{title}, #{content}, #{region}, #{memberId}, #{categoryId}, #{thumbnailName}, #{thumbnailPath}, #{cityId})
         <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
     </insert>
+
+    <!-- 게시글 진행중 -> 종료 -->
+    <update id="done">
+        UPDATE BOARD SET STATUS = 1 WHERE ID = #{boardId}
+    </update>
 
     <update id="update" parameterType="Board">
         UPDATE BOARD
@@ -91,10 +158,23 @@
         DELETE FROM BOARD WHERE ID = #{id}
     </delete>
 
+    <update id="hide">
+        UPDATE BOARD SET IS_HIDDEN = 1 WHERE ID = #{boardId}
+    </update>
+
+    <update id="show">
+        UPDATE BOARD SET IS_HIDDEN = 0 WHERE ID = #{boardId}
+    </update>
+
     <!-- Mypage -> 내가 쓴 게시글 -->
     <select id="getMyList" resultType="com.arounders.web.dto.BoardDTO" parameterType="com.arounders.web.dto.criteria.BoardCriteria">
-        SELECT * FROM BOARD_VIEW
-        WHERE MEMBER_ID = #{memberId}
+        select B.*, L.BOARD_ID IS_LIKE, I.BOARD_ID IS_INTEREST
+        from BOARD_VIEW B
+        LEFT OUTER JOIN (SELECT LL.* FROM LIKES LL LEFT JOIN BOARD ON LL.BOARD_ID = BOARD.ID WHERE LL.MEMBER_ID = #{memberId}) L
+        ON B.ID = L.BOARD_ID
+        LEFT OUTER JOIN (SELECT II.* FROM INTERESTS II LEFT JOIN BOARD ON II.BOARD_ID = BOARD.ID WHERE II.MEMBER_ID = #{memberId}) I
+        ON B.ID = I.BOARD_ID
+        WHERE B.MEMBER_ID = #{memberId}
         <if test="cri.category != '1'.toString()">
             AND CATEGORY_ID = #{cri.category}
         </if>

@@ -2,6 +2,7 @@ package com.arounders.web.repository;
 
 import com.arounders.web.dto.ReportDTO;
 import com.arounders.web.entity.Report;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface ReportRepository {
     int insert(Report report);
     /* 신고 처리 */
     int update(Long id);
+    /* 이미 신고했는지 여부 */
+    Integer isReport(@Param("memberId") Long memberId, @Param("boardId") Long boardId);
 }

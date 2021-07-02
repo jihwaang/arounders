@@ -32,8 +32,8 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public List<BoardDTO> getList(BoardCriteria criteria) {
-        return boardRepository.getList(criteria);
+    public List<BoardDTO> getList(Long memberId, BoardCriteria criteria) {
+        return boardRepository.getList(memberId, criteria);
     }
 
     @Override
@@ -85,5 +85,30 @@ public class BoardServiceImpl implements BoardService {
                                 ,boardRepository.getCountByCategory(memberId, c.getId())));
 
         return countMap;
+    }
+
+    /* 게시글 숨김 */
+    @Override
+    public Long hideBoard(Long boardId) {
+
+        int result = boardRepository.hide(boardId);
+
+        return result > 0? boardId : null;
+    }
+    /* 게시글 숨김 해제 */
+    @Override
+    public Long showBoard(Long boardId) {
+
+        int result = boardRepository.show(boardId);
+
+        return result > 0? boardId : null;
+    }
+
+    @Override
+    public Long done(Long boardId) {
+
+        int result = boardRepository.done(boardId);
+
+        return result > 0? boardId : null;
     }
 }

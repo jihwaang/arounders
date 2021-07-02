@@ -8,11 +8,11 @@
         select count(*) from INTERESTS where MEMBER_ID = #{memberId} AND BOARD_ID = #{boardId}
     </select>
 
-    <select id="getCountOfMember" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    <select id="getCountOfMember" resultType="Integer">
         select count(*) from INTERESTS where MEMBER_ID = #{memberId}
     </select>
 
-    <select id="getCountOfBoard" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    <select id="getCountOfBoard" resultType="Integer">
         select count(*) from INTERESTS where BOARD_ID = #{boardId}
     </select>
 

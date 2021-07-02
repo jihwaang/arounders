@@ -46,6 +46,36 @@ const boardModule = {
                 }
             });
         });
+    },
+    doHide: function (boardId) {
+
+        return new Promise((resolve, reject) => {
+            ajax({
+                url: `/boards/api/v1/${boardId}`,
+                method: 'POST',
+                loadend: (id) => {
+                    resolve(id);
+                },
+                error: (xhr, status, statusText) => {
+                    reject(xhr, status, statusText);
+                }
+            })
+        });
+    },
+    doShow: function (boardId) {
+
+        return new Promise((resolve, reject) => {
+            ajax({
+                url: `/boards/api/v1/${boardId}`,
+                method: 'PUT',
+                loadend: (id) => {
+                    resolve(id);
+                },
+                error: (xhr, status, statusText) => {
+                    reject(xhr, status, statusText);
+                }
+            })
+        });
     }
 }
 
