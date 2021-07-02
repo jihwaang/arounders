@@ -178,6 +178,7 @@
         <if test="cri.category != '1'.toString()">
             AND CATEGORY_ID = #{cri.category}
         </if>
+        ORDER BY B.ID DESC
         LIMIT #{cri.size} OFFSET #{cri.offset}
     </select>
 
