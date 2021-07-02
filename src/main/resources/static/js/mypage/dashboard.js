@@ -103,14 +103,31 @@ const dashboard = {
             boards.insertAdjacentHTML('beforeend', html);
         }
 
-showList(cri);
-if(window.innerHeight >= document.body.offsetHeight){
-    cri.page++;
-    showList(cri);
-}
+    }
+};
+
+dashboard.init(cri);
+
+boardCategory.addEventListener('click', (e) => {
+    if (e.target.tagName.toLowerCase() !== 'a') return;
+    flag = false;
+    boards.innerHTML = '';
+    let categoryId = e.target.dataset.id;
+    cri.init();
+    cri.category = categoryId;
+    dashboard.getList(cri);
+});
+
+/*  */
+// if(window.innerHeight >= document.body.offsetHeight){
+//     cri.page++;
+//     dashboard.getList(cri);
+// }
 
 /* Scroll Down -> Board List Request */
 window.addEventListener('scroll', () => {
+    if (flag === true) return;
+
     let val = window.innerHeight + window.scrollY;
 
     if(val >= main.clientHeight){
@@ -167,23 +184,23 @@ const modal = {
         });
         // # password confirm form handling event
         passwordConfirm.addEventListener('click', async (e) => {
-           //submit button event
+            //submit button event
             if (e.target.classList.contains('btn-submit')) {
-               const requestURL = `/member/checkPassword`;
-               const options = {
-                 method: 'POST',
-                 body: new FormData(passwordForm)
-               };
+                const requestURL = `/member/checkPassword`;
+                const options = {
+                    method: 'POST',
+                    body: new FormData(passwordForm)
+                };
 
-               let result = await fetch(requestURL, options).then(response => response.json());
-               if (result < 1) {
-                   passwordConfirm.querySelector('.result-message').classList.remove('dp-none');
-                   return;
-               }
-               // show update info modal here after input password is valid
-               passwordConfirm.classList.add('dp-none');
+                let result = await fetch(requestURL, options).then(response => response.json());
+                if (result < 1) {
+                    passwordConfirm.querySelector('.result-message').classList.remove('dp-none');
+                    return;
+                }
+                // show update info modal here after input password is valid
+                passwordConfirm.classList.add('dp-none');
 
-               const infoHTML = `<form action="/mypage/update/info" method="POST" id="update-form" class="update-form" enctype="multipart/form-data">
+                const infoHTML = `<form action="/mypage/update/info" method="POST" id="update-form" class="update-form" enctype="multipart/form-data">
                 <div class="form-raw inner-profile">
                     <input type="file"
                             class="inner-profile-input"
@@ -238,10 +255,10 @@ const modal = {
                 <a href="#" class="btn btn-submit">변경</a>
             </div>`;
 
-               updateInfo.insertAdjacentHTML('beforeend', infoHTML);
-               updateInfo.classList.remove('dp-none');
+                updateInfo.insertAdjacentHTML('beforeend', infoHTML);
+                updateInfo.classList.remove('dp-none');
 
-               //get user Info here
+                //get user Info here
                 let member = await fetch(`/mypage/info`).then(response => response.json());
                 let email = updateInfo.querySelector('#email');
                 email.value = member.email;
@@ -263,7 +280,7 @@ const modal = {
                 // init validation after html loaded
                 _this.validation();
             }
-           //return false;
+            //return false;
 
         });
 
@@ -323,19 +340,19 @@ const modal = {
         });
         // # update location info handler
         currentLocation.addEventListener('click', async (e) => {
-           if(e.target.classList.contains('btn-submit')){
-               e.preventDefault();
-               const requestURL = `/mypage/update/address`;
-               const options = {
-                   method: 'POST',
-                   body: new FormData(document.getElementById('location-form'))
-               };
+            if(e.target.classList.contains('btn-submit')){
+                e.preventDefault();
+                const requestURL = `/mypage/update/address`;
+                const options = {
+                    method: 'POST',
+                    body: new FormData(document.getElementById('location-form'))
+                };
 
-               let result = await fetch(requestURL, options).then(response => response.json());
-               if (result !== 1) return alert('오류가 발생했습니다.\m관리자에게 문의해주세요.');
-               alert('성공적으로 변경되었습니다.');
-               location.href = `/mypage/dashboard`;
-           }
+                let result = await fetch(requestURL, options).then(response => response.json());
+                if (result !== 1) return alert('오류가 발생했습니다.\m관리자에게 문의해주세요.');
+                alert('성공적으로 변경되었습니다.');
+                location.href = `/mypage/dashboard`;
+            }
         });
     },
     validation: function() {
