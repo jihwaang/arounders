@@ -4,6 +4,7 @@ import com.arounders.web.dto.BoardDTO;
 import com.arounders.web.dto.criteria.BoardCriteria;
 import com.arounders.web.entity.Board;
 import com.arounders.web.repository.BoardRepository;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -24,8 +25,8 @@ public class BoardRepositoryImpl implements BoardRepository {
     }
 
     @Override
-    public List<BoardDTO> getList(BoardCriteria criteria) {
-        return mapper.getList(criteria);
+    public List<BoardDTO> getList(Long memberId, BoardCriteria criteria) {
+        return mapper.getList(memberId, criteria);
     }
 
     @Override
@@ -46,6 +47,21 @@ public class BoardRepositoryImpl implements BoardRepository {
     @Override
     public int delete(Long id) {
         return mapper.delete(id);
+    }
+
+    @Override
+    public int hide(Long id) {
+        return mapper.hide(id);
+    }
+
+    @Override
+    public int show(Long id) {
+        return mapper.show(id);
+    }
+
+    @Override
+    public int done(Long boardId) {
+        return mapper.done(boardId);
     }
 
     /* About Mypage */

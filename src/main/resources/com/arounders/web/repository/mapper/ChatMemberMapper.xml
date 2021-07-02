@@ -5,17 +5,18 @@
 
 <mapper namespace="com.arounders.web.repository.ChatMemberRepository">
 
-    <select id="findByChatRoomId" resultType="Member">
-        SELECT M.ID, M.NICKNAME FROM CHAT_MEMBER CM
+    <select id="findByChatRoomId" resultType="com.arounders.web.dto.ChatMemberDTO">
+        SELECT M.ID, M.NICKNAME, A.UUID, A.PATH, A.NAME FROM CHAT_MEMBER CM
+            LEFT JOIN (SELECT ID UUID, PATH, NAME, MEMBER_ID FROM ATTACHMENT WHERE BOARD_ID IS NULL ) A ON CM.MEMBER_ID = A.MEMBER_ID
             LEFT JOIN MEMBER M ON CM.MEMBER_ID = M.ID
         WHERE CM.CHAT_ROOM_ID = #{chatRoomId}
-        ORDER BY CM.MEMBER_ID DESC;
+        ORDER BY M.ID DESC
     </select>
 
     <select id="findAllByMemberId" resultType="com.arounders.web.dto.ChatRoomDTO">
         SELECT C.* FROM CHAT_MEMBER CM
             LEFT JOIN CHAT_ROOM C ON CM.CHAT_ROOM_ID = C.ID
-        WHERE CM.MEMBER_ID = #{memberId}
+        WHERE CM.MEMBER_ID = #{memberId} AND C.FINISHED_AT IS NULL
         ORDER BY C.ID DESC
     </select>
 

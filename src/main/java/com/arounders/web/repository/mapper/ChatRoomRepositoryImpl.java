@@ -18,7 +18,7 @@ public class ChatRoomRepositoryImpl implements ChatRoomRepository {
     }
 
     @Override
-    public List<ChatRoom> findAllByRegionAndCityId(String region, Integer cityId) {
+    public List<ChatRoomDTO> findAllByRegionAndCityId(String region, Integer cityId) {
         return mapper.findAllByRegionAndCityId(region, cityId);
     }
 

@@ -7,6 +7,7 @@ import com.arounders.web.service.ReportService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,12 +29,21 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
+    @Transactional
     public Long register(Report report) {
 
-        log.info("#ReportService : register -> " + report.getMemberId() + "님이 " + report.getBoardId() + "번 게시글을 신고했습니다.");
-        int result = repository.insert(report);
+        int isReport = repository.isReport(report.getMemberId(), report.getBoardId());
 
-        return result == 1? report.getId() : null;
+        int result = 0;
+
+        if(isReport == 0) {
+            log.info("#ReportService : register -> " + report.getMemberId() + "님이 " + report.getBoardId() + "번 게시글을 신고했습니다.");
+            result = repository.insert(report);
+
+            return result == 1? report.getId() : null;
+        }
+
+        return null;
     }
 
     @Override

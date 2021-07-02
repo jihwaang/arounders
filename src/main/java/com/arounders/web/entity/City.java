@@ -28,6 +28,14 @@ public enum City {
 
     City(Integer code) { this.code = code; }
 
+    public static String getCity(int code){
+
+        for(City city : values())
+            if(city.getCode() == code)
+                return city.name();
+
+        return null;
+    }
 }
 
 

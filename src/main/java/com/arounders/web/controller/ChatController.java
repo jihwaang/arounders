@@ -2,6 +2,7 @@ package com.arounders.web.controller;
 
 import com.arounders.web.dto.ChatRoomDTO;
 import com.arounders.web.entity.ChatRoom;
+import com.arounders.web.entity.City;
 import com.arounders.web.service.ChatRoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -50,8 +51,11 @@ public class ChatController {
         //region = "용산구";
         Integer cityId = (Integer) session.getAttribute("cityId");
         String region = (String) session.getAttribute("region");
+        String city = City.getCity(cityId);
 
-        List<ChatRoom> chatRoomList = service.getChatRoomList(region, cityId);
+        List<ChatRoomDTO> chatRoomList = service.getChatRoomList(region, cityId);
+        model.addAttribute("region", region);
+        model.addAttribute("city", city);
         model.addAttribute("list", chatRoomList);
 
         return "chat/list";

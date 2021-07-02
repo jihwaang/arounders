@@ -21,7 +21,7 @@ function init(boardId){
     isLike.classList.add(likeValue? 'like' : 'dislike');
 }
 */
-const likeModule = {
+export const likeModule = {
     boardId: 0,
     url: '/likes/api/v1',
     setBoardId: (boardId) => {

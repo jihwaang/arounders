@@ -1,0 +1,121 @@
+/* chat-list.css */
+/* chat-room-info-box */
+.chat-room-info-box{
+    padding: 0 10px;
+    font-size: var(--fs-mb-lg);
+    line-height: 34px;
+}
+    .chat-room-info-box .icon-pin{
+        height: 30px;
+        width: 30px;
+    }
+/* chat-room-form-box */
+.chat-room-form-box{
+    margin-top: 20px;
+    padding: 0 10px;
+    height: 30px;
+    line-height: 30px;
+}
+    #chat-room-form{
+        display: flex;
+    }
+    #chat-room-form .title-input{
+        flex-grow: 1;
+        font-size: var(--fs-mb-md);
+        text-indent: 10px;
+
+        margin: 0 10px 0 0;
+
+        border: 1px solid rgba(0, 0, 0, 0.2);
+    }
+        .title-input:hover{
+            border: 2px solid rgba(72, 141, 141, 0.84);
+            opacity: 0.5;
+        }
+    #chat-room-form .btn-create{
+        background: rgba(243, 229, 157, 0.8);
+        border: none;
+        font-weight: bold;
+        font-size: 14px;
+
+        padding: 0 20px;
+    }
+        #chat-room-form .btn-create:hover{
+            background: rgb(245, 231, 115);
+        }
+/* chat-room-box */
+.chat-rooms{
+    min-height: 450px;
+    padding: 10px;
+}
+    .chat-rooms .chat-room:first-child{
+        margin-top: 0;
+    }
+    .chat-rooms .chat-room{
+        border: 1px solid #e9e9e9;
+        border-radius: 10px;
+        margin-top: 5px;
+        padding: 10px;
+    }
+        .chat-room .upper{
+            display: flex;
+            justify-content: space-between;
+        }
+            .upper .title{
+                text-decoration: none;
+                font-weight: bold;
+                font-size: var(--fs-mb-md);
+                color: #000;
+            }
+                .upper .title:hover{
+                    color: #2470a0
+                }
+            .upper .created-at{
+                font-size: var(--fs-mb-sm);
+                font-weight: 400;
+            }
+
+        .chat-room .lower{
+            margin-top: 5px;
+        }
+            .lower .clients-count{
+                color: #2470a0;
+                font-weight: bold;
+                font-size: var(--fs-mb-md);
+            }
+            .lower .count-text{
+                font-size: 10px;
+            }
+
+@media screen and (min-width: 800px){
+
+    /* chat-room-info-box*/
+    .chat-room-info-box{
+        padding: 0 10px;
+        font-size: var(--fs-pc-lg);
+        line-height: 34px;
+    }
+
+    /* chat-room-form-box */
+    #chat-room-form .title-input{
+        font-size: var(--fs-pc-md);
+    }
+
+    /* chat-rooms */
+    .upper .title{
+        text-decoration: none;
+        font-weight: bold;
+        font-size: var(--fs-pc-md);
+        color: #000;
+    }
+    .upper .created-at{
+        font-size: var(--fs-pc-sm);
+        font-weight: 400;
+    }
+    .lower .clients-count{
+        font-size: var(--fs-pc-md);
+    }
+    .lower .count-text{
+        font-size: var(--fs-pc-sm);
+    }
+}

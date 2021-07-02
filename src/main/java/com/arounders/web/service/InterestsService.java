@@ -3,9 +3,9 @@ package com.arounders.web.service;
 import com.arounders.web.entity.Interests;
 
 public interface InterestsService {
-    int getCountOfMember(Integer memberId);
+    int getCountOfMember(Long memberId);
 
-    int getCountOfBoard(Integer boardId);
+    int getCountOfBoard(Long boardId);
 
     int toggleInterests(Interests interests);
 

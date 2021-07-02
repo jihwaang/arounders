@@ -1,5 +1,6 @@
 package com.arounders.web.repository.mapper;
 
+import com.arounders.web.dto.ChatMemberDTO;
 import com.arounders.web.dto.ChatRoomDTO;
 import com.arounders.web.entity.Member;
 import com.arounders.web.repository.ChatMemberRepository;
@@ -38,7 +39,7 @@ public class ChatMemberRepositoryImpl implements ChatMemberRepository{
     }
 
     @Override
-    public List<Member> findByChatRoomId(Long chatRoomId) {
+    public List<ChatMemberDTO> findByChatRoomId(Long chatRoomId) {
         return mapper.findByChatRoomId(chatRoomId);
     }
 }

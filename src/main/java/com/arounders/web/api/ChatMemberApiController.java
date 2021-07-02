@@ -1,5 +1,6 @@
 package com.arounders.web.api;
 
+import com.arounders.web.dto.ChatMemberDTO;
 import com.arounders.web.dto.ChatRoomDTO;
 import com.arounders.web.entity.Member;
 import com.arounders.web.service.ChatMemberService;
@@ -81,7 +82,7 @@ public class ChatMemberApiController {
 
     /* 특정 채팅방의 참여중인 유저 목록 조회(ID, Nickname) */
     @GetMapping(value = "/clients/{chatRoomId}")
-    public ResponseEntity<List<Member>> getClientsFromChatRoom(@PathVariable("chatRoomId") Long chatRoomId){
+    public ResponseEntity<List<ChatMemberDTO>> getClientsFromChatRoom(@PathVariable("chatRoomId") Long chatRoomId){
 
         return new ResponseEntity<>(chatMemberService.getClientsFromChatRoom(chatRoomId), HttpStatus.OK);
     }

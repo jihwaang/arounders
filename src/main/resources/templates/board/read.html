@@ -1,37 +1,209 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{include/layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>AROUNDERS | 글 보기</title>
+
+    <!-- CSS -->
+    <link href="/css/board/read.css" rel="stylesheet" type="text/css">
+
+    <!-- JS -->
+    <script src="/js/ajax/ajax.js"></script>
+    <script defer src="/js/slider.js"></script>
+    <script defer th:inline="javascript">
+        const boardId = [[${board.id}]];
+    </script>
+    <script defer type="module" src="/js/board/read.js"></script>
 </head>
-<body>
+<main layout:fragment="main">
 
-<div th:object="${board}">
-    <input type="hidden" th:value="*{id}" th:field="*{id}">
-    <div>Title</div>
-    <input th:field="*{title}" th:value="*{title}" type="text" readonly>
+    <div class="back-box">
+        <span class="button-back">뒤로가기</span>
+    </div>
 
-    <div>Writer</div>
-    <input type="text" th:field="*{writer}" th:value="*{writer}" readonly>
+    <!-- Board-Box -->
+    <section class="board-box" th:object="${board}">
+        <h1 class="hide">Board-Box</h1>
 
-    <div>Content</div>
-    <textarea th:field="*{content}" rows="10" cols="20" th:value="*{content}" readonly></textarea>
+        <div class="board">
+            <div class="board-top">
+                <div class="board-sticker">
+                    <span class="sticker-cg" th:text="*{categoryTitle}">${board.categoryTitle}</span>
+                    <span class="sticker-city" th:text="*{city}">서울특별시</span>
+                    <span class="sticker-region" th:text="*{region}"></span>
 
-    <div>Created At</div>
-    <span th:text="*{#temporals.format(createdAt, 'yyyy/MM/dd')}"></span>
+                    <span class="sticker-status" th:if="*{status == '0'}">진행중</span>
+                    <span class="sticker-status-off" th:if="*{status != '0'}">종료</span>
+                </div>
+            </div>
 
-    <div>Updated At</div>
-    <span th:text="*{#temporals.format(updatedAt, 'yyyy/MM/dd')}"></span>
+            <div class="board-mid">
+                <input type="hidden" th:value="*{id}" th:field="*{id}">
 
-    <div>Files</div>
-    <ul>
-        <li th:each="file : *{attachments}">
-            <a th:download="${file.name}" th:text="${file.name}" th:href="|/upload/${file.path}/${file.id}_${file.name}|"></a>
-            <img th:src="@{/upload/{path}/{name}(path=${file.path}, name=${file.id + '_' + file.name})}">
-        </li>
-    </ul>
+                <input class="board-title" th:field="*{title}" th:value="*{title}" type="text" readonly>
 
-</div>
+                <div class="board-info">
+                    <span class="board-writer" th:field="*{writer}" th:text="*{writer}"></span>
+                    <span class="board-date" th:if="*{updatedAt == null}" th:text="*{#temporals.format(createdAt, 'yyyy-MM-dd')}"></span>
+                    <span class="board-date" th:if="*{updatedAt != null}" th:text="|수정일 : *{#temporals.format(updatedAt, 'yyyy-MM-dd')}|"></span>
+                </div>
 
-</body>
+                <!-- Image Slider -->
+                <div class="slider-box" th:if="*{#lists.size(attachments) != 0}">
+                    <span class="btn-prev">prev</span>
+
+                    <div class="slider">
+                        <div class="files">
+                            <div th:each="file : *{attachments}" class="file">
+                                <img class="thumbnail" th:src="@{/upload/{path}/{name}(path=${file.path}, name=${file.id + '_' + file.name})}">
+                                <!--<a class="file-name" th:download="${file.name}" th:text="${file.name}" th:href="|/upload/${file.path}/${file.id}_${file.name}|"></a>-->
+                            </div>
+                        </div>
+                    </div>
+
+                    <span class="btn-next">next</span>
+
+                    <ul class="pagination">
+                        <!--<li class="item active"></li>
+                        <li class="item"></li>
+                        <li class="item"></li>-->
+                    </ul>
+                </div>
+
+                <!-- Image Slider -->
+
+                <textarea class="board-content" th:field="*{content}" rows="10" cols="20" th:value="*{content}" readonly></textarea>
+
+            </div>
+
+            <div class="board-bottom">
+                <div>
+                    <div th:text="*{isLike}"></div>
+                    <button th:if="*{isLike != null}" class="like btn-like-on">Like</button>
+                    <button th:if="*{isLike == null}" class="like btn-like">Like</button>
+                    <span class="val" th:text="*{likeCount}">12</span>
+                </div>
+                <div>
+                    <button class="btn-comment">Comment</button><span class="val" th:text="*{commentCount}">24</span>
+                </div>
+                <div>
+                    <button th:if="*{isInterest != null}" class="interest btn-interest-on">Interest</button>
+                    <button th:if="*{isInterest == null}" class="interest btn-interest">Interest</button>
+                    <span class="val" th:text="*{interestCount}">3</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <hr>
+    <!-- Comment-Box -->
+    <section class="comment-box">
+        <h1 class="hide">Comment-box</h1>
+
+        <div class="comment-reg-box">
+            <textarea class="comment-textarea" placeholder="댓글을 입력해주세요."></textarea>
+            <button class="comment-submit" th:text="Submit"></button>
+        </div>
+
+        <div class="comments">
+            <!-- comment -->
+            <div class="comment" data-cid="0">
+
+                <div class="comment-top">
+                    <span class="comment-writer">Writer</span>
+                    <span class="comment-date">2021-06-01</span>
+                </div>
+
+                <div class="comment-mid">
+                    <p class="comment-content">오늘의 댓글은 댓글...</p>
+                </div>
+
+                <div class="comment-bot">
+                    <!--<button class="comment-modify">수정</button>
+                    <button class="comment-delete">삭제</button>-->
+                    <button class="comment-reply">답글</button>
+                </div>
+
+                <!-- comment-children -->
+                <div class="comment-children">
+                    <button class="btn-child">더보기</button>
+
+                    <div class="children">
+
+                        <div class="child" data-cid="-1">
+                            <div class="child-top">
+                                <span class="child-writer">Writer</span>
+                                <span class="child-date">2021-06-01</span>
+                            </div>
+
+                            <div class="child-mid">
+                                <p class="child-content">오늘의 대댓글은 대댓글...</p>
+                            </div>
+
+                            <!--<div class="child-bot">
+                                <button class="child-modify">수정</button>
+                                <button class="child-delete">삭제</button>
+                            </div>-->
+                        </div>
+
+                        <div class="child" data-cid="-2">
+                            <div class="child-top">
+                                <span class="child-writer">Writer</span>
+                                <span class="child-date">2021-06-01</span>
+                            </div>
+
+                            <div class="child-mid">
+                                <p class="child-content">오늘의 대댓글은 대댓글...</p>
+                            </div>
+
+                            <!--<div class="child-bot">
+                                <button class="child-modify">수정</button>
+                                <button class="child-delete">삭제</button>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+                <!-- comment-children -->
+            </div>
+            <!-- comment -->
+        </div>
+    </section>
+
+    <!-- Option-Box -->
+    <section class="option-box">
+        <h1 class="hide">Option-Box</h1>
+
+    </section>
+
+    <!--Modal-->
+    <div class="modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Comment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <textarea readonly class="modal-body-content">안녕!</textarea>
+
+                    <div class="modal-info-box">
+                        <span class="modal-writer">Writer</span>
+                        <span class="modal-date">2021-06-22</span>
+                    </div>
+                    <input type="hidden" name="cid"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn comment-modify btn-recomment">답글</button>
+                    <button type="button" class="btn comment-modify btn-modify">수정</button>
+                    <button type="button" class="btn comment-modify btn-save">저장</button>
+                    <button type="button" class="btn comment-delete btn-delete">삭제</button>
+                    <button type="button" class="btn comment-reply btn-cancel">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+</main>
 </html>

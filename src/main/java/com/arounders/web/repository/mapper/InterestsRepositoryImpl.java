@@ -15,25 +15,25 @@ public class InterestsRepositoryImpl implements InterestsRepository {
     }
 
     @Override
-    public int getCountOfMember(Integer memberId) {
+    public int getCountOfMember(Long memberId) {
         return mapper.getCountOfMember(memberId);
     }
 
     @Override
-    public int getCountOfBoard(Integer boardId) {
+    public int getCountOfBoard(Long boardId) {
         return mapper.getCountOfBoard(boardId);
     }
 
     @Override
     public int insert(Interests interests) {
-        mapper.insert(interests);
-        return 1;
+
+        return mapper.insert(interests);
     }
 
     @Override
     public int delete(Interests interests) {
-        mapper.delete(interests);
-        return -1;
+
+        return mapper.delete(interests);
     }
 
     @Override

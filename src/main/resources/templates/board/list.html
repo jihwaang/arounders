@@ -1,34 +1,68 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{include/layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>AROUNDERS | 글 목록</title>
 
+    <!-- Bootstrap -->
+    <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">-->
+
+    <!-- CSS -->
+    <link href="/css/board/list.css" rel="stylesheet" type="text/css">
+
+    <!-- JS -->
     <script defer src="/js/ajax/ajax.js"></script>
     <script defer src="/js/board/boardModule.js"></script>
-    <script defer src="/js/board/list.js"></script>
+    <script defer type="module" src="/js/board/list.js"></script>
+    <script defer th:inline="javascript">
+        const memberId = [[${session.id}]];
+        const region = [[${session.region}]];
+        const cityId = [[${session.cityId}]];
+    </script>
 </head>
-<body>
-    <form th:action="@{remove}" method="post">
-        <input type="text" name="id">
-        <button>submit</button>
-    </form>
+<main layout:fragment="main">
+    <h1 class="hide">글 목록</h1>
 
-    <div class="filter-box">
-        <div>
-            <input type="radio" name="order" value="desc" checked>최신순
-            <input type="radio" name="order" value="like">좋아요순
-            <input type="radio" name="order" value="asc">오래된순
+    <section class="util-box">
+        <h1 class="hide">유틸 박스</h1>
+        <button class="btn-register" th:text="Register">등록</button>
+        <button class="btn-filter" th:text="Filter">필터</button>
+    </section>
+
+    <div class="filter-box hide">
+        <div class="board-order-box">
+            <label class="filter-label">Order</label>
+            <div>
+                <label class="radio-input">
+                    <input type="radio" name="order" value="desc" checked><span>최신순</span>
+                </label>
+                <label class="radio-input">
+                    <input type="radio" name="order" value="asc"><span>오래된순</span>
+                </label>
+                <label class="radio-input">
+                    <input type="radio" name="order" value="like"><span>좋아요순</span>
+                </label>
+            </div>
         </div>
 
-        <div>
-            <input type="radio" name="status" value="all" checked>전체
-            <input type="radio" name="status" value="0">미완료 글
-            <input type="radio" name="status" value="1">완료된 글
+        <div class="board-status-box">
+            <label class="filter-label">Status</label>
+            <div>
+                <label class="radio-input">
+                    <input type="radio" name="status" value="all" checked><span>전체</span>
+                </label>
+                <label class="radio-input">
+                    <input type="radio" name="status" value="0"><span>진행중</span>
+                </label>
+                <label class="radio-input">
+                    <input type="radio" name="status" value="1"><span>종료</span>
+                </label>
+            </div>
         </div>
 
-        <div>
-            <label>Category</label>
+        <div class="board-category-box">
+            <label class="filter-label">Category</label>
             <select name="category">
                 <option value="1">전체</option>
                 <option value="2">공유</option>
@@ -39,10 +73,9 @@
             </select>
         </div>
 
-        <div>
-            <input type="text" name="keyword" placeholder="keyword..">
+        <div class="board-search-box">
             <select name="field">
-                <option value="all">---전체---</option>
+                <option value="all">-----------</option>
                 <option value="t">제목</option>
                 <option value="c">내용</option>
                 <option value="w">작성자</option>
@@ -51,16 +84,83 @@
                 <option value="cw">내용+작성자</option>
                 <option value="tcw">제목+내용+작성자</option>
             </select>
-            <button class="btn-search">검색</button>
-            <button class="btn-reset">초기화</button>
+            <input type="text" name="keyword">
+
+            <button class="btn-search" type="button">검색</button>
+            <button class="btn-reset" type="button">초기화</button>
         </div>
     </div>
 
-    <div class="boards">
+    <section class="boards">
+        <div class="board">
 
+            <div class="board-top">
+                <div class="board-sticker">
+                    <span class="sticker-cg">공유</span>
+                    <span class="sticker-city">서울특별시</span>
+                    <span class="sticker-region">용산구</span>
+                    <span class="sticker-status">진행중</span>
+                    <span class="sticker-status-off">종료</span>
+                </div>
 
+                <button class="btn-dot">dot</button>
 
+                <div class="board-toolbox hide" data-bid="0">
+                    <button class="btn-hide">숨기기</button>
+                    <button class="btn-report">신고하기</button>
+                </div>
+            </div>
+
+            <div class="board-mid">
+                <div class="board-thumbnail-box">
+                    <img src="/image/11.png" alt="썸네일 이미지" class="board-thumbnail">
+                </div>
+
+                <div class="board-content-box">
+                    <div class="board-title">
+                        <a href="#">Title</a>
+                    </div>
+                    <div class="board-info">
+                        <span class="board-nickname">gorany</span>
+                        <span class="board-date">56분전</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="board-bottom">
+                <div>
+                    <button class="btn-like-on">Like</button><span class="val">12</span>
+                </div>
+                <div>
+                    <button class="btn-comment">Comment</button><span class="val">24</span>
+                </div>
+                <div>
+                    <button class="btn-interest">Interest</button><span class="val">3</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!--Modal-->
+    <div class="modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Notification</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="modal-body-content">마지막 페이지 입니다.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-do-hide">숨기기</button>
+                    <button type="button" class="btn btn-warning btn-do-report">신고</button>
+                    <button type="button" class="btn btn-primary btn-cancel">닫기</button>
+                </div>
+            </div>
+        </div>
     </div>
-
-</body>
+    <!-- Modal -->
+</main>
 </html>

@@ -20,7 +20,7 @@ const btnDisconnect = btnBox.querySelector('.btn-disconnect');
 /* 참여중인 유저 목록 버튼 */
 const btnClients = btnBox.querySelector('.btn-clients');
 
-const inputContent = document.querySelector('input[name="content"]');
+const inputContent = document.querySelector('textarea[name="content"]');
 
 /* 채팅 내역을 불러오는 과정에 필요한 변수 */
 let page = 1;
@@ -47,14 +47,22 @@ stomp.connect({}, function (frame){
         const chat = JSON.parse(content.body);
 
         let className = 'yours';
+
         if(chat.memberId == memberId)
             className = 'mine';
 
-        let html = `<div class="${className} chat">
+        let profile = chat.profile == null? '/image/unknown.png' : chat.profile;
+
+        let html = `<div class="chat ${className}">
+                    <img class="profile" src="${profile}">
+                    
+                    <div class="chat-content">
                         <div class="chat-writer">${chat.writer}</div>
                         <div class="chat-message">${chat.message}</div>
-                        <div class="chat-time"><small>${chat.time}</small></div>
-                    </div>`
+                    </div>
+                    
+                    <div class="chat-time">${displayedAt(new Date(chat.time))}</div>
+                </div>`;
 
         chats.insertAdjacentHTML('beforeend', html);
         /* 채팅창의 스크롤 맨 밑으로 */
@@ -64,6 +72,7 @@ stomp.connect({}, function (frame){
     /* 채팅 목록 불러오기 */
     (async () => {
         chatArr = await chatModule.getChats(chatRoomId);
+        //console.log(chatArr);
         maxSize = chatArr.length;
         /* 채팅 목록 보여주기 (30EA) */
         showList();
@@ -75,7 +84,8 @@ stomp.connect({}, function (frame){
         chatRoomId: `${chatRoomId}`,
         region: `${region}`,
         writer: `${nickname}`,
-        memberId: `${memberId}`
+        memberId: `${memberId}`,
+        profile: `${profileImg}`
     }));
 });
 
@@ -107,7 +117,8 @@ btnDisconnect.addEventListener('click', (e) => {
         chatRoomId: `${chatRoomId}`,
         region: `${region}`,
         writer: `${nickname}`,
-        memberId: `${memberId}`
+        memberId: `${memberId}`,
+        profile: `${profileImg}`
     }));
     /* 연결 해제 */
     stomp.disconnect();
@@ -122,7 +133,8 @@ window.addEventListener('beforeunload', function (e) {
         chatRoomId: `${chatRoomId}`,
         region: `${region}`,
         writer: `${nickname}`,
-        memberId: `${memberId}`
+        memberId: `${memberId}`,
+        profile: `${profileImg}`
     }));
 
     stomp.disconnect();
@@ -134,15 +146,29 @@ btnSend.addEventListener('click', function (e){
     e.preventDefault();
 
     const content = inputContent.value;
+    if(content == '') return;
 
     inputContent.value = '';
+    inputContent.style.height = '38px';
 
     stomp.send('/pub/chat/message', {}, JSON.stringify({
         chatRoomId: `${chatRoomId}`,
         message: `${content}`,
         writer: `${nickname}`,
-        memberId: `${memberId}`
+        memberId: `${memberId}`,
+        profile: `${profileImg}`
     }));
+});
+inputContent.addEventListener('keydown', function (e){
+
+    if(e.keyCode == 13){
+        e.preventDefault();
+        btnSend.click();
+        return;
+    }
+
+    this.style.height = '1px';
+    this.style.height = (12 + this.scrollHeight) + 'px';
 });
 
 /* 채팅방 서비스 종료 */
@@ -154,7 +180,7 @@ btnClose.addEventListener('click', () => {
     const form = document.createElement('FORM');
     const html = `<input type="hidden" name="id" value="${chatRoomId}">`;
 
-    alert(`${chatRoomId}번 채팅방이 삭제되었습니다. 감사합니다.`);
+    alert(`${roomTitle} 채팅방이 삭제되었습니다. 감사합니다.`);
 
     form.method = 'post';
     form.action = '/chat/room';
@@ -172,9 +198,10 @@ btnExit.addEventListener('click', async (e) => {
 
     const result = await chatModule.dropOut(chatRoomId);
 
-    alert(`${result}번 채팅방을 나가셨습니다. 감사합니다.`);
+    alert(`${roomTitle} 채팅방을 나가셨습니다. 감사합니다.`);
 
-    window.location = '/chat/list';
+    /*window.location = '/chat/list';*/
+    history.back();
 });
 
 /* 채팅 내역을 보여줄 Function */
@@ -186,7 +213,7 @@ function showList(){
     let offset = (page - 1) * 30;
     let html = '';
 
-    console.log(`page : ${page}, offset : ${offset}, maxSize : ${maxSize}`);
+    //console.log(`page : ${page}, offset : ${offset}, maxSize : ${maxSize}`);
 
     for(let i = (maxSize) - offset - 30; i < maxSize - offset; i++){
 
@@ -197,16 +224,24 @@ function showList(){
         }
 
         const chat = JSON.parse(chatArr[i]);
+        //console.log(chat);
 
         let className = 'yours';
 
         if(chat.memberId == memberId)
             className = 'mine';
 
-        html += `<div class="${className} chat">
-                    <div class="chat-writer">${chat.writer}</div>
-                    <div class="chat-message">${chat.message}</div>
-                    <div class="chat-time"><small>${chat.time}</small></div>
+        let profile = chat.profile == null? '/image/unknown.png' : chat.profile;
+
+        html += `<div class="chat ${className}">
+                    <img class="profile" src="${profile}">
+                    
+                    <div class="chat-content">
+                        <div class="chat-writer">${chat.writer}</div>
+                        <div class="chat-message">${chat.message}</div>
+                    </div>
+                    
+                    <div class="chat-time">${displayedAt(new Date(chat.time))}</div>
                 </div>`;
     }
 
@@ -232,7 +267,14 @@ async function getClients() {
     let html = '';
 
     memberList.forEach((member, idx) => {
-        html += `<div class="client">${member.nickname}</div>`;
+
+        let highlight = member.nickname === creator? '<span class="highlight">*</span>' : '';
+        let profile = member.uuid != null? `/upload/${member.path}/${member.uuid}_${member.name}` : `/image/unknown.png`;
+
+        html += `<div class="client-box">
+                    <img class="client-icon" src="${profile}" alt="profile-icon">
+                    <div class="client">${highlight}${member.nickname}</div>
+                </div>`;
     });
 
     clients.insertAdjacentHTML('beforeend', html);
@@ -242,3 +284,35 @@ getClients();
     /* 10분에 1번씩 동기화 */
     setInterval(getClients, 600000);
 })();
+
+/* N초전 N분전 N시간전 N일전 ... */
+function displayedAt(createdAt) {
+    const milliSeconds = new Date() - createdAt;
+    const seconds = milliSeconds / 1000;
+
+    if (seconds < 60) return `방금 전`;
+
+    const minutes = seconds / 60;
+
+    if (minutes < 60) return `${Math.floor(minutes)}분 전`;
+
+    const hours = minutes / 60;
+
+    if (hours < 24) return `${Math.floor(hours)}시간 전`;
+
+    const days = hours / 24;
+
+    if (days < 7) return `${Math.floor(days)}일 전`;
+
+    const weeks = days / 7;
+
+    if (weeks < 5) return `${Math.floor(weeks)}주 전`;
+
+    const months = days / 30;
+
+    if (months < 12) return `${Math.floor(months)}개월 전`;
+
+    const years = days / 365;
+
+    return `${Math.floor(years)}년 전`;
+}

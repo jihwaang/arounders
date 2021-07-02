@@ -9,7 +9,7 @@ import java.util.List;
 public interface ChatRoomRepository {
 
     /* 채팅방 목록 조회 */
-    List<ChatRoom> findAllByRegionAndCityId(@Param("region") String region, @Param("cityId") Integer cityId);
+    List<ChatRoomDTO> findAllByRegionAndCityId(@Param("region") String region, @Param("cityId") Integer cityId);
     /* 채팅방 개설 */
     int insert(ChatRoom chatRoom);
     /* 채팅방 조회 */

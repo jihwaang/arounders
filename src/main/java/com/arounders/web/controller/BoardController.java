@@ -78,7 +78,12 @@ public class BoardController {
         //Long memberId = 12L;
         /* develop */
         Long memberId = (Long) session.getAttribute("id");
+        String region = (String) session.getAttribute("region");
+        Integer cityId = (Integer) session.getAttribute("cityId");
+
         boardDTO.setMemberId(memberId);
+        boardDTO.setRegion(region);
+        boardDTO.setCityId(cityId);
 
         String realPath = request.getServletContext().getRealPath("/upload");
 

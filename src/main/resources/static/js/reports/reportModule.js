@@ -1,4 +1,4 @@
-const reportModule = {
+export const reportModule = {
     url: '/reports/api/v1',
     report: function (boardId){
 
@@ -7,8 +7,8 @@ const reportModule = {
                 url: `${this.url}/boards/${boardId}`,
                 method: 'POST',
                 loadend: (id) => {
-                    console.log(`${boardId}번 게시글을 신고했습니다. 접수 번호 : ${id}`);
-                    resolve(boardId);
+                    //console.log(`${boardId}번 게시글을 신고했습니다. 접수 번호 : ${id}`);
+                    resolve(id);
                 },
                 error: (xhr, status, statusText) => {
                     reject(xhr, status, statusText);

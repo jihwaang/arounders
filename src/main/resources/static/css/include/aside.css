@@ -110,7 +110,7 @@ aside{
         z-index: 900;
 
         width: 200px;
-        height: 100%;
+        height: initial;
 
         position: fixed;
         top: 130px;

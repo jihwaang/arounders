@@ -1,20 +1,44 @@
 const regForm = document.querySelector('#regForm');
 const inputFile = regForm.querySelector('input[type="file"]');
 const thumbIdx = regForm.querySelector('input[name="thumbIdx"]');
-const btnSubmit = regForm.querySelector('.btn-submit');
+
 const frame = regForm.querySelector('.thumbnail-frame');
+const hint = regForm.querySelector('.hint');
+
+const btnBack = document.querySelector('.button-back');
+const btnSubmit = regForm.querySelector('.btn-submit');
+const btnUpload = regForm.querySelector('.btn-upload');
+
+/* Modal */
+const modal = document.querySelector('.modal');
+const modalBodyContent = modal.querySelector('.modal-body-content');
+const btnClose = modal.querySelector('.btn-close');
+const btnCancel = modal.querySelector('.btn-cancel');
 
 let selected = null;
 
+/* upload button click -> file upload */
 inputFile.addEventListener('input', function (e) {
 
     frame.innerHTML = '';
+    hint.classList.remove('hide');
 
     const files = inputFile.files;
 
+    if(files.length > 5){
+
+        modalBodyContent.innerText = '이미지는 5개 이하로만 가능합니다.';
+        modal.style.display = 'block';
+
+        return;
+    }
+
     for(let i=0; i<files.length; i++) {
         if (!isImage(files[i])) {
-            alert('Image 파일만 업로드 할 수 있습니다.');
+
+            modalBodyContent.innerText = '이미지 파일만 업로드 해주세요.';
+            modal.style.display = 'block';
+
             inputFile.value = '';
             return;
         }
@@ -25,13 +49,17 @@ inputFile.addEventListener('input', function (e) {
 
         reader.addEventListener('load', () => {
 
-            const img = `<li><img src="${reader.result}" class="thumbnail"></li>`;
+            const img = `<img src="${reader.result}" class="thumbnail">`;
 
             frame.insertAdjacentHTML('beforeend', img);
         });
 
         reader.readAsDataURL(files[i]);
     }
+});
+
+btnBack.addEventListener('click', () => {
+    history.back();
 });
 
 /* Select Thumbnail Index */
@@ -48,8 +76,7 @@ frame.addEventListener('click', function (e) {
     selected = img;
     selected.classList.toggle('selected');
 
-    thumbIdx.value = getThumbIdx(img.parentNode);
-    console.log(thumbIdx.value);
+    thumbIdx.value = getThumbIdx(img.parentElement);
 });
 
 function getThumbIdx(parent){
@@ -65,3 +92,10 @@ function isImage(file) {
     return file.type.indexOf('image') >= 0;
 }
 
+/*Modal Close 버튼 Click*/
+btnClose.addEventListener('click', () => {
+    modal.style.display = 'none';
+});
+btnCancel.addEventListener('click', () => {
+    modal.style.display = 'none';
+});

@@ -9,6 +9,10 @@
         SELECT * FROM REPORT_VIEW WHERE ID = #{id}
     </select>
 
+    <select id="isReport" resultType="Integer">
+        SELECT COUNT(ID) FROM REPORT WHERE MEMBER_ID = #{memberId} AND BOARD_ID = #{boardId}
+    </select>
+
     <select id="findAllByStatus" resultType="com.arounders.web.dto.ReportDTO">
         SELECT * FROM REPORT_VIEW
             <where>
