@@ -28,6 +28,7 @@ categoryList.addEventListener('click', (e) => {
     const category = e.target.dataset['id'];
 
     cri.init();
+    /*cri.category = category;*/
     cri.set(null, null, category, null, null);
     showList(cri);
 });

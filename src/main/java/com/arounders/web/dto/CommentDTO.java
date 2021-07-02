@@ -23,7 +23,6 @@ public class CommentDTO {
     private Long memberId;
     private String nickname;
 
-    /* mypage에서 사용될 댓글달린 게시글의 제목 */
-    private String title;
-
+    /* 대댓글 여부 */
+    private int hasChild;
 }

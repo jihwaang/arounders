@@ -13,6 +13,7 @@
     <script defer src="/js/slider.js"></script>
     <script defer th:inline="javascript">
         const boardId = [[${board.id}]];
+        const memberId = [[${session.id}]];
     </script>
     <script defer type="module" src="/js/board/read.js"></script>
 </head>
@@ -109,7 +110,7 @@
 
         <div class="comments">
             <!-- comment -->
-            <div class="comment" data-cid="0">
+            <div class="comment" data-cid="0" data-wid="0">
 
                 <div class="comment-top">
                     <span class="comment-writer">Writer</span>

@@ -94,18 +94,22 @@ export const commentModule = {
         });
     },
     /* BoardId번 게시글의 댓글 목록 조회 */
-    getComments: function (){
+    getComments: function (p){
+
+        let page = p || 1;
+
+        let query = `?page=${page}`;
 
         return new Promise((resolve, reject) => {
             ajax({
-                url: `/comments/api/v1/boards/${this.boardId}`,
+                url: `/comments/api/v1/boards/${this.boardId}${query}`,
                 method: 'GET',
                 loadend: (comments) => {
                     const json = JSON.parse(comments);
 
-                    json.forEach((comment, idx) => {
+                    /*json.forEach((comment, idx) => {
                         console.log(comment);
-                    });
+                    });*/
 
                     resolve(json);
                 },

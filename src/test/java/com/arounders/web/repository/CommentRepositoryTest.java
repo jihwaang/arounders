@@ -1,6 +1,7 @@
 package com.arounders.web.repository;
 
 import com.arounders.web.dto.CommentDTO;
+import com.arounders.web.dto.criteria.CommentCriteria;
 import com.arounders.web.entity.Comment;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -31,10 +32,14 @@ class CommentRepositoryTest {
     @Test
     void getComments() {
 
-        Long boardId = 6L;
+        Long boardId = 12L;
 
-        List<CommentDTO> comments = repository.getComments(boardId, null);
+        CommentCriteria c = new CommentCriteria();
+        c.setPage(1);
+        c.init();
+        List<CommentDTO> comments = repository.getComments(boardId, c);
 
+        comments.forEach(System.out::println);
         Assertions.assertThat(comments.size()).isEqualTo(2);
     }
 

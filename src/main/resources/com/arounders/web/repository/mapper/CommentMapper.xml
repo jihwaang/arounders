@@ -10,7 +10,13 @@
     </select>
 
     <select id="getComments" resultType="com.arounders.web.dto.CommentDTO" parameterType="com.arounders.web.dto.criteria.CommentCriteria">
-        SELECT * FROM COMMENT_VIEW WHERE BOARD_ID = #{boardId} ORDER BY ID DESC
+        SELECT C.ID, C.CONTENT, C.MEMBER_ID, C.BOARD_ID, C.UPPER_ID, C.NICKNAME, C.CREATED_AT, C.UPDATED_AT, COUNT(CC.ID) HAS_CHILD
+        FROM COMMENT_VIEW C
+        LEFT JOIN COMMENT_VIEW CC ON C.ID = CC.UPPER_ID
+        GROUP BY
+            C.ID, C.CONTENT, C.MEMBER_ID, C.BOARD_ID, C.UPPER_ID, C.NICKNAME, C.CREATED_AT, C.UPDATED_AT
+        HAVING C.BOARD_ID = #{boardId} AND C.UPPER_ID = 0
+        ORDER BY C.ID DESC
         LIMIT #{cri.size} OFFSET #{cri.offset}
     </select>
 
