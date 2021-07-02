@@ -155,6 +155,16 @@ public class MemberServiceImpl implements MemberService {
         return (int) memberRepository.countByEmail(email);
     }
 
+    @Override
+    public int checkPassword(MemberDTO memberDTO) {
+        Member member = toEntity(memberDTO);
+        String password = member.getPassword();
+        String encodedPassword = memberRepository.getPassword(member.getId());
+        log.info("MemberServiceImpl -> encodedPassword: {}", encodedPassword);
+        log.info("passwordEncoder matches result : {}", passwordEncoder.matches(password, encodedPassword));
+        return (passwordEncoder.matches(password, encodedPassword) ? 1: 0);
+    }
+
     public Member encodePassword(Member member) {
         member.setPassword(passwordEncoder.encode(member.getPassword()));
         return member;

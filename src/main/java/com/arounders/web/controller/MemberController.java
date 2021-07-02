@@ -7,6 +7,7 @@ import com.arounders.web.service.AttachmentService;
 import com.arounders.web.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,8 @@ public class MemberController {
     private final MemberService memberService;
 
     private final AttachmentService attachmentService;
+
+    private final HttpSession session;
 
     @GetMapping("/signup")
     public String getSignUpPage() {
@@ -101,6 +104,14 @@ public class MemberController {
     public int checkEmail(@RequestBody String email) {
         log.info("request url -> /member/checkEmail, email: {}", email);
         return memberService.countByEmail(email);
+    }
+
+    @PostMapping("checkPassword")
+    @ResponseBody
+    public int checkPassword(MemberDTO memberDTO) {
+        log.info("request url -> /member/checkPassword, memberDTO: {}", memberDTO);
+        memberDTO.setId((Long) session.getAttribute("id"));
+        return memberService.checkPassword(memberDTO);
     }
 
     @PostMapping("/update/password")

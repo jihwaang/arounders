@@ -4,7 +4,8 @@ main{
     place-items: center;
 
     position: relative;
-    top: 75px;
+    top: 0;
+    left: 0;
 }
 
 .signup-box{
