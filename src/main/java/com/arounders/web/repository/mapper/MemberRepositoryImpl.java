@@ -39,15 +39,13 @@ public class MemberRepositoryImpl implements MemberRepository {
     public int insert(Member member) {
         String address = member.getAddr().split(" ")[0];
         member.setCityId(City.valueOf(address).getCode());
-        //member.setPassword(passwordEncoder.encode(member.getPassword()));
-        // CITY ID FINDER IN DB
-        //member.setCityId(findCityIdByAddr(address));
         return memberRepository.insert(member);
     }
 
     @Override
     public int update(Member member) {
         //member.setPassword(passwordEncoder.encode(member.getPassword()));
+        member.setCityId(findCityId(member.getAddr()));
         return memberRepository.update(member);
     }
 
@@ -84,6 +82,16 @@ public class MemberRepositoryImpl implements MemberRepository {
 
     public Integer countByEmail(String email) {
         return memberRepository.countByEmail(email);
+    }
+
+    @Override
+    public int checkPassword(String encodedPassword) {
+        return memberRepository.checkPassword(encodedPassword);
+    }
+
+    @Override
+    public String getPassword(Long id) {
+        return memberRepository.getPassword(id);
     }
 
     @Override

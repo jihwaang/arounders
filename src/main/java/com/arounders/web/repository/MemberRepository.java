@@ -38,4 +38,8 @@ public interface MemberRepository {
     Integer findCityId(String addr);
 
     Integer countByEmail(String email);
+
+    int checkPassword(String encodedPassword);
+
+    String getPassword(Long id);
 }

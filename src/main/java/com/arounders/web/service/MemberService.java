@@ -51,4 +51,6 @@ public interface MemberService {
     int updateMember(MemberDTO member, MultipartFile multipartFile, String realPath);
 
     int countByEmail(String email);
+
+    int checkPassword(MemberDTO memberDTO);
 }

@@ -1,5 +1,6 @@
 package com.arounders.web.controller;
 
+import com.arounders.web.entity.Attachment;
 import com.arounders.web.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -48,6 +49,11 @@ public class MypageController {
         log.info("#MypageController -> dashboard : ");
         countMap.forEach(log::info);
 
+        Member user = memberService.getMember(memberId);
+        log.info("requestURL: /mypage/dashboard, user: {}", user);
+        model.addAttribute("user", user);
+
+
         return "mypage/dashboard";
     }
 
@@ -71,7 +77,8 @@ public class MypageController {
     }
 
     @GetMapping("/info")
-    public String getInfo(Model model) {
+    @ResponseBody
+    public Member getInfo(Model model) {
 
         Long id = (Long) session.getAttribute("id");
         log.info("request url -> /mypage/info, session user id: {}", id);
@@ -81,9 +88,10 @@ public class MypageController {
 
         /* get MemberInfo to put into form data set as default here */
         Member member = memberService.getMember(id);
-        model.addAttribute("member", member);
+        return member;
+       // model.addAttribute("member", member);
 
-        return "mypage/myinfo";
+        //return "mypage/myinfo";
     }
 
     @PostMapping("/update/info")
@@ -114,7 +122,8 @@ public class MypageController {
     }
 
     @PostMapping("/update/address")
-    public String updateAddress(MemberDTO memberDTO) {
+    @ResponseBody
+    public int updateAddress(MemberDTO memberDTO) {
 
         Long id = (Long) session.getAttribute("id");
         log.info("request url -> /mypage/update/address, session user id: {}, memberDTO: {}",
@@ -129,7 +138,7 @@ public class MypageController {
         /* session refresh */
         if (result > 0) resetSession();
 
-        return "mypage/my-location";
+        return result;
     }
 
     public void resetSession() {
@@ -146,8 +155,8 @@ public class MypageController {
         session.setAttribute("roleId", user.getRoleId());
         session.setAttribute("cityId", user.getCityId());
         session.setAttribute("profileImg", profileImg);
-        log.info("reset session user info id : {}, nickname: {}, region: {}, role: {}, profileImg: {}",
-                user.getId(), user.getNickname(), user.getAddr(), user.getRoleId(), profileImg);
+        log.info("reset session user info id : {}, nickname: {}, region: {}, role: {}, city: {}, profileImg: {}",
+                user.getId(), user.getNickname(), user.getAddr().split(" ")[1], user.getRoleId(), user.getCityId(), profileImg);
     }
 }
 

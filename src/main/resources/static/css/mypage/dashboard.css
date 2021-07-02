@@ -1,0 +1,444 @@
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    width: 100%;
+    max-width: 780px;
+    margin: 0 auto;
+    /* padding: 1em; */
+}
+
+main section {
+    width: 100%;
+    padding: .45em;
+}
+
+
+.top-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.list-container {
+    display: flex;
+    flex-direction: column;
+}
+.profile-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    border: 1px solid #999;
+}
+
+.profile {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 100px;
+    margin-top: 2em;
+}
+
+.profile-image {
+    background: url('/upload/anonymous.svg') no-repeat center center/contain;
+    position: relative;
+    border: 1px solid #999;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+}
+
+.profile-input {
+    display: none;
+}
+
+.profile-input + label {
+    position: absolute;
+    bottom: -1.5em;
+    right: 0;
+    cursor: pointer;
+}
+
+/* inner profile (modal) */
+.inner-profile {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 100px;
+    margin-bottom: 2em;
+}
+
+.inner-profile-image {
+    background: url('/upload/anonymous.svg') no-repeat center center/contain;
+    position: relative;
+    border: 1px solid #999;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+}
+
+.inner-profile-input {
+    display: none;
+}
+
+.inner-profile-image > label {
+    position: absolute;
+    bottom: -1.5em;
+    right: 0;
+    cursor: pointer;
+}
+/* inner profile (modal) */
+
+
+.nickname {
+    align-self: center;
+    font-weight: bold;
+}
+
+.button-section {
+    align-self: center;
+    margin-top: 2em;
+    width: 100%;
+
+}
+
+.profile-btn {
+    background-color: var(--color-skyblue);
+    color: #fff;
+    padding: .65em 1em;
+    margin: 2em 0;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+.profile-btn:hover {
+    opacity: .75;
+}
+
+.board-section, .activitiy-section {
+    display: flex;
+    place-items: center;
+    width: 100%;
+}
+
+.board-section {
+    padding: 0;
+}
+
+.activitiy-section {
+    justify-content: center;
+}
+
+.board-button-list, .activitiy-list {
+    display: flex;
+    gap: 1em;
+    overflow-x: auto;
+}
+
+.board-button-list {
+    padding-top: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.board-button-list::-webkit-scrollbar {
+    width: 0;
+}
+
+
+.board-button-list .item, .activitiy-list .item {
+    min-width: 120px;
+    border-radius: 1.3em;
+    padding: .8em;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.board-button-list .item {
+    background-color: #4377B2;
+    color: #fff;
+}
+
+.activitiy-list {
+    width: 100%;
+    justify-content : space-around;
+}
+
+.activitiy-list .item {
+    width: 10em;
+    padding: .8em;
+    background-color: #ff6768;
+    color: #fff;
+}
+
+.location-section {
+    font-size: 1.23rem;
+    border: 1px solid #999;
+    cursor: pointer;
+    margin-top: 1.2em;
+}
+
+.button-container {
+    min-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.button-container .button-title {
+    font-size: .89rem;
+}
+
+
+/* modal set [s] */
+.modal-container {
+    height: 0;
+}
+
+.modal-container .password-confirm {
+
+}
+/* .modal-container > .modal-item:not(:first-child) {
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+    gap: 1.34em;
+    font-size: .85rem;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #000;
+    padding: 2em;
+    background-color: #fff;
+    z-index: 20;
+} */
+.modal-container .password-confirm .password-confirm-form {
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+    gap: 1.34em;
+    font-size: .85rem;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #000;
+    padding: 2em;
+    background-color: #fff;
+    z-index: 20;
+}
+
+.modal-container .password-confirm .password-confirm-form .result-message {
+    color: red;
+    font-size: .35rem;
+}
+
+.modal-container .password-confirm .password-confirm-form input[type=password] {
+    padding: .4em;
+    outline: none;
+    border: none;
+    background-color: rgba(161, 159, 159, 0.123);
+}
+
+.modal-container .password-confirm .password-confirm-form input[type=password]:focus-within {
+    border: 1px solid var(--color-skyblue);
+}
+
+.modal-container .password-confirm .password-confirm-form .btn-submit {
+    background-color: #4377B2;
+    color: #fff;
+    padding: .43em;
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+}
+
+.modal-container .password-confirm .password-confirm-form .btn-submit:hover {
+    opacity: .75;
+}
+
+.modal-container .update-info {
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+    gap: 1.34em;
+    font-size: .85rem;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #000;
+    padding: 2em;
+    background-color: #fff;
+    z-index: 20;
+}
+
+.modal-container .update-info .update-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.23em;
+    padding: 1em;
+}
+
+.modal-container .update-info .update-form .form-raw {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.modal-container .update-info .update-form .form-raw > label {
+    width: 100px;
+    font-size: .75rem;
+}
+
+.modal-container .update-info .update-form .form-raw > input {
+    width: calc(100% - 100px);
+    height: .45em;
+    padding: .75em;
+    outline: none;
+    border: none;
+    background-color: rgba(161, 159, 159, 0.123);
+}
+
+.modal-container .update-info .update-form .form-raw > input:focus-within {
+    border: 1px solid var(--color-skyblue);
+}
+
+.modal-container .update-info .button-container {
+    width: 95%;
+}
+
+.modal-container .update-info .button-container .btn-submit {
+    text-align: center;
+    background-color: #4377B2;
+    color: #fff;
+    width: 100%;
+    padding: .5em .2em;
+    display: inline-block;
+}
+
+.modal-container .update-info .button-container .btn-submit:hover {
+    opacity: .75;
+}
+
+.modal-container .current-location {
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+    gap: 1.34em;
+    font-size: .85rem;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #000;
+    padding: 2em;
+    background-color: #fff;
+    z-index: 20;
+    width: 99%;
+    max-width: 450px;
+}
+
+.modal-container .current-location .map {
+    width: 100%;
+    height: 250px;
+    border: 1px solid #999;
+}
+
+.modal-container .current-location .location-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.23em;
+    padding: 1em;
+}
+
+.modal-container .current-location .location-form .form-raw {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.modal-container .current-location .location-form .form-raw > label {
+    width: 100px;
+    font-size: .75rem;
+}
+
+.modal-container .current-location .location-form .form-raw > input {
+    width: calc(100% - 100px);
+    height: .45em;
+    padding: .75em;
+    outline: none;
+    border: none;
+    background-color: rgba(161, 159, 159, 0.123);
+}
+
+.modal-container .current-location .location-form > .form-raw > input:focus-within {
+    border: 1px solid var(--color-skyblue);
+}
+
+.modal-container .current-location .button-container .btn-submit {
+    text-align: center;
+    background-color: #4377B2;
+    color: #fff;
+    width: 100%;
+    padding: .5em .2em;
+    display: inline-block;
+}
+
+.modal-container .current-location .button-container .btn-submit:hover {
+    opacity: .75;
+}
+
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+}
+
+/* modal set [e] */
+
+
+
+@media screen and (min-width: 780px) {
+    .top-container {
+        flex-direction: row;
+        gap: .23em;
+    }
+
+    .profile {
+        flex-direction: column;
+        flex: 1;
+        align-items: center;
+    }
+
+    .profile-section {
+        min-width: 250px;
+    }
+
+    .nickname {
+        margin-top: 3em;
+    }
+
+    .list-container {
+        width: calc(100% - 250px);
+        justify-content : space-evenly;
+    }
+
+    .list-section .list-container {
+        width: 100%;
+    }
+
+}
+

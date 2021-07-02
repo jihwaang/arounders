@@ -10,3 +10,9 @@ inputSection.addEventListener('click', (e) => {
     }
     return;
 });
+
+form.addEventListener('keyup', (e) => {
+    if (e.key !== 'Enter') return;
+    if (e.target.tagName.toLowerCase() !== 'input') return;
+    form.submit();
+})

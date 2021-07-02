@@ -40,23 +40,21 @@ class MemberServiceTest {
         String password = "12345";
         String nickname = "q1w2w2e3";
         String phone = "010-1010-2020";
-        String addr = "서울시 강북구 삼양동 귀로 102";
+        String addr = "서울특별시 강북구 삼양동 귀로 102";
         String addrDtl = "OO빌라 201호";
 
         Long roleId = 1L;
-        Long cityId = 1L;
+        Integer cityId = 1;
 
-        Member member = Member.builder()
-                .email(email)
-                .password(password)
-                .nickname(nickname)
-                .phone(phone)
-                .addr(addr)
-                .addrDtl(addrDtl)
-                .build();
 
         MemberDTO memberDTO = new MemberDTO();
-
+        memberDTO.setEmail(email);
+        memberDTO.setPassword(password);
+        memberDTO.setNickname(nickname);
+        memberDTO.setPhone(phone);
+        memberDTO.setAddr(addr);
+        memberDTO.setRoleId(roleId);
+        memberDTO.setCityId(1);
         Long id = service.signup(memberDTO);
 
         Assertions.assertThat(id).isNotEqualTo(null);

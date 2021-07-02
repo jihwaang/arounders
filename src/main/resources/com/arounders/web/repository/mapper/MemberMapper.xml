@@ -46,6 +46,14 @@
         SELECT ID, EMAIL, NICKNAME, ADDR, ADDR_DTL, ROLE_ID, CITY_ID FROM MEMBER WHERE EMAIL = #{param1}
     </select>
 
+    <select id="checkPassword" parameterType="java.lang.String">
+        SELECT COUNT(ID) FROM MEMBER WHERE PASSWORD = #{param1}
+    </select>
+
+    <select id="getPassword" parameterType="Member" resultType="java.lang.String">
+        SELECT PASSWORD FROM MEMBER WHERE ID = #{id}
+    </select>
+
     <insert id="insert" parameterType="Member">
         INSERT INTO MEMBER(EMAIL, PASSWORD, NICKNAME, PHONE, ADDR, ADDR_DTL, CITY_ID)
         VALUES(#{email}, #{password}, #{nickname}, (HEX(AES_ENCRYPT(#{phone},'df'))), #{addr}, #{addrDtl}, #{cityId})
@@ -64,6 +72,7 @@
             <if test="addr != null">ADDR = #{addr},</if>
             <if test="addrDtl != null">ADDR_DTL = #{addrDtl},</if>
             <if test="roleId != null">ROLE_ID = #{roleId}</if>
+            <if test="cityId != null">CITY_ID = #{cityId}</if>
         </set>
         WHERE ID = #{id}
     </update>
