@@ -188,16 +188,16 @@ export const commentModule = {
     }
 }
 
-// const CommentCriteria = {
-//
-//     page: 1,
-//     init: function() {
-//         this.page = 1;
-//     },
-//     set: function (){
-//         /* NOT_USING */
-//     }
-// }
+const CommentCriteria = {
+
+    page: 1,
+    init: function() {
+        this.page = 1;
+    },
+    set: function (){
+        /* NOT_USING */
+    }
+}
 
 let commentScreen = '';
 function cover(target, xhr) {
