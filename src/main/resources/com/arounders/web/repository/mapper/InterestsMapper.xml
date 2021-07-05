@@ -16,6 +16,15 @@
         select count(*) from INTERESTS where BOARD_ID = #{boardId}
     </select>
 
+    <select id="getMyInterests" resultType="com.arounders.web.dto.BoardDTO" parameterType="com.arounders.web.dto.criteria.BoardCriteria">
+        SELECT B.*
+        FROM BOARD_VIEW B
+        WHERE
+            EXISTS (SELECT 1 FROM INTERESTS I WHERE I.BOARD_ID = B.ID AND I.MEMBER_ID = #{memberId})
+        ORDER BY B.CREATED_BY DESC
+        LIMIT #{cir.size} OFFSET ${cri.offset}
+    </select>
+
     <insert id="insert" parameterType="Interests">
         INSERT INTO INTERESTS(MEMBER_ID, BOARD_ID)
         VALUES(#{memberId}, #{boardId})

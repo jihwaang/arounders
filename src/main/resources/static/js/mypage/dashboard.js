@@ -1,12 +1,24 @@
+import {commentModule} from "/js/comments/commentModule.js";
+import {CommentCriteria} from "../comments/commentModule.js";
+
 const profileBtn = document.querySelector('.profile-btn');
 const locationBtn = document.querySelector('.location-btn');
 const locationContainer = document.querySelector('.button-container');
 const passwordForm = document.querySelector('#password-confirm-form');
 const locationForm = document.querySelector('#location-form');
 const boardCategory = document.querySelector('.board-button-list');
+const listSection = document.querySelector('.list-section');
 const boards = document.querySelector('.list-section > .list-container > .boards');
-const cri = BoardCriteria;
+let cri = BoardCriteria;
 const main = document.querySelector('main');
+const activity = document.querySelector('.activity-section');
+const activityType = activity.querySelector('.activity-list');
+const comments = document.querySelector('#comment-list');
+const commentSection = document.querySelector('.comment-section');
+
+const interests = document.querySelector('#interest-list');
+const interestSection = document.querySelector('.interest-section');
+
 //게시글 0일 시 플래그 처리를 위한 변수 선언
 let flag = false;
 
@@ -23,10 +35,170 @@ const dashboard = {
         const _this = this;
 
         _this.getList(cri);
+
+        activity.addEventListener('click', (e) => {
+            console.log('activity section invoked');
+            // if (e.target.classList.contains('board')) {
+            //     cri = BoardCriteria;
+            //     _this.getList(cri);
+            // }
+            if (e.target.classList.contains('comment')) {
+                cri = CommentCriteria;
+                flag = false;
+                let page = 1;
+                cri.page = page;
+                _this.getCommentList(cri);
+            } else if (e.target.classList.contains('interest')) {
+                cri = BoardCriteria;
+                cri.init();
+                flag = false;
+                _this.getInterestList(cri);
+            } else {
+                return;
+            }
+        })
     },
     getList: async function(cri) {
-        console.log('getList invoked');
+            comments.innerHTML = '';
+            commentSection.classList.add('dp-none');
+
+            interests.innerHTML = '';
+            interestSection.classList.add('dp-none');
+
+        if (listSection.classList.contains('dp-none')) {
+            listSection.classList.remove('dp-none');
+        }
         let requestURL = `/mypages/api/v1/boards`;
+
+        let query = '?';
+        /* mypage -> 내가 쓴 게시글 조회시, category별 조회만 가능(필터기능 X) */
+        query += `page=${cri.page}&`;
+        query += `category=${cri.category}`;
+
+        requestURL = requestURL + query;
+
+        let result = await fetch(requestURL).then(response => response.json());
+        // flag 처리
+        if (result.length === 0) flag = true;
+
+
+        for (let board of result) {
+            let status = board.status == '0'? '<span class="sticker-status">진행중</span>' : '<span class="sticker-status-off">종료</span>';
+
+            let src = board.thumbnailName == null? `/image/board/sample-image.png`:`/upload/${board.thumbnailPath}/${board.thumbnailName}`;
+
+            let likeClass = board.isLike === null? 'btn-like' : 'btn-like-on';
+
+            let interestClass = board.isInterest === null? 'btn-interest' : 'btn-interest-on';
+
+
+            let html = `<div class="board" data-bid="${board.id}">
+
+                    <div class="board-top">
+                        <div class="board-sticker">
+                            <span class="sticker-cg">${board.categoryTitle}</span>
+                            <span class="sticker-city">${board.city}</span>
+                            <span class="sticker-region">${board.region}</span>
+                            ${status}
+                        </div>
+        
+<!--                        <button class="btn-dot">dot</button>-->
+<!--        -->
+<!--                        <div class="board-toolbox hide">-->
+<!--                            <button class="btn-hide">숨기기</button>-->
+<!--                            -->
+<!--                            -->
+<!--                        </div>-->
+                    </div>
+        
+                    <div class="board-mid">
+                        <div class="board-thumbnail-box">
+                            <img src="${src}" alt="썸네일 이미지" class="board-thumbnail">
+                            <!--<div class="board-thumbnail" style="background: #fff url(${src});"></div>-->
+                        </div>
+        
+                        <div class="board-content-box">
+                            <div class="board-title">
+                                <a href="read?id=${board.id}">${board.title}</a>
+                            </div>
+                            <div class="board-info">
+                                <span class="board-nickname">${board.writer}</span>
+                                <span class="board-date">${displayedAt(new Date(board.createdAt))}</span>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="board-bottom">
+                        <div>
+                            <button class="like ${likeClass}">Like</button><span class="val like-val">${numToK(board.likeCount)}</span>
+                        </div>
+                        <div>
+                            <button class="btn-comment">Comment</button><span class="val comment-val">${numToK(board.commentCount)}</span>
+                        </div>
+                        <div>
+                            <button class="interest ${interestClass}">Interest</button><span class="val interest-val">${numToK(board.interestCount)}</span>
+                        </div>
+                    </div>
+        
+                </div>`;
+            boards.insertAdjacentHTML('beforeend', html);
+        }
+
+    },
+    getCommentList: async function(cri) {
+
+            boards.innerHTML = '';
+            listSection.classList.add('dp-none');
+
+
+
+            interests.innerHTML = '';
+            interestSection.classList.add('dp-none');
+
+
+        if (commentSection.classList.contains('dp-none')) {
+            commentSection.classList.remove('dp-none');
+        }
+        let requestURL = `/mypages/api/v1/comments`;
+        let query = '?';
+        query += `page=${cri.page}`;
+        let result = await fetch(requestURL+query).then(response => response.json());
+        console.log(result);
+        for (let comment of result) {
+            let html = `<div class="board" data-bid="${comment.boardId}">
+                    <div class="board-mid dp-block">
+                        <div class="board-content-box">
+                            <div class="board-title">
+                                <a href="read?id=${comment.boardId}">${comment.title}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="board-bottom comment-list">
+                        <div class="comment">
+                            <p class="comment-content">${comment.content}</p>
+                            <span class="comment-date">${displayedAt(new Date(comment.createdAt))}</span>
+                        </div>
+                    </div>
+                </div>`;
+            comments.insertAdjacentHTML('beforeend', html);
+        }
+    },
+    getInterestList: async function(cri) {
+
+            boards.innerHTML = '';
+            listSection.classList.add('dp-none');
+
+
+
+            comments.innerHTML = '';
+            commentSection.classList.add('dp-none');
+
+
+        if (interestSection.classList.contains('dp-none')) {
+            interestSection.classList.remove('dp-none');
+        }
+
+        let requestURL = `/mypages/api/v1/interests`;
 
         let query = '?';
         /* mypage -> 내가 쓴 게시글 조회시, category별 조회만 가능(필터기능 X) */
@@ -100,9 +272,8 @@ const dashboard = {
                     </div>
         
                 </div>`;
-            boards.insertAdjacentHTML('beforeend', html);
+            interests.insertAdjacentHTML('beforeend', html);
         }
-
     }
 };
 
@@ -118,6 +289,17 @@ boardCategory.addEventListener('click', (e) => {
     dashboard.getList(cri);
 });
 
+activityType.addEventListener('click', e => {
+    if (e.target.tagName.toLowerCase() !== 'a') return;
+    flag = false;
+    boards.innerHTML = '';
+    comments.innerHTML = '';
+    interests.innerHTML = '';
+    let page = 1;
+    cri.page = page;
+    //dashboard.getCommentList(cri);
+})
+
 /*  */
 // if(window.innerHeight >= document.body.offsetHeight){
 //     cri.page++;
@@ -132,7 +314,13 @@ window.addEventListener('scroll', () => {
 
     if(val >= main.clientHeight){
         cri.page++;
-        dashboard.getList(cri);
+        if(boards.innerHTML.length > 0) {
+            dashboard.getList(cri)
+        } else if (comments.innerHTML.length > 0) {
+            dashboard.getCommentList(cri)
+        } else if (interests.innerHTML.length > 0) {
+            dashboard.getInterestList(cri)
+        }
     }
 });
 /*  */

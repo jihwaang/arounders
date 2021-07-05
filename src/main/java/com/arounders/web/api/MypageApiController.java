@@ -6,6 +6,7 @@ import com.arounders.web.dto.criteria.BoardCriteria;
 import com.arounders.web.dto.criteria.CommentCriteria;
 import com.arounders.web.service.BoardService;
 import com.arounders.web.service.CommentService;
+import com.arounders.web.service.InterestsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -46,7 +47,7 @@ public class MypageApiController {
     /* 내가 쓴 댓글 목록 조회 */
     @GetMapping(value = "/comments")
     public ResponseEntity<List<CommentDTO>> getMyComments(CommentCriteria criteria){
-
+        log.info("request url: /mypages/api/v1/comments, criteria: {}", criteria);
         /* test용 id */
         //Long memberId = 12L;
         /* 실제 사용될 session에 저장된 id */
@@ -56,5 +57,15 @@ public class MypageApiController {
         List<CommentDTO> comments = commentService.getMyComments(memberId, criteria);
 
         return new ResponseEntity<>(comments, HttpStatus.OK);
+    }
+
+    /* 관심 리스트 조회 */
+    @GetMapping(value ="/interests")
+    public ResponseEntity<List<BoardDTO>> getMyInterests(BoardCriteria criteria) {
+        Long memberId = (Long) session.getAttribute("id");
+        criteria.init();
+        List<BoardDTO> myInterests = boardService.getMyInterests(criteria, memberId);
+        log.info("#MypageApiController -> getMyInterests : ...");
+        return new ResponseEntity<>(myInterests, HttpStatus.OK);
     }
 }
