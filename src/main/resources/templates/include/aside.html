@@ -8,32 +8,32 @@
         <nav class="feeds-list">
             <ul class="feeds">
                 <li class="btn-feed">
-                    <span class="aside-icon "></span>
-                    <a href="#">전체</a>
+                    <span class="aside-icon icon-all"></span>
+                    <a th:href="@{/board/list(category='1')}">전체</a>
                 </li>
                 <li class="btn-feed">
-                    <span class="aside-icon "></span>
-                    <a href="#">공유</a>
+                    <span class="aside-icon icon-share"></span>
+                    <a th:href="@{/board/list(category='2')}">공유</a>
                 </li>
                 <li class="btn-feed">
-                    <span class="aside-icon "></span>
-                    <a href="#">모집</a>
+                    <span class="aside-icon icon-recruit"></span>
+                    <a th:href="@{/board/list(category='3')}">모집</a>
                 </li>
                 <li class="btn-feed">
-                    <span class="aside-icon "></span>
-                    <a href="#">맛집</a>
+                    <span class="aside-icon icon-food"></span>
+                    <a th:href="@{/board/list(category='4')}">맛집</a>
                 </li>
                 <li class="btn-feed">
-                    <span class="aside-icon "></span>
-                    <a href="#">일상</a>
+                    <span class="aside-icon icon-daily"></span>
+                    <a th:href="@{/board/list(category='5')}">일상/소통</a>
                 </li>
                 <li class="btn-feed">
-                    <span class="aside-icon "></span>
-                    <a href="#" class="">질문/답변</a>
+                    <span class="aside-icon icon-qna"></span>
+                    <a th:href="@{/board/list(category='6')}" class="">질문/답변</a>
                 </li>
                 <li class="btn-feed">
-                    <span class="aside-icon "></span>
-                    <a href="#">Tips</a>
+                    <span class="aside-icon icon-chat"></span>
+                    <a th:href="@{/chat/list}">지역 채팅</a>
                 </li>
             </ul>
         </nav>

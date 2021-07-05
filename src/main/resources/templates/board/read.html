@@ -14,14 +14,15 @@
     <script defer th:inline="javascript">
         const boardId = [[${board.id}]];
         const memberId = [[${session.id}]];
+        const nickname = [[${session.nickname}]];
     </script>
     <script defer type="module" src="/js/board/read.js"></script>
 </head>
 <main layout:fragment="main">
 
-    <div class="back-box">
+<!--    <div class="back-box">
         <span class="button-back">뒤로가기</span>
-    </div>
+    </div>-->
 
     <!-- Board-Box -->
     <section class="board-box" th:object="${board}">
@@ -36,6 +37,11 @@
 
                     <span class="sticker-status" th:if="*{status == '0'}">진행중</span>
                     <span class="sticker-status-off" th:if="*{status != '0'}">종료</span>
+                </div>
+
+                <div class="board-btn-box">
+                    <a th:href="@{list}" class="btn-to-list" th:text="목록" title="글 목록"></a>
+                    <a th:if="${session.id == board.memberId}" th:href="@{edit(id=*{id})}" class="btn-to-modify" th:text="수정" title="글 수정"></a>
                 </div>
             </div>
 
@@ -80,17 +86,16 @@
 
             <div class="board-bottom">
                 <div>
-                    <div th:text="*{isLike}"></div>
-                    <button th:if="*{isLike != null}" class="like btn-like-on">Like</button>
-                    <button th:if="*{isLike == null}" class="like btn-like">Like</button>
+                    <button th:if="*{isLike != null}" class="like btn-like-on" title="좋아요">Like</button>
+                    <button th:if="*{isLike == null}" class="like btn-like" title="좋아요">Like</button>
                     <span class="val" th:text="*{likeCount}">12</span>
                 </div>
                 <div>
-                    <button class="btn-comment">Comment</button><span class="val" th:text="*{commentCount}">24</span>
+                    <button class="btn-comment">Comment</button><span class="val comment-val" th:text="*{commentCount}">24</span>
                 </div>
                 <div>
-                    <button th:if="*{isInterest != null}" class="interest btn-interest-on">Interest</button>
-                    <button th:if="*{isInterest == null}" class="interest btn-interest">Interest</button>
+                    <button th:if="*{isInterest != null}" class="interest btn-interest-on" title="관심 저장">Interest</button>
+                    <button th:if="*{isInterest == null}" class="interest btn-interest" title="관심 저장">Interest</button>
                     <span class="val" th:text="*{interestCount}">3</span>
                 </div>
             </div>
@@ -109,8 +114,8 @@
         </div>
 
         <div class="comments">
-            <!-- comment -->
-            <div class="comment" data-cid="0" data-wid="0">
+
+            <!--<div class="comment" data-cid="0" data-wid="0">
 
                 <div class="comment-top">
                     <span class="comment-writer">Writer</span>
@@ -122,12 +127,9 @@
                 </div>
 
                 <div class="comment-bot">
-                    <!--<button class="comment-modify">수정</button>
-                    <button class="comment-delete">삭제</button>-->
                     <button class="comment-reply">답글</button>
                 </div>
 
-                <!-- comment-children -->
                 <div class="comment-children">
                     <button class="btn-child">더보기</button>
 
@@ -138,43 +140,30 @@
                                 <span class="child-writer">Writer</span>
                                 <span class="child-date">2021-06-01</span>
                             </div>
-
                             <div class="child-mid">
                                 <p class="child-content">오늘의 대댓글은 대댓글...</p>
                             </div>
-
-                            <!--<div class="child-bot">
-                                <button class="child-modify">수정</button>
-                                <button class="child-delete">삭제</button>
-                            </div>-->
                         </div>
 
-                        <div class="child" data-cid="-2">
-                            <div class="child-top">
-                                <span class="child-writer">Writer</span>
-                                <span class="child-date">2021-06-01</span>
-                            </div>
-
-                            <div class="child-mid">
-                                <p class="child-content">오늘의 대댓글은 대댓글...</p>
-                            </div>
-
-                            <!--<div class="child-bot">
-                                <button class="child-modify">수정</button>
-                                <button class="child-delete">삭제</button>
-                            </div>-->
-                        </div>
                     </div>
                 </div>
-                <!-- comment-children -->
-            </div>
-            <!-- comment -->
+            </div>-->
+
         </div>
+        <div class="btn-comment-more">+</div>
     </section>
 
     <!-- Option-Box -->
-    <section class="option-box">
+    <section th:if="${board.categoryId == 2 || board.categoryId == 3}" class="option-box">
         <h1 class="hide">Option-Box</h1>
+
+        <div th:if="${board.categoryId == 2}" class="review-box">
+            <a class="btn-to-review" th:href="@{list}" th:text="'Review'">리뷰</a>
+        </div>
+
+        <div th:if="${board.categoryId == 3}" class="chat-box">
+            <a class="btn-to-chat" th:href="@{/chat/room(id=${room.id}, region=${room.region}, cityId=${room.cityId})}" th:text="'Chat'">채팅방</a>
+        </div>
 
     </section>
 

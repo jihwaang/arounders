@@ -30,6 +30,7 @@ public class ChatRoomDTO {
 
     private Long memberId;
     private Integer cityId;
+    private Long boardId;
 
 //    private static OutputStream fos;
 

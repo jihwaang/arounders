@@ -66,7 +66,7 @@ function showSlides(n) {
     files.style.left = -(sliderWidth * slideIndex) + 'px';
 }
 
-/* Paggination */
+/* Pagination */
 function paging(){
 
     const items = pagination.querySelectorAll('li');
@@ -78,3 +78,17 @@ function paging(){
 
     items[slideIndex].classList.add('active');
 }
+pagination.addEventListener('click', function (e) {
+
+    if(e.target.tagName !== 'LI') return;
+
+    const items = pagination.querySelectorAll('.item');
+
+    items.forEach((item, idx) => {
+        if(e.target === item)
+            slideIndex = idx;
+    });
+
+    files.style.left = -(sliderWidth * slideIndex) + 'px';
+    paging();
+});

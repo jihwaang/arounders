@@ -16,7 +16,7 @@ public interface BoardService {
 
     List<BoardDTO> getList(Long memberId, BoardCriteria criteria);
 
-    BoardDTO getBoard(Long id);
+    BoardDTO getBoard(Long id, Long memberId);
 
     Long createBoard(BoardDTO boardDTO);
 
@@ -51,6 +51,7 @@ public interface BoardService {
                 .cityId(dto.getCityId())
                 .isHidden(dto.getIsHidden())
                 .region(dto.getRegion())
+                .status(dto.getStatus())
                 .thumbnailName(dto.getThumbnailName())
                 .thumbnailPath(dto.getThumbnailPath()).build();
     }

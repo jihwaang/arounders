@@ -33,6 +33,11 @@ public class ChatRoomRepositoryImpl implements ChatRoomRepository {
     }
 
     @Override
+    public ChatRoomDTO findByBoardId(Long boardId) {
+        return mapper.findByBoardId(boardId);
+    }
+
+    @Override
     public int close(Long id) {
         return mapper.close(id);
     }

@@ -37,8 +37,8 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public BoardDTO getBoard(Long id) {
-        return boardRepository.getBoard(id);
+    public BoardDTO getBoard(Long id, Long memberId) {
+        return boardRepository.getBoard(id, memberId);
     }
 
     @Override

@@ -50,6 +50,11 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     }
 
     @Override
+    public ChatRoomDTO getByBoardId(Long boardId) {
+        return repository.findByBoardId(boardId);
+    }
+
+    @Override
     public Long close(Long id) {
 
         int result = repository.close(id);

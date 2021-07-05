@@ -5,6 +5,10 @@
 
 <mapper namespace="com.arounders.web.repository.CommentRepository">
 
+    <select id="getCount" resultType="Integer">
+        SELECT COUNT(ID) FROM COMMENT WHERE BOARD_ID = #{boardId}
+    </select>
+
     <select id="getComment" resultType="com.arounders.web.dto.CommentDTO">
         SELECT * FROM COMMENT_VIEW WHERE ID = #{id}
     </select>
@@ -18,6 +22,12 @@
         HAVING C.BOARD_ID = #{boardId} AND C.UPPER_ID = 0
         ORDER BY C.ID DESC
         LIMIT #{cri.size} OFFSET #{cri.offset}
+    </select>
+
+    <select id="getReComments" resultType="com.arounders.web.dto.CommentDTO">
+        SELECT C.* FROM COMMENT_VIEW C
+        WHERE C.BOARD_ID = #{boardId} AND C.UPPER_ID = #{upperId}
+        ORDER BY C.ID DESC
     </select>
 
     <insert id="insert" parameterType="Comment">

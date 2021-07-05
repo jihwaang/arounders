@@ -4,6 +4,7 @@ const roomForm = document.querySelector('#chat-room-form');
 const chatRooms = document.querySelector('.chat-rooms');
 const titleInput = document.querySelector('.title-input');
 const btnCreate = document.querySelector('.btn-create');
+const btnToBoard = document.querySelector('.btn-to-board');
 
 const modal = document.querySelector('.modal');
 const modalTitle = modal.querySelector('.modal-title');
@@ -65,6 +66,8 @@ btnCreate.addEventListener('click', (e) => {
         roomForm.submit();
     });
 });
+
+btnToBoard.addEventListener('click', () => location = '/board/list');
 
 /* Modal Close / Cance 버튼 Click */
 btnCancel.addEventListener('click', () => {

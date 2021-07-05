@@ -23,6 +23,9 @@ public class CommentDTO {
     private Long memberId;
     private String nickname;
 
+    /* 게시글 제목 */
+    private String title;
+
     /* 대댓글 여부 */
     private int hasChild;
 }

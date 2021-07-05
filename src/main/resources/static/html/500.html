@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AROUNDERS | 404 ERROR</title>
+    <style>
+        body, html{
+            height: 100%;
+            margin: 0;
+            position: relative;
+        }
+        body{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .content-box{
+            margin-top: 100px;
+            flex-grow: 1;
+            text-align: center;
+        }
+        .background{
+            height: 300px;
+            background: url('/image/error/500.svg') no-repeat center;
+            background-size: contain;
+        }
+        .title{
+            margin: 20px 0 0 0;
+            font-size: 20px;
+        }
+        .link{
+            text-decoration: none;
+            color: #346ce0;
+            font-weight: bold;
+            margin-right: 200px;
+        }
+    </style>
+</head>
+<body>
+<div class="content-box">
+    <div class="background">
+
+    </div>
+    <h1 class="title">요청을 처리할 수 없습니다.</h1>
+    <a class="link" href="/board/list">HOME</a>
+</div>
+
+<footer th:fragment="footer">
+    <div style="background-color: black; height: 70px;"></div>
+</footer>
+</body>
+</html>

@@ -37,16 +37,22 @@ const boardBox = document.querySelector('.boards');
 
 const cri = BoardCriteria;
 
+//QueryString의 category 파라미터 -> 해당 카테고리 게시글만 보여주기
+const url = new URL(location.href);
+const params = url.searchParams;
+const category = params.get('category') || 1;
+
 // 세션에서 값 가져와 넣기
 let isLastPage = false;
+cri.category = category;
 cri.region = region;
 cri.cityId = cityId;
 showList(cri);
 
-if(window.innerHeight >= main.clientHeight){
-    cri.page++;
-    showList(cri);
-}
+// if(window.innerHeight >= main.clientHeight){
+//     cri.page++;
+//     showList(cri);
+// }
 
 /* Scroll Down -> Board List Request */
 /* 브라우저의 높이와, 브라우저의 scroll값, main의 높이 */
@@ -82,6 +88,8 @@ btnSearch.addEventListener('click', (e) => {
     cri.set(order, status, category, field, keyword);
 
     showList(cri);
+
+    filterBox.classList.toggle('hide');
 });
 
 function getOrder(){
@@ -127,7 +135,7 @@ async function showList(cri){
     let html = '';
 
     result.forEach((board, idx) => {
-        console.log(board);
+        //console.log(board);
 
         let status = board.status == '0'? '<span class="sticker-status">진행중</span>' : '<span class="sticker-status-off">종료</span>';
 
@@ -176,13 +184,13 @@ async function showList(cri){
         
                     <div class="board-bottom">
                         <div>
-                            <button class="like ${likeClass}">Like</button><span class="val like-val">${numToK(board.likeCount)}</span>
+                            <button class="like ${likeClass}" title="좋아요">Like</button><span class="val like-val">${numToK(board.likeCount)}</span>
                         </div>
                         <div>
                             <button class="btn-comment">Comment</button><span class="val comment-val">${numToK(board.commentCount)}</span>
                         </div>
                         <div>
-                            <button class="interest ${interestClass}">Interest</button><span class="val interest-val">${numToK(board.interestCount)}</span>
+                            <button class="interest ${interestClass}" title="관심 저장">Interest</button><span class="val interest-val">${numToK(board.interestCount)}</span>
                         </div>
                     </div>
         

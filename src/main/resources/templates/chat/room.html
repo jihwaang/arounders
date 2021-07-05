@@ -32,10 +32,10 @@
 
         <div class="room-inner-box">
             <div class="room-button-box">
-                <button class="btn-disconnect">목록</button>
-                <button class="btn-clients">유저</button>
-                <button th:if="${room.memberId == session.id}" class="btn-close">채팅방 삭제</button>
-                <button th:if="${room.memberId != session.id}" class="btn-exit">채팅방 탈퇴</button>
+                <button class="btn-disconnect" title="채팅방 목록">목록</button>
+                <button class="btn-clients" title="참여중인 멤버">유저</button>
+                <button th:if="${room.memberId == session.id}" class="btn-close" title="채팅방 삭제">채팅방 삭제</button>
+                <button th:if="${room.memberId != session.id}" class="btn-exit" title="채팅방 탈퇴">채팅방 탈퇴</button>
             </div>
 
         </div>
@@ -57,7 +57,7 @@
     <div class="form-box">
         <form>
             <textarea type="text" name="content" id="chat-content" autocomplete="off"></textarea>
-            <input type="submit" class="btn-send" value="Send" id="chat-send">
+            <input type="submit" class="btn-send" value="Send" id="chat-send" title="전송">
         </form>
     </div>
 </main>

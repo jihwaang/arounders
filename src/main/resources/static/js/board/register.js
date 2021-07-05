@@ -6,14 +6,13 @@ const frame = regForm.querySelector('.thumbnail-frame');
 const hint = regForm.querySelector('.hint');
 
 const btnBack = document.querySelector('.button-back');
-const btnSubmit = regForm.querySelector('.btn-submit');
-const btnUpload = regForm.querySelector('.btn-upload');
 
 /* Modal */
 const modal = document.querySelector('.modal');
 const modalBodyContent = modal.querySelector('.modal-body-content');
 const btnClose = modal.querySelector('.btn-close');
 const btnCancel = modal.querySelector('.btn-cancel');
+const btnDoRemove = modal.querySelector('.btn-do-remove');
 
 let selected = null;
 
@@ -29,6 +28,7 @@ inputFile.addEventListener('input', function (e) {
 
         modalBodyContent.innerText = '이미지는 5개 이하로만 가능합니다.';
         modal.style.display = 'block';
+        btnDoRemove.style.display = 'none';
 
         return;
     }
@@ -38,6 +38,7 @@ inputFile.addEventListener('input', function (e) {
 
             modalBodyContent.innerText = '이미지 파일만 업로드 해주세요.';
             modal.style.display = 'block';
+            btnDoRemove.style.display = 'none';
 
             inputFile.value = '';
             return;

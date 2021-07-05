@@ -4,11 +4,31 @@
     padding: 0 10px;
     font-size: var(--fs-mb-lg);
     line-height: 34px;
+
+    display: flex;
+    justify-content: space-between;
 }
     .chat-room-info-box .icon-pin{
         height: 30px;
         width: 30px;
     }
+    .chat-room-info-box .btn-to-board{
+        text-indent: -999px;
+        overflow: hidden;
+        border: none;
+
+        width: 24px;
+        height: 24px;
+
+        background: #ffffff url("/image/chat/square.png") no-repeat center;
+        background-size: contain;
+
+        margin: auto 10px;
+    }
+        .btn-to-board:hover{
+            background: #ffffff url("/image/chat/square-hover.png") no-repeat center;
+            background-size: contain;
+        }
 /* chat-room-form-box */
 .chat-room-form-box{
     margin-top: 20px;
@@ -60,15 +80,26 @@
         .chat-room .upper{
             display: flex;
             justify-content: space-between;
+            gap: 30px;
+
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
         }
             .upper .title{
                 text-decoration: none;
                 font-weight: bold;
                 font-size: var(--fs-mb-md);
                 color: #000;
+
+                flex-grow: 1;
+                width: 1px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
             }
                 .upper .title:hover{
-                    color: #2470a0
+                    color: #2470a0;
                 }
             .upper .created-at{
                 font-size: var(--fs-mb-sm);
@@ -95,7 +126,10 @@
         font-size: var(--fs-pc-lg);
         line-height: 34px;
     }
-
+    .chat-room-info-box .btn-to-board{
+        width: 32px;
+        height: 32px;
+    }
     /* chat-room-form-box */
     #chat-room-form .title-input{
         font-size: var(--fs-pc-md);

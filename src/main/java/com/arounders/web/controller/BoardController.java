@@ -1,10 +1,12 @@
 package com.arounders.web.controller;
 
 import com.arounders.web.dto.BoardDTO;
+import com.arounders.web.dto.ChatRoomDTO;
 import com.arounders.web.entity.Attachment;
 import com.arounders.web.entity.Board;
 import com.arounders.web.service.AttachmentService;
 import com.arounders.web.service.BoardService;
+import com.arounders.web.service.ChatRoomService;
 import com.arounders.web.serviceImpl.AttachmentServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
@@ -36,6 +38,7 @@ import java.util.*;
 public class BoardController {
 
     private final BoardService boardService;
+    private final ChatRoomService chatRoomService;
     private final AttachmentService attachmentService;
     private final HttpSession session;
 
@@ -48,12 +51,19 @@ public class BoardController {
     @GetMapping("/read")
     public String getBoard(Long id, Model model) {
 
-        BoardDTO boardDTO = boardService.getBoard(id);
+        Long memberId = (Long) session.getAttribute("id");
+        BoardDTO boardDTO = boardService.getBoard(id, memberId);
         List<Attachment> attachments = attachmentService.getBoardAttachments(id);
 
         boardDTO.setAttachments(attachments);
 
         log.info("#BoardController -> getBoard : " + boardDTO);
+
+        /* if(모집) model add chatroom */
+        if(boardDTO.getCategoryId() == 3){
+            ChatRoomDTO chatRoom = chatRoomService.getByBoardId(id);
+            model.addAttribute("room", chatRoom);
+        }
 
         model.addAttribute("board", boardDTO);
 
@@ -102,13 +112,26 @@ public class BoardController {
             attachmentService.createAttachment(attachments);
         }
 
+        /* 모집? 채팅방 개설 */
+        if(boardDTO.getCategoryId() == 3){
+            chatRoomService.create(ChatRoomDTO.builder()
+            .boardId(boardId)
+            .title(boardDTO.getTitle())
+            .region(boardDTO.getRegion())
+            .city(boardDTO.getCity())
+            .cityId(boardDTO.getCityId())
+            .memberId(boardDTO.getMemberId())
+            .build());
+        }
+
         return "redirect:/board/list";
     }
 
     @GetMapping("/edit")
     public String editBoard(Long id, Model model){
 
-        BoardDTO boardDTO = boardService.getBoard(id);
+        Long memberId = (Long) session.getAttribute("id");
+        BoardDTO boardDTO = boardService.getBoard(id, memberId);
         List<Attachment> attachments = attachmentService.getBoardAttachments(id);
 
         boardDTO.setAttachments(attachments);
@@ -131,7 +154,7 @@ public class BoardController {
         if(postFiles[0].getSize() > 0) {
             List<Attachment> attachments = attachmentService.attachmentsProcess(postFiles, boardDTO, realPath, boardDTO.getMemberId(), thumbIdx);
 
-            attachments.forEach(attch -> attch.setBoardId(boardDTO.getId()));
+            attachments.forEach(attach -> attach.setBoardId(boardDTO.getId()));
             /* Attachment -> DB */
             attachmentService.removeAttachment(boardDTO.getId());
             attachmentService.createAttachment(attachments);

@@ -46,6 +46,8 @@ main > :first-child{
 
     height: 24px;
     line-height: 24px;
+    display: flex;
+    justify-content: space-between;
 }
     .board-sticker > span{
         padding: 4px 8px;
@@ -73,7 +75,38 @@ main > :first-child{
     .board-top .sticker-status-off{
         background: #a39e9e;
     }
+/* board-btn-box */
+    .board-box .board-btn-box{
+        display: flex;
+        gap: 15px;
+        justify-content: flex-end;
+    }
+        .board-btn-box > a{
+            text-decoration: none;
+            text-indent: -999px;
+            overflow: hidden;
+            display: block;
+            border: none;
 
+            width: 24px;
+            height: 24px;
+        }
+        .board-btn-box .btn-to-list{
+            background: #fff url("/image/chat/square.png") no-repeat center;
+            background-size: contain;
+        }
+        .board-btn-box .btn-to-list:hover{
+            background: #fff url("/image/chat/square-hover.png") no-repeat center;
+            background-size: contain;
+        }
+        .board-btn-box .btn-to-modify{
+            background: #fff url("/image/edit.png") no-repeat center;
+            background-size: contain;
+        }
+        /*.board-btn-box .btn-to-modify:hover{
+            background: #fff url("/image/edit-hover.png") no-repeat center;
+            background-size: contain;
+        }*/
 /* mid */
 .board .board-mid{
     border-bottom: 1px solid #e9e9e9;
@@ -261,6 +294,7 @@ main > :first-child{
 /* Comment-Box */
 .comment-box{
     padding: 5px;
+    position: relative;
 }
     .comment-reg-box{
         display: flex;
@@ -335,6 +369,37 @@ main > :first-child{
             .comment .comment-reply:hover{
                 background: #5a5a5a;
             }
+
+    /* option-box */
+    .option-box{
+        display: flex;
+        justify-content: flex-end;
+
+        padding: 10px 5px;
+    }
+    .option-box > *{
+
+    }
+    .option-box > div > *{
+        display: block;
+        font-size: var(--fs-mb-md);
+        text-indent: 34px;
+        text-align: center;
+        line-height: 20px;
+        border-radius: 10px;
+
+        padding: 5px 10px;
+        color: #fff;
+        width: 100%;
+    }
+        .option-box .btn-to-chat{
+            background: #81C3C3 url("/image/board/chat.png") no-repeat 8% center;
+            background-size: contain;
+        }
+        .option-box .btn-to-review{
+            background: #5FAEBE url("/image/board/feedback.png") no-repeat 8% center;
+            background-size: contain;
+        }
     /* modal */
     .modal .modal-body-content{
         height: 50px;
@@ -469,7 +534,43 @@ main > :first-child{
     .child-bot .child-delete:hover{
         background: #a11b20;
     }
+    /* 댓글 목록 더 보기 */
+    .btn-comment-more{
+        background: #fff url("/image/comment/more.png") no-repeat center;
+        background-size: contain;
 
+        text-indent: -999px;
+        overflow: hidden;
+
+        width: 25px;
+        height: 25px;
+        margin: 0 auto;
+    }
+        .btn-comment-more:hover{
+            background: #fff url("/image/comment/more-hover.png") no-repeat center;
+            background-size: contain;
+        }
+    /* commentScreen */
+    .commentScreen{
+        opacity: 0.7;
+        height: 100%;
+        width: 100%;
+        background: #e9e9e9 url("/image/ajax-loader.gif") no-repeat center;
+        position: absolute;
+        top: 0;
+        z-index: 100;
+    }
+    .btn-screen-close{
+        height: 20px;
+        width: 20px;
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        border: none;
+        background: url("/image/close.png") no-repeat center;
+        background-size: contain;
+        cursor: pointer;
+    }
 @media screen and (min-width: 800px){
 
     .back-box{
@@ -516,6 +617,7 @@ main > :first-child{
         height: 24px;
 
         opacity: 0.5;
+        cursor: pointer;
     }
     /* slider-box */
     .board .slider-box{
@@ -555,6 +657,7 @@ main > :first-child{
         height: 12px;
 
         background: #707070;
+        cursor: pointer;
     }
     /* slider-box */
     /* board-bottom */
@@ -612,4 +715,9 @@ main > :first-child{
         border-bottom: 1px solid #e9e9e9;
     }
 
+    /* option-box */
+
+    .option-box > div > *{
+        font-size: var(--fs-pc-md);
+    }
 }

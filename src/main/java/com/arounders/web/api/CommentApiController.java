@@ -67,6 +67,15 @@ public class CommentApiController {
 
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
+    /* 특정 게시글의 대댓글 목록 조회 */
+    /* /comments/api/v1/boards/12?page=1 */
+    @GetMapping(value = "/boards/{boardId}/comment/{upperId}")
+    public ResponseEntity<List<CommentDTO>> getReComments(@PathVariable("boardId") Long boardId, @PathVariable("upperId") Long upperId){
+
+        List<CommentDTO> reComments = service.getReComments(boardId, upperId);
+
+        return new ResponseEntity<>(reComments, HttpStatus.OK);
+    }
 
     /* 댓글 작성 */
     @PostMapping(value = "/boards/{boardId}")
@@ -111,5 +120,13 @@ public class CommentApiController {
 
         return id != null? new ResponseEntity<>(id, HttpStatus.OK) :
                 new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @GetMapping(value = "/count/{boardId}")
+    public ResponseEntity<Integer> getCount(@PathVariable("boardId") Long boardId){
+
+        int total = service.getCount(boardId);
+
+        return new ResponseEntity<>(total, HttpStatus.OK);
     }
 }

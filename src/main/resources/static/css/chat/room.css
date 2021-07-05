@@ -21,6 +21,7 @@
             width: 24px;
             height: 24px;
             margin-right: 10px;
+            opacity: 1;
         }
         .room-button-box .btn-disconnect{
             background: #fff url("/image/chat/square.png") no-repeat center;

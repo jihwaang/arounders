@@ -19,15 +19,18 @@
 <main layout:fragment="main">
 
     <div class="chat-room-info-box">
-        <img src="/image/chat/pin.png" alt="pin icon" class="icon-pin">
-        <span class="chat-room-city" th:text="${city}">서울특별시</span>
-        <span class="chat-room-region" th:text="${region}">종로구</span>
+        <div>
+            <img src="/image/chat/pin.png" alt="pin icon" class="icon-pin">
+            <span class="chat-room-city" th:text="${city}">서울특별시</span>
+            <span class="chat-room-region" th:text="${region}">종로구</span>
+        </div>
+        <button class="btn-to-board" title="게시글 목록">게시글 목록</button>
     </div>
 
     <div class="chat-room-form-box">
         <form action="" method="post" id="chat-room-form">
             <input type="text" name="title" class="title-input" placeholder="Chat Room's Title">
-            <button class="btn-create">Create</button>
+            <button class="btn-create" title="채팅방 개설">Create</button>
         </form>
     </div>
 

@@ -94,7 +94,7 @@ export const commentModule = {
         });
     },
     /* BoardId번 게시글의 댓글 목록 조회 */
-    getComments: function (p){
+    getComments: function (p, target){
 
         let page = p || 1;
 
@@ -103,6 +103,37 @@ export const commentModule = {
         return new Promise((resolve, reject) => {
             ajax({
                 url: `/comments/api/v1/boards/${this.boardId}${query}`,
+                method: 'GET',
+                loadend: (comments) => {
+                    const json = JSON.parse(comments);
+
+                    /*json.forEach((comment, idx) => {
+                        console.log(comment);
+                    });*/
+
+                    resolve(json);
+                },
+                error: (xhr, status, statusText) => {
+                    reject(xhr, status, statusText);
+                },
+                load: () => {
+                    discover();
+                },
+                abort: () => {
+                    discover();
+                },
+                loadstart: (xhr) => {
+                    cover(target, xhr);
+                }
+            });
+        });
+    },
+    /* BoardId번 게시글의 대댓글 목록 조회 */
+    getReComments: function (upperId){
+
+        return new Promise((resolve, reject) => {
+            ajax({
+                url: `/comments/api/v1/boards/${this.boardId}/comment/${upperId}`,
                 method: 'GET',
                 loadend: (comments) => {
                     const json = JSON.parse(comments);
@@ -139,16 +170,52 @@ export const commentModule = {
                 }
             });
         });
+    },
+    getCount: function (boardId){
+
+        return new Promise((resolve, reject) => {
+            ajax({
+                url: `/comments/api/v1/count/${boardId}`,
+                method: 'GET',
+                loadend: (total) => {
+                    resolve(total);
+                },
+                error: (xhr, status, statusText) => {
+                    reject(xhr, status, statusText);
+                }
+            });
+        });
     }
 }
 
-const CommentCriteria = {
+// const CommentCriteria = {
+//
+//     page: 1,
+//     init: function() {
+//         this.page = 1;
+//     },
+//     set: function (){
+//         /* NOT_USING */
+//     }
+// }
 
-    page: 1,
-    init: function() {
-        this.page = 1;
-    },
-    set: function (){
-        /* NOT_USING */
-    }
+let commentScreen = '';
+function cover(target, xhr) {
+    commentScreen = document.createElement('div');
+    commentScreen.classList.add('commentScreen');
+
+    const btnClose = document.createElement('button');
+    btnClose.classList.add('btn-screen-close');
+
+    btnClose.addEventListener('click', function (e) {
+        console.log('click');
+        xhr.abort();
+    });
+
+    commentScreen.append(btnClose);
+    target.insertAdjacentElement('beforeend', commentScreen);
+}
+function discover() {
+
+    commentScreen.remove();
 }

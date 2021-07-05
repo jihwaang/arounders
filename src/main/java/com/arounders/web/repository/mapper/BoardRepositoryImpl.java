@@ -30,8 +30,8 @@ public class BoardRepositoryImpl implements BoardRepository {
     }
 
     @Override
-    public BoardDTO getBoard(Long id) {
-        return mapper.getBoard(id);
+    public BoardDTO getBoard(Long id, Long memberId) {
+        return mapper.getBoard(id, memberId);
     }
 
     @Override
@@ -40,9 +40,7 @@ public class BoardRepositoryImpl implements BoardRepository {
     }
 
     @Override
-    public int update(Board board) {
-        return mapper.update(board);
-    }
+    public int update(Board board) { return mapper.update(board); }
 
     @Override
     public int delete(Long id) {

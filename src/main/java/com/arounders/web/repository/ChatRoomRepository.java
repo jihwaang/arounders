@@ -14,8 +14,10 @@ public interface ChatRoomRepository {
     int insert(ChatRoom chatRoom);
     /* 채팅방 조회 */
     ChatRoomDTO findById(Long id);
+    ChatRoomDTO findByBoardId(Long boardId);
     /* 채팅방 종료 */
     int close(Long id);
     /* 채팅방 변경 */
     int update(ChatRoom chatRoom);
+
 }

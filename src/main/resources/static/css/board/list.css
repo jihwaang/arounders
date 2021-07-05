@@ -138,6 +138,7 @@ a{
     .board-search-box{
         display: flex;
         justify-content: space-between;
+        align-items: center;
         width: 100%;
         height: 24px;
 
@@ -184,6 +185,7 @@ a{
     padding: 5px;
     border: 1px solid #000;
     border-radius: 10px;
+
 }
     /* top */
     .board .board-top{
@@ -284,6 +286,7 @@ a{
                 background-size: contain;
             }
         .board-mid .board-content-box{
+            width: 1px;
             flex-grow: 1;
 
             display: flex;
@@ -294,15 +297,19 @@ a{
             line-height: 48px;
         }
             .board-mid .board-title{
-                flex-grow: 1;
-
                 text-overflow: ellipsis;
-                white-space: nowrap;
                 overflow: hidden;
+                white-space: nowrap;
+
+                flex-grow: 1;
 
                 font-weight: bold;
                 font-size: var(--fs-mb-md);
+
             }
+                .board-title > a{
+
+                }
             .board-mid .board-info{
                 flex-grow: 1;
 

@@ -21,5 +21,6 @@ public class ChatRoom {
 
     private Long memberId;
     private Integer cityId;
+    private Long boardId;
 
 }

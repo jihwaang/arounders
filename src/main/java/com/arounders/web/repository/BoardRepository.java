@@ -14,7 +14,7 @@ public interface BoardRepository {
 
     List<BoardDTO> getList(@Param("memberId") Long memberId, @Param("cri") BoardCriteria criteria);
 
-    BoardDTO getBoard(Long id);
+    BoardDTO getBoard(@Param("id") Long id, @Param("memberId") Long memberId);
 
     int insert(Board board);
 

@@ -15,6 +15,7 @@ public interface ChatRoomService {
     Long create(ChatRoomDTO chatRoomDTO);
     /* 채팅방 조회 */
     ChatRoomDTO get(Long id);
+    ChatRoomDTO getByBoardId(Long boardId);
     /* 채팅방 종료 */
     Long close(Long id);
     /* 채팅방 변경 */
@@ -30,6 +31,7 @@ public interface ChatRoomService {
                 .region(dto.getRegion())
                 .cityId(dto.getCityId())
                 .memberId(dto.getMemberId())
+                .boardId(dto.getBoardId())
                 .createdAt(dto.getCreatedAt())
                 .finishedAt(dto.getFinishedAt())
                 .build();

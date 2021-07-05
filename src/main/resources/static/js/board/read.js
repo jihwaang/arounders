@@ -4,6 +4,7 @@ import {commentModule} from "/js/comments/commentModule.js";
 
 /* Modal */
 const modal = document.querySelector('.modal');
+const modalTitle = modal.querySelector('.modal-title');
 const modalBodyContent = modal.querySelector('.modal-body-content');
 const modalDate = modal.querySelector('.modal-date');
 const modalWriter = modal.querySelector('.modal-writer');
@@ -22,7 +23,8 @@ const board = document.querySelector('.board');
 const boardFiles = board.querySelector('.board-files');
 const btnLike = board.querySelector('.like');
 const btnInterest = board.querySelector('.interest');
-const btnBack = document.querySelector('.button-back');
+const commentVal = board.querySelector('.comment-val');
+//const btnBack = document.querySelector('.button-back');
 
 likeModule.boardId = boardId;
 interestModule.boardId = boardId;
@@ -32,8 +34,12 @@ const commentBox = document.querySelector('.comment-box');
 const comments = commentBox.querySelector('.comments');
 const commentSubmit = commentBox.querySelector('.comment-submit');
 const commentTextarea = commentBox.querySelector('.comment-textarea');
+const btnCommentMore = commentBox.querySelector('.btn-comment-more');
+
+/* set boardId at CommentModule */
 commentModule.boardId = boardId;
 
+let currentSelect = '';
 let page = 1;
 
 function pageInit(){
@@ -74,16 +80,23 @@ btnInterest.addEventListener('click', async function (e) {
     btnInterest.classList.toggle('btn-interest-on');
 });
 
-btnBack.addEventListener('click', () => {
-    history.back();
-});
-/* About Board */
+// btnBack.addEventListener('click', () => {
+//     history.back();
+// });
+/* -------------------- About Board ---------------------- */
 
-/* About Comment */
+/* -------------------- About Comment -------------------- */
 /* 댓글리스트 불러오기 */
-async function getComments(page){
+async function getComments(page, target){
 
-    const data = await commentModule.getComments(page);
+    const data = await commentModule.getComments(page, target);
+
+    /* 더이상 불러올 댓글이 없을 때 */
+    if(data.length === 0) {
+        //lastCommentModal();
+        btnCommentMore.classList.add('hide');
+        return;
+    }
 
     let html = '';
 
@@ -92,12 +105,7 @@ async function getComments(page){
         let hasChild = '';
 
         if(comment.hasChild > 0)
-            hasChild = `<div class="comment-children">
-                            <button class="btn-child">더보기</button>
-                            <div class="children">
-        
-                            </div>
-                        </div>`;
+            hasChild = `<button class="btn-child">더보기</button>`;
 
         html += `
             <div class="comment" data-cid="${comment.id}" data-wid="${comment.memberId}">
@@ -114,14 +122,23 @@ async function getComments(page){
                     <button class="comment-reply">답글</button>
                 </div>
 
-                ${hasChild}
+                <div class="comment-children">
+                    ${hasChild}
+                    <div class="children">
+
+                    </div>
+                </div>
             </div>`;
     });
 
     comments.insertAdjacentHTML('beforeend', html);
 }
-getComments(page);
+getComments(page++, commentBox);
 
+
+btnCommentMore.addEventListener('click', () => {
+    getComments(page++, commentBox);
+});
 /* 댓글 클릭 -> 모달 생성 */
 comments.addEventListener('click', function (e) {
 
@@ -133,7 +150,8 @@ comments.addEventListener('click', function (e) {
     const target = e.target.closest('.child') || e.target.closest('.comment');
     const cid = target.dataset.cid;
     const writerId = target.dataset.wid;
-    console.log(writerId);
+
+    currentSelect = target;
 
     let writer;
     let date;
@@ -150,6 +168,7 @@ comments.addEventListener('click', function (e) {
         content = target.querySelector('.comment-content').innerText;
     }
 
+    modalTitle.innerText = '댓글';
     modalCid.value = cid;
     modalBodyContent.readOnly = true;
     modalBodyContent.value = content;
@@ -171,7 +190,7 @@ comments.addEventListener('click', function (e) {
     modal.style.display = 'block';
 });
 
-/* 댓글 작성 */
+/* 댓글 작성 (완) */
 commentSubmit.addEventListener('click', async () => {
 
     const content = commentTextarea.value;
@@ -179,25 +198,63 @@ commentSubmit.addEventListener('click', async () => {
     commentTextarea.value = '';
 
     const result = await commentModule.register(content);
+    /* 댓글 개수 갱신 */
+    commentVal.innerText = await commentModule.getCount(boardId);
 
-    /* 댓글 리스트 초기화 */
-    page = 1;
-    comments.innerHTML = '';
-    getComments(page);
+    const html = `
+            <div class="comment" data-cid="${result}" data-wid="${memberId}">
+                <div class="comment-top">
+                    <span class="comment-writer">${nickname}</span>
+                    <span class="comment-date">${displayedAt(new Date())}</span>
+                </div>
+
+                <div class="comment-mid">
+                    <p class="comment-content">${content}</p>
+                </div>
+
+                <div class="comment-bot">
+                    <button class="comment-reply">답글</button>
+                </div>
+            </div>`;
+
+    comments.insertAdjacentHTML('afterbegin', html);
 });
 
-/* 더보기 버튼 클릭 */
-comments.addEventListener('click', function (e) {
+/* 더보기 버튼 클릭 (완) */
+comments.addEventListener('click', async function (e) {
 
     if(!e.target.classList.contains('btn-child')) return;
 
     const target = e.target.closest('.comment');
-    const cid = target.dataset.cid;
+    const upperId = target.dataset.cid;
 
     /* cid를 upperId로 갖는 대댓글 가져와서 붙이기 */
+
+    const reComments = await commentModule.getReComments(upperId);
+
+    const children = target.querySelector('.children');
+    children.innerText = '';
+
+    let html = '';
+
+    reComments.forEach((re, idx) => {
+        html += `<div class="child" data-cid="${re.id}" data-wid="${re.memberId}">
+                    <div class="child-top">
+                        <span class="child-writer">${re.nickname}</span>
+                        <span class="child-date">${displayedAt(new Date(re.createdAt))}</span>
+                    </div>
+
+                    <div class="child-mid">
+                        <p class="child-content">${re.content}</p>
+                    </div>
+                </div>`
+    });
+
+    children.insertAdjacentHTML('beforeend', html);
+    e.target.remove();
 });
 
-/* (대댓글)답글 버튼 클릭 -> 모달 */
+/* (대댓글)답글 버튼 클릭 -> 모달 (완) */
 comments.addEventListener('click', (e) => {
 
     if(!e.target.classList.contains('comment-reply')) return;
@@ -205,12 +262,15 @@ comments.addEventListener('click', (e) => {
     const target = e.target.closest('.comment');
     const cid = target.dataset.cid;
 
+    currentSelect = target;
+
     /* 모달 띄워서 cid에 대댓글 추가 */
     btnRecomment.style.display = 'block';
     btnDelete.style.display = 'none';
     btnModify.style.display = 'none';
     btnSave.style.display = 'none';
 
+    modalTitle.innerText = '답글 작성';
     modalCid.value = cid;
     modalBodyContent.readOnly = false;
     modalBodyContent.value = '';
@@ -220,7 +280,7 @@ comments.addEventListener('click', (e) => {
     modal.style.display = 'block';
 });
 
-/* 대댓글 작성 버튼 클릭 */
+/* 답글 작성 버튼 클릭 (완) */
 btnRecomment.addEventListener('click', async (e) => {
 
     const upperId = modalCid.value;
@@ -229,15 +289,34 @@ btnRecomment.addEventListener('click', async (e) => {
     modalBodyContent.readOnly = true;
 
     const result = await commentModule.registerRe(content, upperId);
+    /* 댓글 개수 갱신 */
+    commentVal.innerText = await commentModule.getCount(boardId);
 
-    /* 대댓글 추가하기 (댓글 리스트 초기화 아님) */
+    btnRecomment.style.display = 'none';
+    modal.style.display = 'none';
+
+    /* 대댓글 추가하기 (완) */
+    let html = `<div class="child" data-cid="${result}" data-wid="${memberId}">
+                    <div class="child-top">
+                        <span class="child-writer">${nickname}</span>
+                        <span class="child-date">${displayedAt(new Date())}</span>
+                    </div>
+
+                    <div class="child-mid">
+                        <p class="child-content">${content}</p>
+                    </div>
+                </div>`;
+
+    currentSelect.querySelector('.children').insertAdjacentHTML('afterbegin', html);
 });
 
-/* About Comment */
+/* ------- About Comment --------- */
 
 /* Modal */
-/* Modal Modify btn */
+/* Modal Modify btn (완) */
 btnModify.addEventListener('click', (e) => {
+    
+    modalTitle.innerText = '댓글 수정';
     modalBodyContent.readOnly = false;
 
     btnSave.style.display = 'block';
@@ -245,7 +324,7 @@ btnModify.addEventListener('click', (e) => {
     btnModify.style.display = 'none';
 });
 
-/* Modal 수정 -> 저장 */
+/* Modal 수정 -> 저장 (완) */
 btnSave.addEventListener('click', async (e) => {
 
     const content = modal.querySelector('.modal-body-content').value;
@@ -253,37 +332,63 @@ btnSave.addEventListener('click', async (e) => {
     
     const result = await commentModule.modify(content, cid);
 
-    /* 수정 후 댓글 리스트 초기화 */
+    /* 수정 후 댓글 리스트 초기화 (x) -> 해당 댓글 내용 변경 */
     modal.style.display = 'none';
-    page = 1;
-    comments.innerHTML = '';
-    getComments(page);
+
+    /* 댓글일 때 */
+    if(currentSelect.classList.contains('comment'))
+        currentSelect.querySelector('.comment-content').innerText = content;
+    /* 답글일 때 */
+    else
+        currentSelect.querySelector('.child-content').innerText = content;
 });
 
-/* Modal 댓글 삭제 */
+/* Modal 댓글 삭제 (완) */
 btnDelete.addEventListener('click', async (e) => {
     const cid = modal.querySelector('input[name="cid"]').value;
 
+    btnModify.style.display = 'none';
+    btnDelete.style.display = 'none';
+
+    modalBodyContent.readOnly = true;
+
     const result = await commentModule.remove(cid);
+    /* 댓글 개수 갱신 */
+    commentVal.innerText = await commentModule.getCount(boardId);
 
     modalBodyContent.value = `${result}번 댓글이 삭제되었습니다.`;
 
-    /* 삭제 후 댓글 리스트 초기화 */
-    page = 1;
-    comments.innerHTML = '';
-    getComments(page);
+    currentSelect.remove();
 });
 
 /*Modal Close 버튼 Click*/
 btnClose.addEventListener('click', () => {
     modal.style.display = 'none';
 });
+
 btnCancel.addEventListener('click', () => {
     modal.style.display = 'none';
 });
+
 function modalValidate(currentId, writerId){
 
     return currentId == writerId;
+}
+
+function lastCommentModal(){
+
+    modalBodyContent.readOnly = true;
+
+    modalBodyContent.value = '마지막 댓글입니다.';
+    modalTitle.innerText = 'Notification';
+    modalDate.innerText = '';
+    modalWriter.innerText = '';
+    btnSave.style.display = 'none';
+    btnDelete.style.display = 'none';
+    btnRecomment.style.display = 'none';
+    btnModify.style.display = 'none';
+
+    modal.style.display = 'block';
 }
 
 function displayedAt(createdAt) {

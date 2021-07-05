@@ -15,9 +15,13 @@
         SELECT * FROM CHAT_ROOM_VIEW WHERE ID = #{id}
     </select>
 
+    <select id="findByBoardId" resultType="com.arounders.web.dto.ChatRoomDTO">
+        SELECT * FROM CHAT_ROOM_VIEW WHERE BOARD_ID = #{boardId}
+    </select>
+
     <insert id="insert" parameterType="ChatRoom">
-        INSERT INTO CHAT_ROOM(TITLE, REGION, MEMBER_ID, CITY_ID)
-        VALUES(#{title}, #{region}, #{memberId}, #{cityId})
+        INSERT INTO CHAT_ROOM(TITLE, REGION, MEMBER_ID, CITY_ID, BOARD_ID)
+        VALUES(#{title}, #{region}, #{memberId}, #{cityId}, #{boardId})
 
         <selectKey resultType="Long" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID()

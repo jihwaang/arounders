@@ -32,18 +32,46 @@ aside{
 }
 .aside-icon{
     display: block;
-    width: 25px;
-    height: 25px;
+    width: 20px;
+    height: 20px;
 
-    border-radius: 50%;
-
-    background-color: skyblue;
     position: relative;
     left: 0;
-    top: 12.5px;
+    top: 15px;
 
     margin-right: 10px;
 }
+.aside-icon:hover{
+    color: #2470a0;
+}
+    .btn-feed .icon-all{
+        background: url("/image/aside/all.png") no-repeat center;
+        background-size: contain;
+    }
+    .btn-feed .icon-share{
+        background: url("/image/aside/share.png") no-repeat center;
+        background-size: contain;
+    }
+    .btn-feed .icon-recruit{
+        background: url("/image/aside/recruit.png") no-repeat center;
+        background-size: contain;
+    }
+    .btn-feed .icon-food{
+        background: url("/image/aside/food.png") no-repeat center;
+        background-size: contain;
+    }
+    .btn-feed .icon-daily{
+        background: url("/image/aside/daily.png") no-repeat center;
+        background-size: contain;
+    }
+    .btn-feed .icon-qna{
+        background: url("/image/aside/qna.png") no-repeat center;
+        background-size: contain;
+    }
+    .btn-feed .icon-chat{
+        background: url("/image/aside/chat.png") no-repeat center;
+        background-size: contain;
+    }
 
 /* Tooltip Box */
 .tooltip-box{
@@ -138,23 +166,8 @@ aside{
         padding-left: 10px;
     }
     .aside-icon{
-        display: block;
-        width: 35px;
-        height: 35px;
-        top: 7.5px;
-        left: 0;
-
-        border-radius: 50%;
-
-        background-color: skyblue;
-        position: relative;
-
-        margin-right: 10px;
-    }
-
-    .aside-icon{
-        width: 35px;
-        height: 35px;
-        top: 7.5px;
+        width: 30px;
+        height: 30px;
+        top: 10px;
     }
 }

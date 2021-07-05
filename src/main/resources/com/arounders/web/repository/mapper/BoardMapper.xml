@@ -126,7 +126,13 @@
     </select>
 
     <select id="getBoard" resultType="com.arounders.web.dto.BoardDTO">
-        select * from BOARD_VIEW where ID = #{id}
+        select B.*, L.BOARD_ID IS_LIKE, I.BOARD_ID IS_INTEREST
+        from BOARD_VIEW B
+                 LEFT OUTER JOIN (SELECT LL.* FROM LIKES LL LEFT JOIN BOARD ON LL.BOARD_ID = BOARD.ID WHERE LL.MEMBER_ID = #{memberId}) L
+                                 ON B.ID = L.BOARD_ID
+                 LEFT OUTER JOIN (SELECT II.* FROM INTERESTS II LEFT JOIN BOARD ON II.BOARD_ID = BOARD.ID WHERE II.MEMBER_ID = #{memberId}) I
+                                 ON B.ID = I.BOARD_ID
+        where B.ID = #{id}
     </select>
 
     <insert id="insert" parameterType="Board">
@@ -147,6 +153,7 @@
         <set>
             <if test="title != null">TITLE = #{title},</if>
             <if test="content != null">CONTENT = #{content},</if>
+            <if test="status != null">STATUS = #{status},</if>
             <if test="thumbnailName != null">THUMBNAIL_NAME = #{thumbnailName},</if>
             <if test="thumbnailName != null">THUMBNAIL_PATH = #{thumbnailPath},</if>
             UPDATED_AT = NOW()

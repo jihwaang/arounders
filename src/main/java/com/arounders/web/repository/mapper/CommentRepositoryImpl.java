@@ -30,6 +30,11 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     @Override
+    public List<CommentDTO> getReComments(Long boardId, Long upperId) {
+        return repository.getReComments(boardId, upperId);
+    }
+
+    @Override
     public List<CommentDTO> getMyComments(Long memberId, @Param("cri") CommentCriteria criteria) {
         return repository.getMyComments(memberId, criteria);
     }
@@ -47,5 +52,10 @@ public class CommentRepositoryImpl implements CommentRepository {
     @Override
     public int delete(Long id) {
         return repository.delete(id);
+    }
+
+    @Override
+    public int getCount(Long boardId) {
+        return repository.getCount(boardId);
     }
 }
