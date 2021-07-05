@@ -24,6 +24,10 @@ max-width: 780px;
   display: none !important;
 }
 
+.dp-block {
+  display: block !important;
+}
+
 .hide{
     display: none !important;
 }

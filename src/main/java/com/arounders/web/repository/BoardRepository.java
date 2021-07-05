@@ -35,4 +35,6 @@ public interface BoardRepository {
     List<BoardDTO> getMyList(@Param("cri") BoardCriteria criteria, Long memberId);
 
     Integer getCountByCategory(@Param("memberId") Long memberId, @Param("categoryId") Integer categoryId);
+
+    List<BoardDTO> getMyInterests(@Param("cri") BoardCriteria criteria, Long memberId);
 }

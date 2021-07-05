@@ -9,9 +9,12 @@
     <link rel="stylesheet" href="/css/common/reset.css"/>
     <link rel="stylesheet" href="/css/common/common-library.css"/>
     <link rel="stylesheet" href="/css/common/common.css"/>
+    <link rel="stylesheet" href="/css/member/signup.css" type="text/css">
     <link rel="stylesheet" type="text/css" href="/css/include/header.css"/>
     <link rel="stylesheet" href="/css/common/index.css"/>
     <script defer src="/js/common/index.js"></script>
+    <script defer src="/js/member/memberModule.js"></script>
+<!--    <script defer src="/sjs/member/emailAuthModule.js"></script>-->
     <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
@@ -22,9 +25,9 @@
 <body>
 <main class="max-width-default center w-80 h-100">
     <section class="main-svg w-100"></section>
-    <section class="input-form w-100 max-width-ms">
+    <section class="input-form w-100 max-width-ms" id="input-login">
         <h1 class="page-title">SIGN IN</h1>
-        <form th:action="@{/login}" id="form" method="POST" class="fx-column">
+        <form th:action="@{/login}" id="form-login" method="POST" class="fx-column">
             <div class="email fx-column">
                 <label for="email">Email ID</label>
                 <input type="text" name="email" id="email" class="form-input-text" />
@@ -40,6 +43,54 @@
         <div class="btn-section fx-column w-100 max-width-ms">
             <button class="btn btn-sign-in">SIGN IN</button>
             <button class="btn btn-sign-up">SIGN UP</button>
+        </div>
+    </section>
+    <section class="modal-container">
+        <div class="modal-item overlay dp-none"></div>
+        <div class="modal-item signup-box dp-none">
+            <div class="mb-title text-center dp-none">
+                <span class="btn-back"></span>
+                <h1>SIGN UP</h1>
+            </div>
+            <div class="pc-title text-center">
+                <h1>SIGN UP</h1>
+            </div>
+            <form th:action="@{/member/signup}" method="POST" class="form-signup">
+                <div class="input-container">
+                    <label for="email">이메일(아이디)<span class="required">*</span></label>
+                    <input class="form-input-text" type="email" name="email"/>
+
+                    <input class="form-input-text pointer verify-btn w-30" type="button" value="인증하기" id="requestAuth"/>
+
+                    <label for="password">비밀번호<span class="required">*</span></label>
+                    <input class="form-input-text" type="password" name="password"/>
+
+                    <label for="passwordConfirmed">비밀번호 확인<span class="required">*</span></label>
+                    <input class="form-input-text" type="password" id="passwordConfirmed"/>
+
+                    <label for="nickname">닉네임(유저명)<span class="required">*</span></label>
+                    <input class="form-input-text" type="text" id="nickname" name="nickname"/>
+
+                    <label for="phone">휴대폰번호</label>
+                    <input class="form-input-text"
+                           type="tel"
+                           name="phone"
+                           id="phone"
+                           required
+                           pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}"
+                           maxlength="13"
+                           placeholder="예) 010-1234-5678">
+
+                    <label for="addr">주소<span class="required">*</span></label>
+                    <input class="form-input-text" type="text" id="addr" name="addr" readonly/>
+
+                    <label for="addrDtl">상세주소(직접입력)</label>
+                    <input class="form-input-text" type="text" id="addrDtl" name="addrDtl" readonly/>
+                </div>
+            </form>
+            <div class="btn-section">
+                <a class="btn-signup" id="submitBtn">Join Now</a>
+            </div>
         </div>
     </section>
 </main>

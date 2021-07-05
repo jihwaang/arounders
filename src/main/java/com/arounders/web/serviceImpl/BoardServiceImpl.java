@@ -87,6 +87,11 @@ public class BoardServiceImpl implements BoardService {
         return countMap;
     }
 
+    @Override
+    public List<BoardDTO> getMyInterests(BoardCriteria criteria, Long memberId) {
+        return boardRepository.getMyInterests(criteria, memberId);
+    }
+
     /* 게시글 숨김 */
     @Override
     public Long hideBoard(Long boardId) {
