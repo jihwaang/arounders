@@ -116,7 +116,7 @@ main section {
     opacity: .75;
 }
 
-.board-section, .activitiy-section {
+.board-section, .activity-section {
     display: flex;
     place-items: center;
     width: 100%;
@@ -126,11 +126,11 @@ main section {
     padding: 0;
 }
 
-.activitiy-section {
+.activity-section {
     justify-content: center;
 }
 
-.board-button-list, .activitiy-list {
+.board-button-list, .activity-list {
     display: flex;
     gap: 1em;
     overflow-x: auto;
@@ -147,7 +147,7 @@ main section {
 }
 
 
-.board-button-list .item, .activitiy-list .item {
+.board-button-list .item, .activity-list .item {
     min-width: 120px;
     border-radius: 1.3em;
     padding: .8em;
@@ -162,23 +162,31 @@ main section {
     color: #fff;
 }
 
-.activitiy-list {
+.activity-list {
     width: 100%;
-    justify-content : space-around;
+    justify-content : flex-start;
+    overflow-x: auto;
+    padding-top: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
 }
 
-.activitiy-list .item {
+.activity-list .item {
     width: 10em;
     padding: .8em;
     background-color: #ff6768;
     color: #fff;
 }
 
+.activity-list::-webkit-scrollbar {
+    width: 0;
+}
+
 .location-section {
     font-size: 1.23rem;
     border: 1px solid #999;
     cursor: pointer;
-    margin-top: 1.2em;
+    /*margin-top: 1.2em;*/
 }
 
 .button-container {
@@ -409,6 +417,42 @@ main section {
 
 /* modal set [e] */
 
+/* comment section [s] */
+.comment-list .comment {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.comment-content {
+    flex: 1 1 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: .8rem;
+}
+
+.comment-date {
+    font-size: .65rem;
+    color: #999;
+}
+
+.section-end {
+    display: flex;
+    place-items: center;
+}
+
+.section-end .btn-top {
+    text-align: center;
+    color: #fff;
+    background-color: var(--color-skyblue);
+    border-radius: .5em;
+    padding: 1em;
+    width: 100%;
+}
+
+/* comment section [e] */
 
 
 @media screen and (min-width: 780px) {
@@ -436,7 +480,7 @@ main section {
         justify-content : space-evenly;
     }
 
-    .list-section .list-container {
+    .list-section .list-container, .interest-section .list-container {
         width: 100%;
     }
 

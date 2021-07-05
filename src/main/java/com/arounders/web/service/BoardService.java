@@ -54,4 +54,6 @@ public interface BoardService {
                 .thumbnailName(dto.getThumbnailName())
                 .thumbnailPath(dto.getThumbnailPath()).build();
     }
+    /* mypage => my list */
+    List<BoardDTO> getMyInterests(BoardCriteria criteria, Long memberId);
 }

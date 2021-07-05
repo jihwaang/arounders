@@ -138,7 +138,7 @@ export const commentModule = {
     }
 }
 
-const CommentCriteria = {
+export const CommentCriteria = {
 
     page: 1,
     init: function() {

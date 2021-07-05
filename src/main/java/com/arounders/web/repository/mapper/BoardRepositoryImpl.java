@@ -74,4 +74,9 @@ public class BoardRepositoryImpl implements BoardRepository {
     public Integer getCountByCategory(Long memberId, Integer categoryId) {
         return mapper.getCountByCategory(memberId, categoryId);
     }
+
+    @Override
+    public List<BoardDTO> getMyInterests(BoardCriteria criteria, Long memberId) {
+        return mapper.getMyInterests(criteria, memberId);
+    }
 }

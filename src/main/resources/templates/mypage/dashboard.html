@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="/css/mypage/dashboard.css" type="text/css"/>
     <link href="/css/board/list.css" rel="stylesheet" type="text/css">
     <script defer src="/js/board/boardModule.js"></script>
-    <script defer src="/js/mypage/dashboard.js"></script>
+    <script type="module" defer src="/js/mypage/dashboard.js"></script>
     <script defer src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
             integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
     <script defer src="/js/mypage/map-api.js"></script>
@@ -30,7 +30,7 @@
 </head>
 <body>
 <main>
-    <section class="top-container">
+    <section class="top-container" id="section-top">
         <section class="profile-section">
             <div class="profile">
                 <div th:if="${session.profileImg == null}" class="profile-image">
@@ -49,10 +49,12 @@
                     <a th:if="${countMap.size() > 0}" th:each="entry, stat: ${countMap}" th:text="${entry.key}" th:data-id="${stat.count}" class="item" href="#"></a>
                 </div>
             </section>
-            <section class="activitiy-section">
-                <div class="activitiy-list">
-                    <a class="item" href="#">댓글리스트</a>
-                    <a class="item" href="#">관심리스트</a>
+            <section class="activity-section">
+                <div class="activity-list">
+                    <a class="item comment" href="#">댓글리스트</a>
+                    <a class="item interest" href="#">관심리스트</a>
+                    <a class="item review" href="#">리뷰리스트</a>
+                    <a class="item chat" href="#">채팅리스트</a>
                 </div>
             </section>
             <section class="location-section">
@@ -68,6 +70,17 @@
     <section class="list-section">
         <div class="list-container">
             <div class="boards"></div>
+        </div>
+    </section>
+    <section class="comment-section">
+        <div class="comment-container">
+            <div class="boards comment" id="comment-list">
+            </div>
+        </div>
+    </section>
+    <section class="interest-section">
+        <div class="list-container">
+            <div class="boards interests" id="interest-list"></div>
         </div>
     </section>
     <section class="modal-container">
@@ -100,6 +113,9 @@
                 <a href="#" class="btn btn-submit" id="update-btn">현재위치로 주소변경</a>
             </div>
         </div>
+    </section>
+    <section class="section-end">
+        <a class="btn-top" href="#section-top">맨 위로 가기</a>
     </section>
 </main>
 </body>
