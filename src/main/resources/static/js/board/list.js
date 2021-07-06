@@ -40,13 +40,34 @@ const cri = BoardCriteria;
 //QueryString의 category 파라미터 -> 해당 카테고리 게시글만 보여주기
 const url = new URL(location.href);
 const params = url.searchParams;
+
+const page = params.get('page') || 1;
 const category = params.get('category') || 1;
+const field = params.get('field') || 'all';
+const keyword = params.get('keyword') || null;
+const order = params.get('order') || 'desc';
+const status = params.get('status') || 'all';
 
 // 세션에서 값 가져와 넣기
 let isLastPage = false;
+
+/* From Header form or Aside's list */
+cri.order = order;
+cri.status = status;
 cri.category = category;
+cri.field = field;
+cri.keyword = keyword;
 cri.region = region;
 cri.cityId = cityId;
+
+if(page > 1) {
+    for (let i = 1; i < page; i++) {
+        cri.page = i;
+        showList(cri);
+    }
+}
+
+cri.page = page;
 showList(cri);
 
 // if(window.innerHeight >= main.clientHeight){
@@ -57,14 +78,17 @@ showList(cri);
 /* Scroll Down -> Board List Request */
 /* 브라우저의 높이와, 브라우저의 scroll값, main의 높이 */
 window.addEventListener('scroll', () => {
-    let val = window.innerHeight + window.scrollY;
+
+    let val = window.innerHeight + (window.scrollY - 70);
 
     // console.log(`window.innerHeight : ${window.innerHeight}`);
-    // console.log(`window.scrollY : ${window.scrollY}`);
-    // console.log(`document.body.offsetHeight : ${main.clientHeight}`);
+    // console.log(`window.scrollY : ${window.scrollY - 70}`);
+    // console.log(`document...heigt : ${document.body.clientHeight}`);
+    // console.log(`main.clientHeight : ${main.clientHeight}`);
     // console.log('------');
 
-    if(val >= main.clientHeight){
+    if(val >= main.clientHeight && !isLastPage){
+        // console.log('more...' + (window.scrollY - 70));
         cri.page++;
         showList(cri);
     }
@@ -173,7 +197,7 @@ async function showList(cri){
         
                         <div class="board-content-box">
                             <div class="board-title">
-                                <a href="read?id=${board.id}">${board.title}</a>
+                                <a class="btn-to-read" id="${board.id}" data-id="${board.id}" href="#">${board.title}</a>
                             </div>
                             <div class="board-info">
                                 <span class="board-nickname">${board.writer}</span>
@@ -198,6 +222,16 @@ async function showList(cri){
     });
     boardBox.insertAdjacentHTML('beforeend', html);
 }
+
+/* 게시글 목록 -> 게시글 조회 */
+boardBox.addEventListener('click', function (e){
+
+    if(!e.target.classList.contains('btn-to-read')) return;
+
+    const id = e.target.dataset.id;
+
+    location = `read?id=${id}&page=${cri.page}&category=${cri.category}&field=${cri.field}&keyword=${cri.keyword}&order=${cri.order}&status=${cri.status}`;
+});
 
 /* 리셋 버튼 클릭 */
 btnReset.addEventListener('click', (e) => {

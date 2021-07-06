@@ -7,7 +7,14 @@
 
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
+    .chat-room-info-box > :first-child{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+    }
     .chat-room-info-box .icon-pin{
         height: 30px;
         width: 30px;

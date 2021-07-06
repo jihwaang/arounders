@@ -130,11 +130,7 @@ if(platformInfo !== 'M' && aside != null){
       searchInput.classList.toggle('dp-none');
       searchInput.classList.toggle('w-100');
     }
-  
-    searchInput.addEventListener('keyup', (e) => {
-      if (e.key.toLowerCase() !== 'enter') return;
-      console.log('enter hit');
-    });
+
   })();
   
   function toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn) {
@@ -181,9 +177,15 @@ function searchBarController(platformInfo) {
         searchInput.classList.toggle('dp-none');
         searchInput.classList.toggle('w-100');
       }
-    
-      searchInput.addEventListener('keyup', (e) => {
-        if (e.key.toLowerCase() !== 'enter') return;
-        console.log('enter hit');
-      });
+
 }
+/* Header Search Form */
+searchInput.addEventListener('keydown', (e) => {
+
+    if (e.key.toLowerCase() !== 'enter') return;
+
+    const keyword = e.target.value;
+
+    location = `/board/list?field=tc&keyword=${keyword}`;
+});
+

@@ -2,6 +2,7 @@ package com.arounders.web.controller;
 
 import com.arounders.web.dto.BoardDTO;
 import com.arounders.web.dto.ChatRoomDTO;
+import com.arounders.web.dto.criteria.BoardCriteria;
 import com.arounders.web.entity.Attachment;
 import com.arounders.web.entity.Board;
 import com.arounders.web.service.AttachmentService;
@@ -144,6 +145,12 @@ public class BoardController {
     }
     @PostMapping("/edit")
     public String editBoard(BoardDTO boardDTO,
+                            @RequestParam("page") Integer page,
+                            @RequestParam("field") String field,
+                            @RequestParam("keyword") String keyword,
+                            @RequestParam("categoryParam") String categoryParam,
+                            @RequestParam("order") String order,
+                            @RequestParam("statusParam") String statusParam,
                             @RequestParam(name = "file") MultipartFile[] postFiles,
                             @RequestParam(name = "thumbIdx", defaultValue = "0") Integer thumbIdx,
                             HttpServletRequest request,
@@ -167,6 +174,12 @@ public class BoardController {
         Long boardId = boardService.editBoard(boardDTO);
 
         rttr.addAttribute("id", boardId);
+        rttr.addAttribute("page", page);
+        rttr.addAttribute("field", field);
+        rttr.addAttribute("keyword", keyword);
+        rttr.addAttribute("status", statusParam);
+        rttr.addAttribute("order", order);
+        rttr.addAttribute("category", categoryParam);
 
         return "redirect:/board/read";
     }

@@ -24,11 +24,15 @@
     
     /* font */
 }
-html,body{
+html{
+    background: #F6F5F3 !important;
+}
+html{
     height: 100%;
     margin: 0;
 }
 body{
+    min-height: 100%;
     font-family: 'Noto', 'Sans KR', 
     'sans-serif' !important;
     font-size: var(--fs-mb-md) !important;
@@ -55,13 +59,21 @@ body::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px #808080;
 }
 main{
+    background: #ffffff;
     position: relative !important;
     top: 70px !important;
 
     flex-grow: 1;
 }
 footer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #45546D;
+    color: #fff;
+
     position: relative !important;
+    min-height: 70px;
     top: 70px !important;
 }
 @media screen and (min-width: 800px){

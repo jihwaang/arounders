@@ -15,10 +15,22 @@
 </head>
 <main layout:fragment="main">
 
-<div>
-    <div class="chat-rooms">
+    <div class="rooms-btn-box">
+        <div class="room-info-box">
+            <img src="/image/board/chat.png" alt="pin icon" class="icon-pin">
+            <span class="page-title">나의 채팅방</span>
+        </div>
 
+        <div class="room-btn-box">
+            <button class="btn-to-board" th:text="'글 목록'" title="글 목록">버튼</button>
+            <button class="btn-to-mypage" th:text="'마이페이지'" title="마이페이지">버튼</button>
+        </div>
     </div>
-</div>
+
+    <div>
+        <div class="chat-rooms">
+
+        </div>
+    </div>
 </main>
 </html>

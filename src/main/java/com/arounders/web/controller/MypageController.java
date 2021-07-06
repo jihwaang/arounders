@@ -54,7 +54,7 @@ public class MypageController {
         model.addAttribute("user", user);
 
 
-        return "dashboard-ex";
+        return "mypage/dashboard";
     }
 
     @GetMapping(value = "/comments")

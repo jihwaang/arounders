@@ -69,5 +69,7 @@ header{
     .btn-box > .btn-menu{
         display: none;
     }
-
+    #search-btn{
+        display: none;
+    }
 }

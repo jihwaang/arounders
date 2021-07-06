@@ -1,8 +1,60 @@
 /* mypage-rooms.css */
 
+.rooms-btn-box{
+    font-size: var(--fs-mb-lg);
+    line-height: 34px;
+    padding: 0 10px;
+    display: flex;
 
+    gap: 5px;
+
+    justify-content: space-between;
+}
+    .room-info-box{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+        .room-info-box > .page-title{
+            margin-left: 5px;
+        }
+    .rooms-btn-box button{
+        border: none;
+        text-indent: -999px;
+        overflow: hidden;
+
+        width: 24px;
+        height: 24px;
+        margin-right: 10px;
+    }
+        .room-btn-box{
+            display: flex;
+            align-items: center;
+        }
+    .rooms-btn-box .btn-to-board{
+        background: #ffffff url("/image/chat/square.png") no-repeat center;
+        background-size: contain;
+    }
+        .rooms-btn-box .btn-to-board:hover{
+            background: #ffffff url("/image/chat/square-hover.png") no-repeat center;
+            background-size: contain;
+        }
+    .rooms-btn-box .btn-to-mypage{
+        background: #ffffff url("/image/chat/dashboard.png") no-repeat center;
+        background-size: contain;
+    }
+        .rooms-btn-box .btn-to-mypage:hover{
+            background: #ffffff url("/image/chat/dashboard-hover.png") no-repeat center;
+            background-size: contain;
+        }
 
 @media screen and (min-width: 800px){
 
-
+    .rooms-btn-box{
+        font-size: var(--fs-pc-lg);
+    }
+    .rooms-btn-box button{
+        width: 32px;
+        height: 32px;
+    }
 }

@@ -74,6 +74,13 @@
             <input type="hidden" th:name="thumbIdx">
             <input type="hidden" th:value="*{id}" th:field="*{id}">
             <input type="hidden" th:value="*{memberId}" th:field="*{memberId}">
+            <!-- Criteria -->
+            <input type="hidden" th:name="page" th:value="${param.page}">
+            <input type="hidden" th:name="field" th:value="${param.field}">
+            <input type="hidden" th:name="keyword" th:value="${param.keyword}">
+            <input type="hidden" th:name="categoryParam" th:value="${param.category}">
+            <input type="hidden" th:name="order" th:value="${param.order}">
+            <input type="hidden" th:name="statusParam" th:value="${param.status}">
 
             <div class="button-box">
                 <button class="btn-submit">Save</button>

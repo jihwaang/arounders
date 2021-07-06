@@ -8,7 +8,7 @@ a{
     display: flex;
     justify-content: flex-end;
 
-    gap: 10px;
+    gap: 5px;
 }
 .util-box button{
     text-indent: -999px;
@@ -348,7 +348,7 @@ a{
             overflow-x: hidden !important;
 
             border: none;
-
+            cursor: pointer;
         }
         .board-bottom .btn-comment{
             cursor: initial;

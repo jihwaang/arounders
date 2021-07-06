@@ -1,5 +1,9 @@
 import {commentModule} from "/js/comments/commentModule.js";
 import {CommentCriteria} from "../comments/commentModule.js";
+//
+import {likeModule} from "/js/likes/likeModule.js";
+import {interestModule} from "/js/interests/interestModule.js";
+//
 
 const profileBtn = document.querySelector('.profile-btn');
 const locationBtn = document.querySelector('.location-btn');
@@ -878,3 +882,61 @@ function numToK(val){
 //         boardBox.insertAdjacentHTML('beforeend', html);
 //     });
 // }
+
+//
+/* 게시글당 관심 버튼 */
+boards.addEventListener('click', async function (e) {
+
+    const btnInterest = e.target;
+
+    if(!btnInterest.classList.contains('interest')) return;
+
+    /* target Board 얻어서 board_id 추출 */
+    const targetBoard = btnInterest.parentElement.parentElement.parentElement;
+    const bid = targetBoard.dataset['bid'];
+
+    /* board_id set */
+    interestModule.boardId = bid;
+
+    /* Toggle Interest */
+    await interestModule.doInterest();
+
+    /* Update value of Interests */
+    const interestVal = targetBoard.querySelector('.interest-val');
+    interestVal.innerText = await interestModule.getCounts();
+
+    /* Toggle Icon */
+    btnInterest.classList.toggle('btn-interest');
+    btnInterest.classList.toggle('btn-interest-on');
+});
+
+/* 게시글당 좋아요 버튼 */
+boards.addEventListener('click', async function (e) {
+
+    const btnLike = e.target;
+
+    if(!btnLike.classList.contains('like')) return;
+
+    /* target Board 얻어서 board_id 추출 */
+    const targetBoard = btnLike.parentElement.parentElement.parentElement;
+    const bid = targetBoard.dataset['bid'];
+
+    /* board_id set */
+    likeModule.boardId = bid;
+
+    /* current not like -> like*/
+    if(btnLike.classList.contains('btn-like'))
+        await likeModule.like();
+    /* current like -> not like */
+    else
+        await likeModule.dislike();
+
+    /* Update value of Likes */
+    const likeVal = targetBoard.querySelector('.like-val');
+    likeVal.innerText = await likeModule.getCounts();
+
+    /* Toggle Icon */
+    btnLike.classList.toggle('btn-like');
+    btnLike.classList.toggle('btn-like-on');
+});
+//

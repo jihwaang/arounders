@@ -1,11 +1,14 @@
 import {chatModule} from "/js/chat/chatModule.js";
 
 const rooms = document.querySelector('.chat-rooms');
+const btnToBoard = document.querySelector('.btn-to-board');
+const btnToMypage = document.querySelector('.btn-to-mypage');
 
 (async () => {
     const data = await chatModule.getMyChatRooms();
 
     let html = '';
+
     data.forEach((room, idx) => {
         html += `<div class="chat-room">
                     <div class="upper">
@@ -25,8 +28,14 @@ const rooms = document.querySelector('.chat-rooms');
 function getDate(date){
 
     const year = date.getFullYear();
-    const month = '';
-    const day = date.getDay() + 1;
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+
+    if(month.toString().length < 2) month = '0' + month;
+    if(day.toString().length < 2) day = '0' + day;
 
     return `${year}/${month}/${day}`;
 }
+
+btnToBoard.addEventListener('click', () => location = '/board/list');
+btnToMypage.addEventListener('click', () => location = '/mypage/dashboard');

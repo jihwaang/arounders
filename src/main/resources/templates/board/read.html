@@ -40,8 +40,10 @@
                 </div>
 
                 <div class="board-btn-box">
-                    <a th:href="@{list}" class="btn-to-list" th:text="목록" title="글 목록"></a>
-                    <a th:if="${session.id == board.memberId}" th:href="@{edit(id=*{id})}" class="btn-to-modify" th:text="수정" title="글 수정"></a>
+                    <a th:href="@{list(page=${param.page}, field=${param.field}, keyword=${param.keyword}, order=${param.order}, status=${param.status}, category=${param.category})} + |#*{id}|"
+                       class="btn-to-list" th:text="목록" title="글 목록"></a>
+                    <a th:if="${session.id == board.memberId}"
+                       th:href="@{edit(id=*{id}, page=${param.page}, field=${param.field}, keyword=${param.keyword}, order=${param.order}, status=${param.status}, category=${param.category})}" class="btn-to-modify" th:text="수정" title="글 수정"></a>
                 </div>
             </div>
 
