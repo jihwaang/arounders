@@ -1,4 +1,4 @@
-const form = document.querySelector('form');
+const form = document.querySelector('.form-signup');
 
 const validations = {
     email: false,
@@ -16,8 +16,8 @@ const memberModule = {
         const _this = this;
 
         //select elements of the form for event
-        const email = document.getElementById('email');
-        const password = document.getElementById('password');
+        const email = document.getElementById('signup-email');
+        const password = document.getElementById('signup-password');
         const passwordConfirmed = document.getElementById('passwordConfirmed');
         const nickname = document.getElementById('nickname');
         const phone = document.getElementById('phone');
@@ -105,6 +105,7 @@ const memberModule = {
                  if(!isValid) return alert('입력하신 정보를 확인해주세요');
 
                  form.submit();
+                 alert('회원가입이 완료되었습니다.');
             })
             .catch(err => console.log(err));
         }); // end validation

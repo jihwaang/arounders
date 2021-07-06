@@ -3,7 +3,7 @@ const emailAuthModule = {
     init() {
 
         const _this = this;
-        const form = document.querySelector('form');
+        const form = document.querySelector('.form-signup');
 
         form.addEventListener('click', function (e) {
 
@@ -52,7 +52,10 @@ const emailAuthModule = {
         .then(res => res.json())
         .then(data => {
             emailAuth = data;
-            requestAuth.disabled = true;
+            document.querySelector('#requestAuth').style.backgroundColor = '#999 !important';
+            document.getElementById('requestAuth').value = '인증요청완료';
+
+
          })
         .catch(err => console.log(err));
     }, // end requestAuth

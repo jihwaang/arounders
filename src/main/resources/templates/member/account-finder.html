@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/css/common/common.css" type="text/css">
     <link rel="stylesheet" href="/css/common/common-library.css" type="text/css">
     <link rel="stylesheet" href="/css/member/findAccount.css" type="text/css">
+    <link rel="stylesheet" href="/css/common/index.css"/>
     <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
@@ -18,28 +19,47 @@
     <script defer src="/js/member/accountFinderModule.js"></script>
 </head>
 <body>
-<main>
-    <section class="img-section">
-        <div class="background-img"></div>
-        <div class="backgound-title">FIND PASSWORD</div>
-    </section>
-    <section class="form-section">
-        <form th:action="@{/member/update/password}" method="POST" id="form">
-            <div class="form-raw">
+<main class="max-width-default center w-80 h-100">
+    <section class="password-find-svg w-100"></section>
+    <section class="input-form w-100 max-width-ms" id="input-login">
+        <h1 class="page-title">FIND PASSWORD</h1>
+        <form th:action="@{/member/update/password}" id="form-find" method="post" class="fx-column">
+            <div class="email fx-column">
                 <label for="email">Email ID</label>
-                <input class="form-input-text" type="email" name="email" id="email" />
-                <span class="sub-desc">가입시 입력 이메일</span>
+                <input type="text" name="email" id="email" class="form-input-text" />
             </div>
-            <div class="form-raw">
-                <label for="nickname">NickName</label>
-                <input class="form-input-text" type="nickname" name="nickname" id="nickname" />
-                <span class="sub-desc">가입시 입력 닉네임</span>
-            </div>
-            <div class="btn-section">
-                <a href="#" class="btn btn-send">Send</a>
+            <div class="nickname fx-column">
+                <label for="nickname">Nickname</label>
+                <input type="text" name="nickname" id="nickname" class="form-input-nickname" />
             </div>
         </form>
+        <div class="btn-section fx-column w-100 max-width-ms">
+            <button class="btn send-btn" id="password-btn">SEND</button>
+        </div>
     </section>
 </main>
+<!--<main>-->
+<!--    <section class="img-section">-->
+<!--        <div class="background-img"></div>-->
+<!--        <div class="backgound-title">FIND PASSWORD</div>-->
+<!--    </section>-->
+<!--    <section class="form-section">-->
+<!--        <form th:action="@{/member/update/password}" method="POST" id="form">-->
+<!--            <div class="form-raw">-->
+<!--                <label for="email">Email ID</label>-->
+<!--                <input class="form-input-text" type="email" name="email" id="email" />-->
+<!--                <span class="sub-desc">가입시 입력 이메일</span>-->
+<!--            </div>-->
+<!--            <div class="form-raw">-->
+<!--                <label for="nickname">NickName</label>-->
+<!--                <input class="form-input-text" type="nickname" name="nickname" id="nickname" />-->
+<!--                <span class="sub-desc">가입시 입력 닉네임</span>-->
+<!--            </div>-->
+<!--            <div class="btn-section">-->
+<!--                <a href="#" class="btn btn-send">Send</a>-->
+<!--            </div>-->
+<!--        </form>-->
+<!--    </section>-->
+<!--</main>-->
 </body>
 </html>

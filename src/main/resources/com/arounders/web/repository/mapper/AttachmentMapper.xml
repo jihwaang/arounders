@@ -46,7 +46,7 @@
     </select>
 
     <select id="findAttachesByMemberId" resultType="Attachment">
-        SELECT * FROM ATTACHMENT WHERE MEMBER_ID = #{memberId} AND BOARD_ID = NULL
+        SELECT * FROM ATTACHMENT WHERE MEMBER_ID = #{memberId} AND BOARD_ID IS NULL
     </select>
 
     <select id="findProfileImgPathById" parameterType="java.lang.Long" resultType="java.lang.String">

@@ -1,4 +1,4 @@
-const form = document.querySelector('form');
+const form = document.querySelector('#form-find');
 const pwdBtn = document.querySelector('#password-btn');
 form.addEventListener('submit', ()=> {
     return false;
@@ -6,15 +6,17 @@ form.addEventListener('submit', ()=> {
 const accountFinderModule = {
     init: function() {
         const _this = this;
+        pwdBtn.addEventListener('click', (e) => {
+            _this.changePassword();
+        })
         form.addEventListener('click', function(e) {
             let target = e.target;
+            console.log(target);
             // password changer
             if (target.id === 'password-btn') _this.changePassword();
-            return;
         }); // end event listener
     }, // end init function
     changePassword: function() {
-        console.log('changePassword invoked');
         //form.submit();
         let payload = {};
         new FormData(form).forEach((value, key) => payload[key] = value);

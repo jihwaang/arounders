@@ -194,4 +194,12 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
+    @GetMapping("/review")
+    public String getReviews(Model model, Long id) {
+        log.info("#BoardController -> boardId : " + id);
+        model.addAttribute("boardId", id);
+        return "/board/review";
+    }
+
+
 }

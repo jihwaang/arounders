@@ -4,6 +4,7 @@ import com.arounders.web.entity.Attachment;
 import com.arounders.web.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -92,6 +93,14 @@ public class MypageController {
        // model.addAttribute("member", member);
 
         //return "mypage/myinfo";
+    }
+
+    @GetMapping(value="/profileImg")
+    @ResponseBody
+    public Attachment getProfileImg() {
+        Long id = (Long) session.getAttribute("id");
+        String path = attachmentService.findProfileImgPathById(id);
+        return Attachment.builder().path(path).build();
     }
 
     @PostMapping("/update/info")

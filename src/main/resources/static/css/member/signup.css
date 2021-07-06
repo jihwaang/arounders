@@ -46,7 +46,8 @@ form, form > .fx-column {
 
 .verify-btn {
     color: #fff;
-    background-color: var(--color-skyblue);
+    background-color: var(--color-skyblue) !important;
+    margin-left: auto;
 }
 
 .btn-address{
