@@ -76,20 +76,9 @@ public class MemberController {
 
     @PostMapping("/signup")
     public String doSignUp(MemberDTO requestMember, HttpSession session) {
-      log.info("memberDTO : {}", requestMember);
       Long id = memberService.signup(requestMember);
-      String profileImg = attachmentService.findProfileImgPathById(id);
-      if (id != null) {
-          Member user = memberService.getMember(id);
-          /* individual values to session settings */
-          session.setAttribute("id", user.getId());
-          session.setAttribute("nickname", user.getNickname());
-          session.setAttribute("region", user.getAddr());
-          session.setAttribute("role", user.getRoleId());
-          session.setAttribute("profileImg", profileImg);
-      }
-
-      return "redirect:/index";
+      log.info("generated id: {}", id);
+      return "/index";
     }
 
     @PostMapping("/checkExist")

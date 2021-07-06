@@ -1,5 +1,9 @@
 import {commentModule} from "/js/comments/commentModule.js";
 import {CommentCriteria} from "../comments/commentModule.js";
+//
+import {likeModule} from "/js/likes/likeModule.js";
+import {interestModule} from "/js/interests/interestModule.js";
+//
 
 const profileBtn = document.querySelector('.profile-btn');
 const locationBtn = document.querySelector('.location-btn');
@@ -59,11 +63,11 @@ const dashboard = {
         })
     },
     getList: async function(cri) {
-            comments.innerHTML = '';
-            commentSection.classList.add('dp-none');
+        comments.innerHTML = '';
+        commentSection.classList.add('dp-none');
 
-            interests.innerHTML = '';
-            interestSection.classList.add('dp-none');
+        interests.innerHTML = '';
+        interestSection.classList.add('dp-none');
 
         if (listSection.classList.contains('dp-none')) {
             listSection.classList.remove('dp-none');
@@ -147,13 +151,13 @@ const dashboard = {
     },
     getCommentList: async function(cri) {
 
-            boards.innerHTML = '';
-            listSection.classList.add('dp-none');
+        boards.innerHTML = '';
+        listSection.classList.add('dp-none');
 
 
 
-            interests.innerHTML = '';
-            interestSection.classList.add('dp-none');
+        interests.innerHTML = '';
+        interestSection.classList.add('dp-none');
 
 
         if (commentSection.classList.contains('dp-none')) {
@@ -166,7 +170,7 @@ const dashboard = {
         console.log(result);
         for (let comment of result) {
             let html = `<div class="board" data-bid="${comment.boardId}">
-                    <div class="board-mid dp-block">
+                    <div class="board-mid">
                         <div class="board-content-box">
                             <div class="board-title">
                                 <a href="read?id=${comment.boardId}">${comment.title}</a>
@@ -185,13 +189,13 @@ const dashboard = {
     },
     getInterestList: async function(cri) {
 
-            boards.innerHTML = '';
-            listSection.classList.add('dp-none');
+        boards.innerHTML = '';
+        listSection.classList.add('dp-none');
 
 
 
-            comments.innerHTML = '';
-            commentSection.classList.add('dp-none');
+        comments.innerHTML = '';
+        commentSection.classList.add('dp-none');
 
 
         if (interestSection.classList.contains('dp-none')) {
@@ -360,6 +364,8 @@ const modal = {
             if(document.querySelector('#verifyingPassword').value.length > 0) {
                 document.querySelector('#verifyingPassword').value = '';
             }
+            // remove existing info modal
+            updateInfo.innerHTML = '';
         });
 
         //form handlers
@@ -442,12 +448,15 @@ const modal = {
             <div class="button-container">
                 <a href="#" class="btn btn-submit">변경</a>
             </div>`;
-
                 updateInfo.insertAdjacentHTML('beforeend', infoHTML);
                 updateInfo.classList.remove('dp-none');
 
                 //get user Info here
                 let member = await fetch(`/mypage/info`).then(response => response.json());
+                let attachment = await fetch(`/mypage/profileImg`).then(response => response.json());
+
+                let profileImg = updateInfo.querySelector('.inner-profile-image');
+                profileImg.style.background = `url(${attachment.path}) no-repeat center center/contain`;
                 let email = updateInfo.querySelector('#email');
                 email.value = member.email;
                 let nickname = updateInfo.querySelector('#nickname');
@@ -474,16 +483,13 @@ const modal = {
 
 
         // # update info form handling event
-
         const previewImage = (e) => {
-            console.log('previewImage function invoked');
             const inputFile = document.querySelector('#inner-profileImg');
             const profileImage = document.querySelector('.inner-profile-image');
 
-            inputFile.click();
+            if (e.target.tagName.toLowerCase() !== 'i') inputFile.click();
+
             inputFile.addEventListener('change', (e) => {
-                console.log('image change');
-                console.log(e.target);
                 if(!e.target.files[0].size) return;
                 let url = URL.createObjectURL(e.target.files[0])
                 profileImage.style.background = `url('${url}') no-repeat center center/contain`;
@@ -493,12 +499,15 @@ const modal = {
             });
         }
 
+
+
         updateInfo.addEventListener('click', async (e) => {
-            if (e.target.tagName.toLowerCase() === 'i' || e.target.id === 'inner-profileImg') return;
+            //e.preventDefault();
+            if (e.target.id === 'inner-profileImg') return;
             //image preview
-            if (e.target.classList.contains('inner-profile-image')) {
-                console.log('image preview');
+            if (e.target.classList.contains('inner-profile-image') || e.target.classList.contains('fa-camera')) {
                 previewImage(e);
+                return;
             }
 
             // submit
@@ -615,33 +624,6 @@ function putAddr(roadAddrPart1, addrDetail) {
     document.getElementById('addrDtl').value = addrDetail;
 }
 
-// functions
-/* 리셋 버튼 클릭 */
-// btnReset.addEventListener('click', (e) => {
-//     /* order -> 최신순 */
-//     boardOrderBox.querySelector('input[value="desc"]').checked = true;
-//     /* status -> 전체 */
-//     boardStatusBox.querySelector('input[value="all"]').checked = true;
-//     /* category -> 전체 */
-//     selectCategory.querySelector('option[value="1"]').selected = true;
-//     /* field -> 전체 & keyword -> '' */
-//     inputKeyword.value = '';
-//     selectField.querySelector('option[value="all"]').selected = true;
-//
-//     /* when btnReset is clicked, btnSearch will be clicked too */
-//     const event = new MouseEvent('click', {
-//         view: window,
-//         bubbles: true,
-//         cancelable: true
-//     });
-//
-//     btnSearch.dispatchEvent(event);
-// });
-//
-// /* 필터 버튼 클릭 */
-// btnFilter.addEventListener('click', (e) => {
-//     filterBox.classList.toggle('hide');
-// });
 
 /* Board의 ...버튼 클릭 */
 boards.addEventListener('click', function (e) {
@@ -664,121 +646,6 @@ boards.addEventListener('click', function (e) {
     btnHide.addEventListener('click', doHide)
 });
 
-// function doReport(){
-//
-//     const bid = this.parentElement.parentElement.parentElement.dataset.bid;
-//
-//     modalTitle.innerText = 'Notification';
-//     modalBodyContent.innerText = `${bid}번 글을 신고하시겠습니까?`;
-//     btnDoHide.style.display = 'none';
-//     btnDoReport.style.display = 'block';
-//
-//     modal.style.display = 'block';
-//
-//     btnDoReport.onclick = async () => {
-//
-//         const result = await reportModule.report(bid);
-//
-//         /* 신고 완료 */
-//         if(result != null && result != ''){
-//             modalBodyContent.innerText = `${bid}번 글을 신고했습니다.`;
-//             btnDoReport.style.display = 'none';
-//         }
-//         /* 이미 내가 신고한 글일 때 */
-//         else{
-//             modalBodyContent.innerText = `${bid}번 글을 이미 신고하셨습니다.`;
-//             btnDoHide.style.display = 'none';
-//             btnDoReport.style.display = 'none';
-//         }
-//     }
-// }
-
-// function doHide(){
-//
-//     const targetBoard = this.parentElement.parentElement.parentElement;
-//     const bid = targetBoard.dataset.bid;
-//
-//     modalTitle.innerText = 'Notification';
-//     modalBodyContent.innerText = `${bid}번 글을 숨기시겠습니까?`;
-//     btnDoHide.style.display = 'block';
-//     btnDoReport.style.display = 'none';
-//
-//     modal.style.display = 'block';
-//
-//     btnDoHide.onclick = async () => {
-//
-//         const result = await boardModule.doHide(bid);
-//
-//         /* 숨김 완료 */
-//         if(result != null && result != ''){
-//             modalBodyContent.innerText = `${bid}번 글을 숨김 처리했습니다.`;
-//             btnDoHide.style.display = 'none';
-//
-//             targetBoard.remove();
-//         }
-//
-//     }
-// }
-
-/* 게시글당 좋아요 버튼 */
-// boards.addEventListener('click', async function (e) {
-//
-//     const btnLike = e.target;
-//
-//     if(!btnLike.classList.contains('like')) return;
-//
-//     /* target Board 얻어서 board_id 추출 */
-//     const targetBoard = btnLike.parentElement.parentElement.parentElement;
-//     const bid = targetBoard.dataset['bid'];
-//
-//     /* board_id set */
-//     likeModule.boardId = bid;
-//
-//     /* current not like -> like*/
-//     if(btnLike.classList.contains('btn-like'))
-//         await likeModule.like();
-//     /* current like -> not like */
-//     else
-//         await likeModule.dislike();
-//
-//     /* Update value of Likes */
-//     const likeVal = targetBoard.querySelector('.like-val');
-//     likeVal.innerText = await likeModule.getCounts();
-//
-//     /* Toggle Icon */
-//     btnLike.classList.toggle('btn-like');
-//     btnLike.classList.toggle('btn-like-on');
-// });
-// /* 게시글당 관심 버튼 */
-// boards.addEventListener('click', async function (e) {
-//
-//     const btnInterest = e.target;
-//
-//     if(!btnInterest.classList.contains('interest')) return;
-//
-//     /* target Board 얻어서 board_id 추출 */
-//     const targetBoard = btnInterest.parentElement.parentElement.parentElement;
-//     const bid = targetBoard.dataset['bid'];
-//
-//     /* board_id set */
-//     interestModule.boardId = bid;
-//
-//     /* Toggle Interest */
-//     await interestModule.doInterest();
-//
-//     /* Update value of Interests */
-//     const interestVal = targetBoard.querySelector('.interest-val');
-//     interestVal.innerText = await interestModule.getCounts();
-//
-//     /* Toggle Icon */
-//     btnInterest.classList.toggle('btn-interest');
-//     btnInterest.classList.toggle('btn-interest-on');
-// });
-//
-// /* 게시글 등록 버튼 */
-// btnRegister.addEventListener('click', (e) => {
-//     window.location = '/board/register';
-// });
 
 /* Date를 N분전/N일전/N달전... */
 function displayedAt(createdAt) {
@@ -824,57 +691,118 @@ function numToK(val){
     return `${result}k`;
 }
 
-//
+
+/* 게시글당 관심 버튼 */
+boards.addEventListener('click', async function (e) {
+
+    const btnInterest = e.target;
+
+    if(!btnInterest.classList.contains('interest')) return;
+
+    /* target Board 얻어서 board_id 추출 */
+    const targetBoard = btnInterest.parentElement.parentElement.parentElement;
+    const bid = targetBoard.dataset['bid'];
+
+    /* board_id set */
+    interestModule.boardId = bid;
+
+    /* Toggle Interest */
+    await interestModule.doInterest();
+
+    /* Update value of Interests */
+    const interestVal = targetBoard.querySelector('.interest-val');
+    interestVal.innerText = await interestModule.getCounts();
+
+    /* Toggle Icon */
+    btnInterest.classList.toggle('btn-interest');
+    btnInterest.classList.toggle('btn-interest-on');
+});
+
+/* 게시글당 좋아요 버튼 */
+boards.addEventListener('click', async function (e) {
+
+    const btnLike = e.target;
+
+    if(!btnLike.classList.contains('like')) return;
+
+    /* target Board 얻어서 board_id 추출 */
+    const targetBoard = btnLike.parentElement.parentElement.parentElement;
+    const bid = targetBoard.dataset['bid'];
+
+    /* board_id set */
+    likeModule.boardId = bid;
+
+    /* current not like -> like*/
+    if(btnLike.classList.contains('btn-like'))
+        await likeModule.like();
+    /* current like -> not like */
+    else
+        await likeModule.dislike();
+
+    /* Update value of Likes */
+    const likeVal = targetBoard.querySelector('.like-val');
+    likeVal.innerText = await likeModule.getCounts();
+
+    /* Toggle Icon */
+    btnLike.classList.toggle('btn-like');
+    btnLike.classList.toggle('btn-like-on');
+});
 
 
-// const boardBox = document.querySelector('.boards');
-// const categoryList = document.querySelector('.category-list');
-// const categoryKey = categoryList.querySelector('.category-key');
-//
 
-//
-// showList(cri);
+/* 게시글당 관심 버튼 */
+interests.addEventListener('click', async function (e) {
 
+    const btnInterest = e.target;
+
+    if(!btnInterest.classList.contains('interest')) return;
+
+    /* target Board 얻어서 board_id 추출 */
+    const targetBoard = btnInterest.parentElement.parentElement.parentElement;
+    const bid = targetBoard.dataset['bid'];
+
+    /* board_id set */
+    interestModule.boardId = bid;
+
+    /* Toggle Interest */
+    await interestModule.doInterest();
+
+    /* Update value of Interests */
+    const interestVal = targetBoard.querySelector('.interest-val');
+    interestVal.innerText = await interestModule.getCounts();
+
+    /* Toggle Icon */
+    btnInterest.classList.toggle('btn-interest');
+    btnInterest.classList.toggle('btn-interest-on');
+});
+
+/* 게시글당 좋아요 버튼 */
+interests.addEventListener('click', async function (e) {
+
+    const btnLike = e.target;
+
+    if(!btnLike.classList.contains('like')) return;
+
+    /* target Board 얻어서 board_id 추출 */
+    const targetBoard = btnLike.parentElement.parentElement.parentElement;
+    const bid = targetBoard.dataset['bid'];
+
+    /* board_id set */
+    likeModule.boardId = bid;
+
+    /* current not like -> like*/
+    if(btnLike.classList.contains('btn-like'))
+        await likeModule.like();
+    /* current like -> not like */
+    else
+        await likeModule.dislike();
+
+    /* Update value of Likes */
+    const likeVal = targetBoard.querySelector('.like-val');
+    likeVal.innerText = await likeModule.getCounts();
+
+    /* Toggle Icon */
+    btnLike.classList.toggle('btn-like');
+    btnLike.classList.toggle('btn-like-on');
+});
 //
-// categoryList.addEventListener('click', (e) => {
-//
-//     if(!e.target.classList.contains('category-key')) return;
-//
-//     boardBox.innerHTML = '';
-//     const category = e.target.dataset['id'];
-//
-//     cri.init();
-//     cri.set(null, null, category, null, null);
-//     showList(cri);
-// });
-//
-// async function showList(cri){
-//
-//     const result = await boardModule.getMyList(cri);
-//
-//     /*if(result.length == 0) {
-//         alert('마지막 페이지입니다.');
-//         return;
-//     }*/
-//
-//     result.forEach((board, idx) => {
-//         console.log(board);
-//
-//         let html = '';
-//         html = `<div class="board">
-//                     <span>${board.category}</span>
-//                     <span>${board.region}</span>
-//                     <span>${board.status == '0'? '미완료':'완료'}</span>
-//                     <div><a href="/board/read?id=${board.id}">${board.title}</a></div>
-//                     <div>${board.writer}</div>
-//                     <div>${board.createdAt}</div>
-//                     <div><img src="/upload/${board.thumbnailPath}/${board.thumbnailName}"></div>
-//                     <div>댓글수: ${board.commentCount}</div>
-//                     <div>좋아요수 :${board.likeCount}</div>
-//                     <div>관심수 : ${board.interestCount}</div>
-//                     <hr>
-//                 </div>`
-//
-//         boardBox.insertAdjacentHTML('beforeend', html);
-//     });
-// }

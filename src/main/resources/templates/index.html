@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/css/common/index.css"/>
     <script defer src="/js/common/index.js"></script>
     <script defer src="/js/member/memberModule.js"></script>
-<!--    <script defer src="/sjs/member/emailAuthModule.js"></script>-->
+    <script defer src="/js/member/emailAuthModule.js"></script>
     <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
@@ -27,7 +27,7 @@
     <section class="main-svg w-100"></section>
     <section class="input-form w-100 max-width-ms" id="input-login">
         <h1 class="page-title">SIGN IN</h1>
-        <form th:action="@{/login}" id="form-login" method="POST" class="fx-column">
+        <form th:action="@{/login}" id="form-login" method="post" class="fx-column">
             <div class="email fx-column">
                 <label for="email">Email ID</label>
                 <input type="text" name="email" id="email" class="form-input-text" />
@@ -58,12 +58,12 @@
             <form th:action="@{/member/signup}" method="POST" class="form-signup">
                 <div class="input-container">
                     <label for="email">이메일(아이디)<span class="required">*</span></label>
-                    <input class="form-input-text" type="email" name="email"/>
+                    <input class="form-input-text" type="email" id="signup-email" name="email"/>
 
                     <input class="form-input-text pointer verify-btn w-30" type="button" value="인증하기" id="requestAuth"/>
 
                     <label for="password">비밀번호<span class="required">*</span></label>
-                    <input class="form-input-text" type="password" name="password"/>
+                    <input class="form-input-text" type="password" id="signup-password" name="password"/>
 
                     <label for="passwordConfirmed">비밀번호 확인<span class="required">*</span></label>
                     <input class="form-input-text" type="password" id="passwordConfirmed"/>

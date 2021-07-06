@@ -348,7 +348,7 @@ a{
             overflow-x: hidden !important;
 
             border: none;
-
+            cursor: pointer;
         }
         .board-bottom .btn-comment{
             cursor: initial;
