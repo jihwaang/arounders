@@ -72,6 +72,8 @@ footer{
     background: #45546D;
     color: #fff;
 
+    font-size: var(--fs-mb-sm);
+
     position: relative !important;
     min-height: 70px;
     top: 70px !important;
@@ -80,5 +82,9 @@ footer{
 
     body{
         font-size: var(--fs-pc-md) !important;
+    }
+
+    footer{
+        font-size: var(--fs-pc-sm);
     }
 }
