@@ -18,8 +18,41 @@
         FROM MEMBER WHERE ID = #{id}
     </select>
 
+    <!-- 관리자 사용 용도 -->
     <select id="getMembers" resultType="Member">
-        SELECT * FROM MEMBER WHERE DROPPED_AT IS NULL
+        SELECT ID
+             , EMAIL
+             , NICKNAME
+             , CAST(AES_DECRYPT(UNHEX(PHONE), 'df') AS CHAR(32) CHARACTER SET UTF8) PHONE
+             , ADDR
+             , ADDR_DTL
+             , ROLE_ID
+             , CITY_ID
+             , CREATED_AT
+             , DROPPED_AT
+             , LAST_LOGIN_AT
+        FROM MEMBER
+        <trim prefix="where">
+            <choose>
+                <when test="f == 'e'.toString()">
+                    EMAIL = #{k}
+                </when>
+                <when test="f == 'n'.toString()">
+                    NICKNAME = #{k}
+                </when>
+            </choose>
+        </trim>
+        ORDER BY ID DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+    <select id="getValidMemberCount" resultType="Integer">
+        SELECT COUNT(ID) FROM MEMBER WHERE DROPPED_AT IS NULL
+    </select>
+    <select id="getInvalidMemberCount" resultType="Integer">
+        SELECT COUNT(ID) FROM MEMBER WHERE DROPPED_AT IS NOT NULL
+    </select>
+    <select id="getTodayMemberCount" resultType="Integer">
+        SELECT COUNT(ID) FROM MEMBER WHERE date(created_at) = DATE_FORMAT(NOW(), '%Y%m%d')
     </select>
 
     <select id="getMemberForSession" resultType="Member">
@@ -86,6 +119,7 @@
         PHONE = NULL,
         ADDR = NULL,
         ADDR_DTL = NULL,
+        CITY_ID = NULL,
         DROPPED_AT = NOW()
         WHERE ID = #{id}
     </update>

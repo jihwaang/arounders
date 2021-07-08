@@ -1,6 +1,7 @@
 import {likeModule} from '/js/likes/likeModule.js';
 import {interestModule} from "/js/interests/interestModule.js";
 import {commentModule} from "/js/comments/commentModule.js";
+import {chatModule} from '/js/chat/chatModule.js';
 
 /* Modal */
 const modal = document.querySelector('.modal');
@@ -16,6 +17,7 @@ const btnCancel = modal.querySelector('.btn-cancel');
 const btnSave = modal.querySelector('.btn-save');
 const btnModify = modal.querySelector('.btn-modify');
 const btnDelete = modal.querySelector('.btn-delete');
+const btnChatJoin = modal.querySelector('.btn-chat-join');
 
 /* Board */
 const board = document.querySelector('.board');
@@ -35,6 +37,9 @@ const comments = commentBox.querySelector('.comments');
 const commentSubmit = commentBox.querySelector('.comment-submit');
 const commentTextarea = commentBox.querySelector('.comment-textarea');
 const btnCommentMore = commentBox.querySelector('.btn-comment-more');
+
+/* Option */
+const btnToChat = document.querySelector('.btn-to-chat');
 
 /* set boardId at CommentModule */
 commentModule.boardId = boardId;
@@ -183,6 +188,7 @@ comments.addEventListener('click', function (e) {
         btnModify.style.display = 'none';
         btnDelete.style.display = 'none';
     }
+    btnChatJoin.style.display = 'none';
     btnRecomment.style.display = 'none';
     btnSave.style.display = 'none';
 
@@ -269,6 +275,7 @@ comments.addEventListener('click', (e) => {
     btnDelete.style.display = 'none';
     btnModify.style.display = 'none';
     btnSave.style.display = 'none';
+    btnChatJoin.style.display = 'none';
 
     modalTitle.innerText = '답글 작성';
     modalCid.value = cid;
@@ -292,6 +299,7 @@ btnRecomment.addEventListener('click', async (e) => {
     /* 댓글 개수 갱신 */
     commentVal.innerText = await commentModule.getCount(boardId);
 
+    btnChatJoin.style.display = 'none';
     btnRecomment.style.display = 'none';
     modal.style.display = 'none';
 
@@ -320,6 +328,7 @@ btnModify.addEventListener('click', (e) => {
     modalBodyContent.readOnly = false;
 
     btnSave.style.display = 'block';
+    btnChatJoin.style.display = 'none';
     btnDelete.style.display = 'none';
     btnModify.style.display = 'none';
 });
@@ -347,6 +356,7 @@ btnSave.addEventListener('click', async (e) => {
 btnDelete.addEventListener('click', async (e) => {
     const cid = modal.querySelector('input[name="cid"]').value;
 
+    btnChatJoin.style.display = 'none';
     btnModify.style.display = 'none';
     btnDelete.style.display = 'none';
 
@@ -387,9 +397,49 @@ function lastCommentModal(){
     btnDelete.style.display = 'none';
     btnRecomment.style.display = 'none';
     btnModify.style.display = 'none';
+    btnChatJoin.style.display = 'none';
 
     modal.style.display = 'block';
 }
+
+/* 채팅방 가기 -> validation */
+btnToChat.addEventListener('click', async function (e) {
+
+    e.preventDefault();
+
+    const href = e.target.href;
+    const chatRoomId = e.target.dataset.id;
+
+    const result = await chatModule.isJoin(chatRoomId);
+
+    /* 채팅방 참여 O */
+    if(result){
+        window.location = href;
+    }
+    /* 채팅방 참여 X */
+    else{
+
+        modalDate.style.display = 'none';
+        modalWriter.style.display = 'none';
+
+        btnRecomment.style.display = 'none';
+        btnModify.style.display = 'none';
+        btnSave.style.display = 'none';
+        btnDelete.style.display = 'none';
+
+        btnChatJoin.style.display = 'block';
+
+        modalTitle.innerText = 'Notification';
+        modalBodyContent.value = '채팅방에 참여하시겠습니까?';
+        modal.style.display = 'block';
+
+        btnChatJoin.onclick = (e) => {
+
+            chatModule.join(chatRoomId);
+            window.location = href;
+        }
+    }
+});
 
 function displayedAt(createdAt) {
     const milliSeconds = new Date() - createdAt;

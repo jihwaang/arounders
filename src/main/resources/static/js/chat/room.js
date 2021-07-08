@@ -51,7 +51,7 @@ stomp.connect({}, function (frame){
         if(chat.memberId == memberId)
             className = 'mine';
 
-        let profile = chat.profile == null? '/image/unknown.png' : chat.profile;
+        let profile = chat.profile == 'null'? '/image/unknown.png' : chat.profile;
 
         let html = `<div class="chat ${className}">
                     <img class="profile" src="${profile}">
@@ -231,7 +231,7 @@ function showList(){
         if(chat.memberId == memberId)
             className = 'mine';
 
-        let profile = chat.profile == null? '/image/unknown.png' : chat.profile;
+        let profile = chat.profile == 'null'? '/image/unknown.png' : chat.profile;
 
         html += `<div class="chat ${className}">
                     <img class="profile" src="${profile}">

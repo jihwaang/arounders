@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{include/layout/layout-only}">
+<head>
+    <meta charset="UTF-8">
+    <title>AROUNDERS | 관리자 - 회원 조회</title>
+
+    <!-- CSS -->
+    <link href="/css/admin/members.css" rel="stylesheet" type="text/css">
+
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script defer src="/js/admin/members.js"></script>
+</head>
+<main layout:fragment="main">
+
+    <div class="member-dashboard">
+        <div class="today">
+            <p>Today Join</p>
+        </div>
+        <div class="valid">
+            <p>Valid Total</p>
+        </div>
+        <div class="invalid">
+            <p>Invalid Total</p>
+        </div>
+    </div>
+
+    <div class="search-form-box">
+        <div>
+        <select name="field">
+            <option value="e">E-mail</option>
+            <option value="n">Nickname</option>
+        </select>
+        <input type="text" name="keyword">
+        <button class="btn-member-search">검색</button>
+        <button class="btn-member-reset">리셋</button>
+        </div>
+
+        <div class="admin-button-box">
+            <button class="btn-to-main" onclick="location = '/board/list'" title="돌아가기">main</button>
+            <button class="btn-to-board" onclick="location = 'boards'" title="게시글 관리">board</button>
+            <button class="btn-to-report" onclick="location = 'reports'" title="신고 관리">report</button>
+        </div>
+    </div>
+
+    <div class="member-box">
+
+    </div>
+</main>
+</html>

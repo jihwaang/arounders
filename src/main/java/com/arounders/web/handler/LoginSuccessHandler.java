@@ -7,6 +7,7 @@ import com.arounders.web.service.MemberService;
 import com.arounders.web.serviceImpl.MemberServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
@@ -21,9 +22,10 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @Slf4j
-@Service
+@Component
 public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
+    @Lazy
     @Autowired
     private MemberService memberService;
 

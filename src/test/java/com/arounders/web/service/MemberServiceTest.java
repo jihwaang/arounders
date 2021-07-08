@@ -27,9 +27,9 @@ class MemberServiceTest {
     @Test
     void getMembers() {
 
-        List<Member> members = service.getMembers();
+        //List<Member> members = service.getMembers();
 
-        members.forEach(System.out::println);
+        //members.forEach(System.out::println);
     }
 
     @Test

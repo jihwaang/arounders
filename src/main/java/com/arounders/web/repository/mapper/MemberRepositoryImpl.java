@@ -31,8 +31,23 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
-    public List<Member> getMembers() {
-        return memberRepository.getMembers();
+    public List<Member> getMembers(int limit, int offset, String field, String keyword) {
+        return memberRepository.getMembers(limit, offset, field, keyword);
+    }
+
+    @Override
+    public Integer getValidMemberCount() {
+        return memberRepository.getValidMemberCount();
+    }
+
+    @Override
+    public Integer getTodayMemberCount() {
+        return memberRepository.getTodayMemberCount();
+    }
+
+    @Override
+    public Integer getInvalidMemberCount() {
+        return memberRepository.getInvalidMemberCount();
     }
 
     @Override
@@ -45,7 +60,7 @@ public class MemberRepositoryImpl implements MemberRepository {
     @Override
     public int update(Member member) {
         //member.setPassword(passwordEncoder.encode(member.getPassword()));
-        member.setCityId(findCityId(member.getAddr()));
+        //member.setCityId(findCityId(member.getAddr()));
         return memberRepository.update(member);
     }
 

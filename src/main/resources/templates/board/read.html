@@ -50,7 +50,7 @@
             <div class="board-mid">
                 <input type="hidden" th:value="*{id}" th:field="*{id}">
 
-                <input class="board-title" th:field="*{title}" th:value="*{title}" type="text" readonly>
+                <input maxlength="50" class="board-title" th:field="*{title}" th:value="*{title}" type="text" readonly>
 
                 <div class="board-info">
                     <span class="board-writer" th:field="*{writer}" th:text="*{writer}"></span>
@@ -111,7 +111,7 @@
         <h1 class="hide">Comment-box</h1>
 
         <div class="comment-reg-box">
-            <textarea class="comment-textarea" placeholder="댓글을 입력해주세요."></textarea>
+            <textarea maxlength="200" class="comment-textarea" placeholder="댓글을 입력해주세요."></textarea>
             <button class="comment-submit" th:text="Submit"></button>
         </div>
 
@@ -164,7 +164,7 @@
         </div>
 
         <div th:if="${board.categoryId == 3}" class="chat-box">
-            <a class="btn-to-chat" th:href="@{/chat/room(id=${room.id}, region=${room.region}, cityId=${room.cityId})}" th:text="'Chat'">채팅방</a>
+            <a class="btn-to-chat" th:data-id="${room.id}" th:href="@{/chat/room(id=${room.id}, region=${room.region}, cityId=${room.cityId})}" th:text="'Chat'">채팅방</a>
         </div>
 
     </section>
@@ -178,7 +178,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <textarea readonly class="modal-body-content">안녕!</textarea>
+                    <textarea maxlength="200" readonly class="modal-body-content">안녕!</textarea>
 
                     <div class="modal-info-box">
                         <span class="modal-writer">Writer</span>
@@ -191,6 +191,7 @@
                     <button type="button" class="btn comment-modify btn-modify">수정</button>
                     <button type="button" class="btn comment-modify btn-save">저장</button>
                     <button type="button" class="btn comment-delete btn-delete">삭제</button>
+                    <button type="button" class="btn btn-chat-join">가입</button>
                     <button type="button" class="btn comment-reply btn-cancel">닫기</button>
                 </div>
             </div>

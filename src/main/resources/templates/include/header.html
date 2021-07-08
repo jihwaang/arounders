@@ -11,14 +11,14 @@
             <i class="fas fa-search search-btn" id="search-btn"></i>
             <i class="fas fa-times cancel-btn dp-none" id="cancel-btn"></i>
         </div>
-        <img class="btn-profile" th:src="@{{path}(path = ${session.profileImg != null? session.profileImg : '/image/header/person.png'})}" src="/image/header/person.png" id="profile">
+        <img class="btn-profile" th:src="@{{path}(path = ${session.profileImg != null? session.profileImg : '/upload/anonymous.svg'})}" src="/image/header/person.png" id="profile">
         <span class="btn-menu" id="menu"><i class="fas fa-bars"></i></span>
     </div>
 
     <div class="tooltip-box dp-none">
 
         <div class="profile-box">
-            <img th:src="@{{path}(path = ${session.profileImg != null? session.profileImg : '/image/header/person.png'})}" src="../image/header/person.png" alt="프로필 아이콘" class="icon-profile">
+            <img th:src="@{{path}(path = ${session.profileImg != null? session.profileImg : '/upload/anonymous.svg'})}" src="../image/header/person.png" alt="프로필 아이콘" class="icon-profile">
             <div class="nickname" th:text="${session.nickname}">NickName</div>
         </div>
         <div class="local-box" th:text="${session.region}">
@@ -26,7 +26,7 @@
         </div>
         <a href="/logout" class="btn btn-logout">로그아웃</a>
         <a href="/mypage/dashboard" class="btn btn-mypage">마이페이지</a>
-        <a th:if="${session.roleId == 0}" href="#" class="btn btn-admin">관리자</a>
+        <a th:if="${session.roleId == 0}" href="/admin/members" class="btn btn-admin">관리자</a>
     </div>
 </header>
 </html>

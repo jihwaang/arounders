@@ -183,9 +183,9 @@ async function showList(cri){
                         <button class="btn-dot">dot</button>
         
                         <div class="board-toolbox hide">
-                            <button class="btn-hide">숨기기</button>
-                            
-                            ${board.memberId == memberId? `<button class="btn-report">신고하기</button>`:'' }
+                        
+                            ${board.memberId == memberId? `<button class="btn-hide">숨기기</button>`:'' }
+                            <button class="btn-report">신고하기</button>   
                         </div>
                     </div>
         

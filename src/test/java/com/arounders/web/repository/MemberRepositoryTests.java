@@ -84,8 +84,8 @@ public class MemberRepositoryTests {
 
     @Test
     public void getMembersTest(){
-        List<Member> members = memberRepository.getMembers();
+        //List<Member> members = memberRepository.getMembers();
 
-        members.forEach(System.out::println);
+        //members.forEach(System.out::println);
     }
 }

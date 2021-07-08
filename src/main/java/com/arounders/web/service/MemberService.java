@@ -11,7 +11,11 @@ public interface MemberService {
     /* 사용자 조회 */
     Member getMember(Long id);
     /* 사용자 목록 조회 */
-    List<Member> getMembers();
+    List<Member> getMembers(int page, String field, String keyword);
+    /* 사용자 수 */
+    Integer getValidMemberCount();
+    Integer getInvalidMemberCount();
+    Integer getTodayMemberCount();
     /* 사용자 생성 */
     Long signup(MemberDTO requestMember);
     /* 사용자 수정 */

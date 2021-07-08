@@ -214,6 +214,7 @@
     }
 
     .content-box textarea[name="content"]{
+        line-height: initial;
         width: 100%;
         resize: none;
         min-height: 400px;

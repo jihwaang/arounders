@@ -25,10 +25,11 @@ header{
         position: relative;
     }
         header > .btn-box .btn-profile{
+            border-radius: 50%;
             display: block;
             cursor: pointer;
-            width: 31px;
-            height: 31px;
+            width: 21px;
+            height: 21px;
 
             margin: auto 0;;
         }
@@ -60,12 +61,16 @@ header{
         }
         
         header .btn-profile{
-            background: url("/image/header/person.png") no-repeat center;
+            /*background: url("/image/header/person.png") no-repeat center;*/
             background-size: contain;
         }
 
 @media screen and (min-width: 800px){
 
+    header > .btn-box .btn-profile{
+        width: 31px;
+        height: 31px;
+    }
     .btn-box > .btn-menu{
         display: none;
     }

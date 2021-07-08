@@ -229,6 +229,7 @@ main > :first-child{
     /* slider-box */
 
     .board-mid .board-content{
+        line-height: initial;
         width: 100%;
         resize: none;
         min-height: 250px;
@@ -304,6 +305,7 @@ main > :first-child{
         gap: 10px;
     }
     .comment-reg-box .comment-textarea{
+        line-height: initial;
         font-size: var(--fs-mb-md);
         padding: 5px;
         border-radius: 10px;
@@ -348,6 +350,7 @@ main > :first-child{
             color: gray;
         }
     .comment-content{
+        line-height: initial;
         font-size: var(--fs-mb-md);
     }
     .comment .comment-bot{
@@ -429,13 +432,15 @@ main > :first-child{
         border-radius: 5px;
         color: #fff;
     }
-    .modal .comment-modify{
+    .modal .comment-modify,
+    .modal .btn-chat-join{
         background: #0168AD;
     }
     .modal .comment-delete{
         background: #B61F24;
     }
-        .modal .comment-modify:hover{
+        .modal .comment-modify:hover,
+        .modal .btn-chat-join:hover{
             background: #00558d;
         }
         .modal .comment-delete:hover{
@@ -594,6 +599,7 @@ main > :first-child{
         color: gray;
     }
     .content-box textarea[name="content"]{
+        line-height: initial;
         width: 100%;
         resize: none;
         min-height: 400px;
@@ -673,6 +679,7 @@ main > :first-child{
 
     /* Comment-Box */
     .comment-box .comment-textarea{
+        line-height: initial;
         font-size: var(--fs-pc-md);
         height: 90px;
     }

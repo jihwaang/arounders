@@ -38,9 +38,27 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<Member> getMembers() {
+    public List<Member> getMembers(int page, String field, String keyword) {
 
-        return memberRepository.getMembers();
+        int limit = 20;
+        int offset = (page - 1) * 20;
+
+        return memberRepository.getMembers(limit, offset, field, keyword);
+    }
+
+    @Override
+    public Integer getValidMemberCount() {
+        return memberRepository.getValidMemberCount();
+    }
+
+    @Override
+    public Integer getInvalidMemberCount() {
+        return memberRepository.getInvalidMemberCount();
+    }
+
+    @Override
+    public Integer getTodayMemberCount() {
+        return memberRepository.getTodayMemberCount();
     }
 
     @Override
@@ -61,7 +79,8 @@ public class MemberServiceImpl implements MemberService {
     public Long update(Member member) {
 
         log.info("#MemberService : update -> " + member);
-        member.setPassword(passwordEncoder.encode(member.getPassword()));
+        if(member.getPassword() != null)
+            member.setPassword(passwordEncoder.encode(member.getPassword()));
         int result = memberRepository.update(member);
 
         return result == 1? member.getId() : null;
