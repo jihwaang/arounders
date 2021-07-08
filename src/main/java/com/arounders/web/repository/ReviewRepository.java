@@ -6,7 +6,7 @@ import com.arounders.web.entity.Review;
 import java.util.List;
 
 public interface ReviewRepository {
-    List<ReviewDTO> getReviewListOfBoard(Long boardId);
+    List<ReviewDTO> getReviewListOfBoard(Long boardId, Long offset);
 
     List<ReviewDTO> getReviewListOfMember(Long memberId);
 
@@ -15,4 +15,6 @@ public interface ReviewRepository {
     int update(Review review);
 
     int delete(Long reviewId);
+
+    ReviewDTO findUserReview(Review review);
 }

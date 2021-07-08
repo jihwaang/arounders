@@ -160,7 +160,7 @@
         <h1 class="hide">Option-Box</h1>
 
         <div th:if="${board.categoryId == 2}" class="review-box">
-            <a class="btn-to-review" th:href="@{list}" th:text="'Review'">리뷰</a>
+            <a class="btn-to-review" th:href="@{/board/review(boardId=${board.id})}" th:text="'Review'">리뷰</a>
         </div>
 
         <div th:if="${board.categoryId == 3}" class="chat-box">

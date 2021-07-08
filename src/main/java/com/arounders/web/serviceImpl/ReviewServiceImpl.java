@@ -18,8 +18,8 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<ReviewDTO> getReviewListOfBoard(Long boardId) {
-        return reviewRepository.getReviewListOfBoard(boardId);
+    public List<ReviewDTO> getReviewListOfBoard(Long boardId, Long offset) {
+        return reviewRepository.getReviewListOfBoard(boardId, offset);
     }
 
     @Override
@@ -51,5 +51,11 @@ public class ReviewServiceImpl implements ReviewService {
         int result = reviewRepository.delete(reviewId);
 
         return result > 0? reviewId : null;
+    }
+
+    @Override
+    public ReviewDTO getReviewOfMineOfBoard(Long id) {
+        Review review = Review.builder().id(id).build();
+        return reviewRepository.findUserReview(review);
     }
 }

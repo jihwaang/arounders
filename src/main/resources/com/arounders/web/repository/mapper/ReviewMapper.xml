@@ -5,11 +5,15 @@
 
 <mapper namespace="com.arounders.web.repository.ReviewRepository">
     <select id="getReviewListOfBoard" resultType="com.arounders.web.dto.ReviewDTO">
-        SELECT * FROM REVIEW_VIEW WHERE BOARD_ID = #{boardId} ORDER BY ID DESC
+        SELECT * FROM REVIEW_VIEW WHERE BOARD_ID = #{boardId} ORDER BY ID DESC LIMIT 10 OFFSET #{param2}
     </select>
 
     <select id="getReviewListOfMember" resultType="com.arounders.web.dto.ReviewDTO">
         SELECT * FROM REVIEW_VIEW WHERE MEMBER_ID = #{memberId} ORDER BY ID DESC
+    </select>
+
+    <select id="findUserReview" resultType="com.arounders.web.dto.ReviewDTO">
+        SELECT * FROM REVIEW_VIEW WHERE ID = #{id}
     </select>
 
     <insert id="insert" parameterType="Review">

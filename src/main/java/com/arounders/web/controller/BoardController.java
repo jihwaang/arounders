@@ -195,7 +195,7 @@ public class BoardController {
     }
 
     @GetMapping("/review")
-    public String getReviews(Model model, Long id) {
+    public String getReviews(Model model, @RequestParam(value = "boardId") Long id) {
         log.info("#BoardController -> boardId : " + id);
         model.addAttribute("boardId", id);
         return "/board/review";

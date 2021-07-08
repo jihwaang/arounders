@@ -7,6 +7,12 @@ main {
     background-color: #fff;
 }
 
+.top-point {
+    position: absolute;
+    top: -70px;
+    height: 0;
+}
+
 .top-container {
     display: flex;
     justify-content: space-between;
@@ -35,7 +41,9 @@ main {
 
 .review-container .review-list {
     width: 100%;
-
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
 }
 
 .review-container .review-list .review-item {
@@ -71,10 +79,10 @@ main {
 
 }
 .review-container .review-list .review-item .item-content .content {
-
+    word-break: break-all;
 }
 
-.review-container .review-list .review-item .item-controll {
+.review-container .review-list .review-item .item-control {
     display: flex;
     justify-content: flex-end;
     gap: .7em;
@@ -82,19 +90,32 @@ main {
     color: #999;
 }
 
-.review-container .review-list .review-item .item-controll > span {
+.review-container .review-list .review-item .item-control > a {
     cursor: pointer;
 }
 
 .bottom-container {
     display: flex;
     place-items: center;
+    padding: 1.3em;
 }
 
-.bottom-container .btn-write {
+.bottom-container > .btn-write {
     font-size: .98rem;
     padding: .5em;
     background-color: var(--color-skyblue);
+    color: #fff;
+    border-radius: .5em;
+    display: inline-block;
+    width: 90%;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.bottom-container > .btn-top {
+    font-size: .98rem;
+    padding: .5em;
+    background-color: var(--color-strong);
     color: #fff;
     border-radius: .5em;
     display: inline-block;
@@ -115,7 +136,7 @@ main {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
-    z-index: 10;
+    z-index: 1000;
 }
 
 .modal-item {
@@ -123,7 +144,7 @@ main {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 20;
+    z-index: 1010;
     border: 1px solid #999;
     padding: .8em;
     background-color: #fff;
@@ -135,7 +156,8 @@ main {
 }
 .modal-item .exit-section {
     position: absolute;
-    right: 5%;
+    right: 0;
+    top: 0;
 }
 .modal-item .rate {
     text-align: center;
@@ -144,6 +166,14 @@ main {
 .modal-item .rate h3 {
     padding: .5em 0;
     text-align: center;
+}
+
+.modal-item .rate .fas {
+    color: yellow;
+}
+
+.modal-item .rate .fa-star {
+    cursor: pointer;
 }
 
 .modal-item .input-text {
@@ -155,6 +185,13 @@ main {
     outline: none;
     border: none;
     resize: none;
+    width: 100%;
+}
+
+.modal-item .input-text .byte-limit {
+    font-size: .7rem;
+    color: #999;
+    text-align: right;
 }
 
 .modal-item .btn-container {
@@ -171,7 +208,18 @@ main {
     font-size: .8rem;
 }
 
-.modal-item .btn-container .btn-write:hover {
+.modal-item .btn-container .btn-update {
+    color: #fff;
+    background-color: var(--color-skyblue);
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    padding: .45em;
+    font-size: .8rem;
+}
+
+.modal-item .btn-container .btn-write:hover,
+.modal-item .btn-container .btn-update:hover{
     opacity: .75;
 }
 
@@ -182,7 +230,7 @@ main {
 }
 
 .modal-item.confirm-cancel {
-    padding: 3em;
+    padding: 2em;
     display: flex;
     flex-direction: column;
     gap: 2em;
@@ -197,11 +245,17 @@ main {
 .modal-item.confirm-cancel .btn-container .btn-delete {
     background-color: var(--color-gray);
     color: #fff;
-    padding: .7em;
+    padding: .2em .5em;
 }
 
 .modal-item.confirm-cancel .btn-container .btn-cancel {
     background-color: var(--color-skyblue);
     color: #fff;
-    padding: .7em;
+    padding: .2em .5em;
+}
+
+@media screen and (min-width: 780px) {
+    .top-container .btn-back {
+        display: none;
+    }
 }

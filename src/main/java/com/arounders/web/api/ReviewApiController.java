@@ -21,12 +21,20 @@ public class ReviewApiController {
     private final HttpSession session;
 
     @GetMapping("/boards/{boardId}")
-    public ResponseEntity<List<ReviewDTO>> getReviewListOfBoard(@PathVariable("boardId") Long boardId) {
-
+    public ResponseEntity<List<ReviewDTO>> getReviewListOfBoard(@PathVariable("boardId") Long boardId, @RequestParam("offset") Long offset) {
+        log.info("offset: {}", offset);
         log.info("#ReviewApiController -> getReviewListOfBoard : " + boardId);
-        List<ReviewDTO> list = reviewService.getReviewListOfBoard(boardId);
+        List<ReviewDTO> list = reviewService.getReviewListOfBoard(boardId, offset);
 
         return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @GetMapping("/review/{reviewId}")
+    public ResponseEntity<ReviewDTO> getReview(@PathVariable("reviewId") Long id) {
+        Long memberId = (Long) session.getAttribute("id");
+        log.info("requestURL: /reviews/api/v1/review/{reviewId} , reviewId: {}", id);
+        ReviewDTO reviewDTO = reviewService.getReviewOfMineOfBoard(id);
+        return new ResponseEntity<>(reviewDTO, HttpStatus.OK);
     }
 
     @GetMapping("/members/{memberId}")
@@ -38,7 +46,7 @@ public class ReviewApiController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @PostMapping("")
+    @PostMapping("/create")
     public ResponseEntity<Long> createReview(@RequestBody ReviewDTO reviewDTO) {
 
         /* test용 */
