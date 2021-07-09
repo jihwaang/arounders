@@ -29,6 +29,7 @@
 
     <div class="chat-room-form-box">
         <form action="" method="post" id="chat-room-form">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             <input maxlength="50" type="text" name="title" class="title-input" placeholder="Chat Room's Title">
             <button class="btn-create" title="채팅방 개설">Create</button>
         </form>

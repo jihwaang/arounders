@@ -16,4 +16,14 @@ public class AdminController {
 
         return "admin/members";
     }
+
+    @GetMapping(value = "/reports")
+    public String getReports(){
+        return "admin/reports";
+    }
+
+    @GetMapping(value = "/boards")
+    public String getBoards(){
+        return "admin/boards";
+    }
 }

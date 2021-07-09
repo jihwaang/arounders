@@ -5,12 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AROUNDERS | 404 ERROR</title>
     <style>
+        html{
+            background: #F6F5F3 !important;
+        }
         body, html{
             height: 100%;
             margin: 0;
             position: relative;
         }
         body{
+            background: #ffffff;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -22,7 +26,7 @@
         }
         .background{
             height: 300px;
-            background: url('/image/error/500.svg') no-repeat center;
+            background: url('/image/error/404.svg') no-repeat center;
             background-size: contain;
         }
         .title{
@@ -36,18 +40,19 @@
             margin-right: 200px;
         }
     </style>
+    <link href="/css/common/common.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="content-box">
     <div class="background">
 
     </div>
-    <h1 class="title">요청을 처리할 수 없습니다.</h1>
+    <h1 class="title">페이지를 찾을 수 없습니다.</h1>
     <a class="link" href="/board/list">HOME</a>
 </div>
 
-<footer th:fragment="footer">
-    <div style="background-color: black; height: 70px;"></div>
+<footer>
+    <span>Copyright &copy; 2021 AROUNDERS All rights reserved</span>
 </footer>
 </body>
 </html>

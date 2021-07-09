@@ -19,8 +19,12 @@ public class ReportServiceImpl implements ReportService {
     private final ReportRepository repository;
 
     @Override
-    public List<ReportDTO> getReports(Integer status) {
-        return repository.findAllByStatus(status);
+    public List<ReportDTO> getReports(Integer status, Long boardId, int page) {
+
+        int limit = 20;
+        int offset = (page - 1) * 20;
+
+        return repository.findAllByOptions(status, boardId, limit, offset);
     }
 
     @Override
@@ -53,5 +57,20 @@ public class ReportServiceImpl implements ReportService {
         int result = repository.update(id);
 
         return result == 1? id : null;
+    }
+
+    @Override
+    public Integer getCountToday() {
+        return repository.getCountToday();
+    }
+
+    @Override
+    public Integer getCountProcess() {
+        return repository.getCountProcess();
+    }
+
+    @Override
+    public Integer getCountFinish() {
+        return repository.getCountFinish();
     }
 }

@@ -24,6 +24,7 @@
     <section class="input-form w-100 max-width-ms" id="input-login">
         <h1 class="page-title">FIND PASSWORD</h1>
         <form th:action="@{/member/update/password}" id="form-find" method="post" class="fx-column">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             <div class="email fx-column">
                 <label for="email">Email ID</label>
                 <input type="text" name="email" id="email" class="form-input-text" />

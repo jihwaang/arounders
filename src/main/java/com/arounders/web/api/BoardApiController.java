@@ -36,7 +36,7 @@ public class BoardApiController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    /* 게시글 숨기기 (작성자 본인만 가능) */
+    /* 게시글 숨기기 (작성자 본인만 가능 OR 관리자) */
     @PostMapping(value = "/{boardId}")
     public ResponseEntity<Long> doHide(@PathVariable("boardId") Long boardId){
 

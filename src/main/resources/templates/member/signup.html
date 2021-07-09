@@ -29,6 +29,7 @@
             <h1>SIGN UP</h1>
         </div>
         <form th:action="@{/member/signup}" method="POST" class="form-signup">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             <div class="fx-column">
                 <label for="email">이메일(아이디)<span class="required">*</span></label>
                 <input class="form-input-text" type="email" id="email" name="email"/>

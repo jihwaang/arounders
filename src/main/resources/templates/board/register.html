@@ -19,6 +19,7 @@
 
 <div class="regForm-box">
     <form th:action="@{register}" method="post" th:object="${board}" id="regForm" enctype="multipart/form-data">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         <section>
             <h1 class="hide">Category</h1>
             <select class="category" th:field="*{categoryId}">

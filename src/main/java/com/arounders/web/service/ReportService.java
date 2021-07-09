@@ -10,9 +10,14 @@ public interface ReportService {
     /* 특정 신고된 글 조회 */
     ReportDTO getReport(Long id);
     /* 신고 목록 조회 */
-    List<ReportDTO> getReports(Integer status);
+    List<ReportDTO> getReports(Integer status, Long boardId, int page);
     /* 신고 등록 */
     Long register(Report report);
     /* 신고 처리 */
     Long finish(Long id);
+
+    /* counts */
+    Integer getCountToday();
+    Integer getCountProcess();
+    Integer getCountFinish();
 }

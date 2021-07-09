@@ -18,9 +18,21 @@ class ReportRepositoryTest {
 
     @Test
     void findAllByStatus() {
-        List<ReportDTO> list = repository.findAllByStatus(null);
 
+        //given
+        int page = 1;
+        int limit = 20;
+        int offset = (page - 1) * limit;
+
+        Long boardId = null;
+        Integer status = null;
+
+        //when
+        List<ReportDTO> list = repository.findAllByOptions(status, boardId, limit, offset);
         list.forEach(System.out::println);
+
+        //then
+        Assertions.assertThat(list.size()).isEqualTo(5);
     }
 
     @Test

@@ -23,8 +23,8 @@ public class ReportRepositoryImpl implements ReportRepository{
     }
 
     @Override
-    public List<ReportDTO> findAllByStatus(Integer status) {
-        return repository.findAllByStatus(status);
+    public List<ReportDTO> findAllByOptions(Integer status, Long boardId, int limit, int offset) {
+        return repository.findAllByOptions(status, boardId, limit, offset);
     }
 
     @Override
@@ -40,5 +40,20 @@ public class ReportRepositoryImpl implements ReportRepository{
     @Override
     public Integer isReport(Long memberId, Long boardId) {
         return repository.isReport(memberId, boardId);
+    }
+
+    @Override
+    public Integer getCountToday() {
+        return repository.getCountToday();
+    }
+
+    @Override
+    public Integer getCountProcess() {
+        return repository.getCountProcess();
+    }
+
+    @Override
+    public Integer getCountFinish() {
+        return repository.getCountFinish();
     }
 }

@@ -37,4 +37,10 @@ public interface BoardRepository {
     Integer getCountByCategory(@Param("memberId") Long memberId, @Param("categoryId") Integer categoryId);
 
     List<BoardDTO> getMyInterests(@Param("cri") BoardCriteria criteria, Long memberId);
+
+    /* About Admin */
+    List<BoardDTO> getAllBoards(@Param("limit") int limit, @Param("offset") int offset);
+    int getCountToday();
+    int getCountProcess();
+    int getCountFinish();
 }

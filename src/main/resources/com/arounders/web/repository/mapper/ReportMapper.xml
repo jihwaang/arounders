@@ -13,14 +13,18 @@
         SELECT COUNT(ID) FROM REPORT WHERE MEMBER_ID = #{memberId} AND BOARD_ID = #{boardId}
     </select>
 
-    <select id="findAllByStatus" resultType="com.arounders.web.dto.ReportDTO">
+    <select id="findAllByOptions" resultType="com.arounders.web.dto.ReportDTO">
         SELECT * FROM REPORT_VIEW
-            <where>
+            <trim prefix="where" prefixOverrides="AND">
                 <if test="status != null">
                     IS_FINISHED = #{status}
                 </if>
-            </where>
+                <if test="boardId != null">
+                    AND BOARD_ID = #{boardId}
+                </if>
+            </trim>
         ORDER BY ID DESC
+        LIMIT #{limit} OFFSET #{offset}
     </select>
 
     <insert id="insert" parameterType="Report">
@@ -35,4 +39,15 @@
     <update id="update">
         UPDATE REPORT SET IS_FINISHED = 1 WHERE ID = #{id}
     </update>
+
+    <!-- counts -->
+    <select id="getCountToday" resultType="Integer">
+        SELECT COUNT(ID) FROM REPORT WHERE date(created_at) = DATE_FORMAT(NOW(), '%Y%m%d')
+    </select>
+    <select id="getCountProcess" resultType="Integer">
+        SELECT COUNT(ID) FROM REPORT WHERE IS_FINISHED = 0
+    </select>
+    <select id="getCountFinish" resultType="Integer">
+        SELECT COUNT(ID) FROM REPORT WHERE IS_FINISHED = 1
+    </select>
 </mapper>

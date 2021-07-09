@@ -1,6 +1,8 @@
 package com.arounders.web.api;
 
+import com.arounders.web.dto.BoardDTO;
 import com.arounders.web.entity.Member;
+import com.arounders.web.service.BoardService;
 import com.arounders.web.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,7 @@ import java.util.List;
 public class AdminApiController {
 
     private final MemberService memberService;
+    private final BoardService boardService;
 
     /* 회원 목록 조회 */
     @GetMapping("/members/{page}")
@@ -51,5 +54,26 @@ public class AdminApiController {
     @GetMapping(value = "/members/today")
     public ResponseEntity<Integer> getTodayMemberCount(){
         return new ResponseEntity<>(memberService.getTodayMemberCount(), HttpStatus.OK);
+    }
+
+    /* 게시글 조회 */
+    @GetMapping(value = "/boards")
+    public ResponseEntity<List<BoardDTO>> getAllBoards(@RequestParam( value = "page", defaultValue = "1") int page){
+        return new ResponseEntity<>(boardService.getAllBoards(page), HttpStatus.OK);
+    }
+    /* 진행중 글 수 */
+    @GetMapping(value = "/boards/process")
+    public ResponseEntity<Integer> getProcessBoardCount(){
+        return new ResponseEntity<>(boardService.getCountProcess(), HttpStatus.OK);
+    }
+    /* 완료된 글 수 */
+    @GetMapping(value = "/boards/finish")
+    public ResponseEntity<Integer> getFinishBoardCount(){
+        return new ResponseEntity<>(boardService.getCountFinish(), HttpStatus.OK);
+    }
+    /* 오늘 작성한 글 수 */
+    @GetMapping(value = "/boards/today")
+    public ResponseEntity<Integer> getTodayBoardCount(){
+        return new ResponseEntity<>(boardService.getCountToday(), HttpStatus.OK);
     }
 }

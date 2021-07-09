@@ -116,4 +116,28 @@ public class BoardServiceImpl implements BoardService {
 
         return result > 0? boardId : null;
     }
+
+    @Override
+    public List<BoardDTO> getAllBoards(int page) {
+
+        int limit = 20;
+        int offset = (page - 1) * limit;
+
+        return boardRepository.getAllBoards(limit, offset);
+    }
+
+    @Override
+    public int getCountToday() {
+        return boardRepository.getCountToday();
+    }
+
+    @Override
+    public int getCountProcess() {
+        return boardRepository.getCountProcess();
+    }
+
+    @Override
+    public int getCountFinish() {
+        return boardRepository.getCountFinish();
+    }
 }

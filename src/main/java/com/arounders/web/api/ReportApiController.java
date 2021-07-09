@@ -34,10 +34,15 @@ public class ReportApiController {
 
     /* /reports/api/v1?status=? */
     @GetMapping("")
-    public ResponseEntity<List<ReportDTO>> getReports(@RequestParam(value = "status", required = false) Integer status){
+    public ResponseEntity<List<ReportDTO>> getReports(@RequestParam(value = "status", required = false) Integer status,
+                                                      @RequestParam(value = "boardId", required = false) Long boardId,
+                                                      @RequestParam(value = "page", defaultValue = "1") int page){
 
+        System.out.println("status = " + status);
+        System.out.println("boardId = " + boardId);
+        System.out.println("page = " + page);
         /* 목록 조회 */
-        List<ReportDTO> list = service.getReports(status);
+        List<ReportDTO> list = service.getReports(status, boardId, page);
 
         log.info("#ReportApiController : getReports -> " + status);
         list.forEach(log::info);
@@ -70,5 +75,18 @@ public class ReportApiController {
         service.finish(id);
 
         return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/today")
+    public ResponseEntity<Integer> getCountToday(){
+        return new ResponseEntity<>(service.getCountToday(), HttpStatus.OK);
+    }
+    @GetMapping(value = "/process")
+    public ResponseEntity<Integer> getCountProcess(){
+        return new ResponseEntity<>(service.getCountProcess(), HttpStatus.OK);
+    }
+    @GetMapping(value = "/finish")
+    public ResponseEntity<Integer> getCountFinish(){
+        return new ResponseEntity<>(service.getCountFinish(), HttpStatus.OK);
     }
 }

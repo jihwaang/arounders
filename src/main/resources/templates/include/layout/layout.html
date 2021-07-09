@@ -16,6 +16,10 @@
     <link rel="stylesheet" type="text/css" href="/css/include/aside.css">
 
     <!-- JS -->
+    <script th:inline="javascript">
+        const csrfToken = [[${_csrf.token}]];
+        const csrf = [[${_csrf.parameterName}]];
+    </script>
     <script defer src="/js/common/header.js"></script>
     <script defer src="/js/common/common.js"></script>
 

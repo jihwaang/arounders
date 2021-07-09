@@ -87,8 +87,8 @@ async function getMembers(page){
                 </div>
             </div>
             <div class="bottom">
-                <span class="created">가입일 : ${createdAt}</span>
-                <span class="latest-login">최근 로그인: ${lastLoginAt}</span>
+                <span class="created">가입일 : ${getDate(new Date(createdAt))}</span>
+                <span class="latest-login">최근 로그인: ${getDate(new Date(lastLoginAt))}</span>
             </div>
         </div>`;
      });
@@ -158,3 +158,15 @@ btnMemberReset.addEventListener('click', (e) => {
     today.insertAdjacentHTML('beforeend',
         `<div class="value">${todayCount.data}</div>`);
 })();
+
+function getDate(date){
+
+    const year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+
+    if(month.toString().length < 2) month = '0' + month;
+    if(day.toString().length < 2) day = '0' + day;
+
+    return `${year}/${month}/${day}`;
+}

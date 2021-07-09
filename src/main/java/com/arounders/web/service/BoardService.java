@@ -57,4 +57,10 @@ public interface BoardService {
     }
     /* mypage => my list */
     List<BoardDTO> getMyInterests(BoardCriteria criteria, Long memberId);
+
+    /* About Admin */
+    List<BoardDTO> getAllBoards(int page);
+    int getCountToday();
+    int getCountProcess();
+    int getCountFinish();
 }

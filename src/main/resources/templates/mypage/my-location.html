@@ -12,6 +12,7 @@ map test page
 <div id="map" style="width:50%;height:400px;"></div>
 <div>
     <form id="location-form" method="post" th:action="@{/mypage/update/address}">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
     <label for="addr">현재위치</label>
     <input type="text" name="addr" id="addr" style="width:50%;" readonly>
     <label for="addrDtl">상세주소입력</label>

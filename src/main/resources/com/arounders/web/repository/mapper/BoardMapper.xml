@@ -211,4 +211,19 @@
         LIMIT #{cri.size} OFFSET ${cri.offset}
     </select>
 
+    <!-- 관리자 게시글 조회 -->
+    <select id="getAllBoards" resultType="com.arounders.web.dto.BoardDTO">
+        SELECT * FROM BOARD_VIEW ORDER BY ID DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="getCountToday" resultType="Integer">
+        SELECT COUNT(ID) FROM BOARD WHERE DATE(CREATED_AT) = DATE_FORMAT(NOW(), '%Y%m%d')
+    </select>
+    <select id="getCountProcess" resultType="Integer">
+        SELECT COUNT(ID) FROM BOARD WHERE STATUS = 0
+    </select>
+    <select id="getCountFinish" resultType="Integer">
+        SELECT COUNT(ID) FROM BOARD WHERE STATUS = 1
+    </select>
 </mapper>

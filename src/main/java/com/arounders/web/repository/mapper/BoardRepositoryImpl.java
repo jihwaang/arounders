@@ -77,4 +77,24 @@ public class BoardRepositoryImpl implements BoardRepository {
     public List<BoardDTO> getMyInterests(BoardCriteria criteria, Long memberId) {
         return mapper.getMyInterests(criteria, memberId);
     }
+
+    @Override
+    public List<BoardDTO> getAllBoards(int limit, int offset) {
+        return mapper.getAllBoards(limit, offset);
+    }
+
+    @Override
+    public int getCountToday() {
+        return mapper.getCountToday();
+    }
+
+    @Override
+    public int getCountProcess() {
+        return mapper.getCountProcess();
+    }
+
+    @Override
+    public int getCountFinish() {
+        return mapper.getCountFinish();
+    }
 }
