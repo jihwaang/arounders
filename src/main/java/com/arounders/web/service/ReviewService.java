@@ -8,7 +8,7 @@ import java.util.List;
 public interface ReviewService {
     List<ReviewDTO> getReviewListOfBoard(Long boardId, Long offset);
 
-    List<ReviewDTO> getReviewListOfMember(Long memberId);
+    List<ReviewDTO> getReviewListOfMember(Long memberId, Long offset);
 
     Long createReview(ReviewDTO review);
 
@@ -28,4 +28,6 @@ public interface ReviewService {
                 .createdAt(dto.getCreatedAt())
                 .build();
     }
+
+    int getCountDups(ReviewDTO reviewDTO);
 }

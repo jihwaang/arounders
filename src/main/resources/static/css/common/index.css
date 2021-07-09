@@ -1,3 +1,6 @@
+body {
+    background-color: #fff;
+}
 main {
     display: flex;
     flex-direction: column;
@@ -18,7 +21,8 @@ main {
 
 .password-find-svg {
     background: url('../../image/common/password-find.svg') no-repeat center;
-    height: 40%;
+    /*height: 40%;*/
+    height: 15em;
     background-size: contain;
 }
 
@@ -53,12 +57,31 @@ form > .fx-column {
     border: 1px solid skyblue;
 }
 
+.invalid {
+    color: red;
+    font-size: .8rem;
+    text-align: center;
+}
+
 .find-section {
     padding: 1em 0.3em;
 }
 
 .find-password {
     color: var(--color-skyblue);
+}
+
+.btn-location-agreement {
+    text-align: center;
+    padding: .8em;
+    background-color: var(--color-skyblue);
+    color: #fff;
+    margin-top: 1em;
+    font-size: .9rem;
+}
+
+.btn-location-agreement:hover {
+    opacity: .75;
 }
 
 .btn-section {

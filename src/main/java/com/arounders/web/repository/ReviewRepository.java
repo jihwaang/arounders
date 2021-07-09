@@ -8,7 +8,7 @@ import java.util.List;
 public interface ReviewRepository {
     List<ReviewDTO> getReviewListOfBoard(Long boardId, Long offset);
 
-    List<ReviewDTO> getReviewListOfMember(Long memberId);
+    List<ReviewDTO> getReviewListOfMember(Long memberId, Long offset);
 
     int insert(Review review);
 
@@ -17,4 +17,6 @@ public interface ReviewRepository {
     int delete(Long reviewId);
 
     ReviewDTO findUserReview(Review review);
+
+    int getCountDups(Review review);
 }

@@ -454,6 +454,70 @@ main section {
 
 /* comment section [e] */
 
+/* review section [s] */
+.review-container {
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+    padding: 2em;
+}
+
+.review-container .review-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+}
+
+.review-container .review-list .review-item {
+    border: 1px solid #000;
+    border-radius: .5em;
+    display: flex;
+    flex-direction: column;
+    gap: .78em;
+    /* place-items: center; */
+    width: 100%;
+    padding: .5em;
+    font-size: .8rem;
+}
+
+.review-container .review-list .review-item .item-title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.review-container .review-list .review-item .item-rate {
+
+}
+
+.review-container .review-list .review-item .item-rate > i.fas {
+    color: yellow;
+}
+
+.review-container .review-list .review-item .item-rate > i.far {
+    color: #999;
+}
+
+.review-container .review-list .review-item .item-content {
+
+}
+.review-container .review-list .review-item .item-content .content {
+    word-break: break-all;
+}
+
+.review-container .review-list .review-item .item-control {
+    display: flex;
+    justify-content: flex-end;
+    gap: .7em;
+    font-size: .6rem;
+    color: #999;
+}
+
+.review-container .review-list .review-item .item-control > a {
+    cursor: pointer;
+}
+/* reivew section [e] */
+
 
 @media screen and (min-width: 780px) {
     .top-container {

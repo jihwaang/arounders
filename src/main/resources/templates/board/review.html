@@ -17,8 +17,9 @@
     />
     <script th:inline="javascript">
         const boardId = [[${boardId}]];
+        const memberId = [[${session.id}]];
     </script>
-    <script th:inline="javascript" defer src="/js/review/review.js"></script>
+    <script defer src="/js/review/review.js"></script>
 </head>
 <main layout:fragment="main">
     <div class="top-point" id="top-point"></div>

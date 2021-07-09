@@ -172,6 +172,7 @@ const dataRequest = {
         if (reviews.length < 10) this.pagination.isMore = false;
 
         for (let review of reviews) {
+            const className = memberId == review.memberId ? '' : 'dp-none';
             let html = `<div class="review-item">
                 <div class="item-title">
                     <input type="hidden" name="reviewId" value="${review.id}"/>
@@ -184,7 +185,7 @@ const dataRequest = {
                 <div class="item-content">
                     <p class="content">${review.content}</p>
                 </div>
-                <div class="item-control">
+                <div class="item-control ${className}">
                     <a class="edit">수정</a>
                     <a class="delete">삭제</a>
                 </div>
@@ -239,8 +240,22 @@ const dataRequest = {
         formData.forEach((val, key) => payload[key] = val);
         if (!payload.rate) return alert('별점을 선택해주세요');
         if (!payload.content) return alert('내용을 입력해주세요');
-        let requestURL = '/reviews/api/v1/create';
+        // check duplicates
+        let requestURL = '/reviews/api/v1/duplicates';
         let options = {
+            method: 'POST',
+            body: JSON.stringify(payload),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            }
+        };
+        let result = await fetch(requestURL, options).then(response => response.json());
+
+        if (result > 0) return alert('이미 리뷰를 등록하셨습니다.');
+
+        // insert data
+        requestURL = '/reviews/api/v1/create';
+        options = {
             method: 'POST',
             body: JSON.stringify(payload),
             headers: {
@@ -248,7 +263,7 @@ const dataRequest = {
             }
         }
 
-        let result = await fetch(requestURL, options).then(response => response.json());
+        result = await fetch(requestURL, options).then(response => response.json());
         if (result < 1) return alert('오류가 발생했습니다.\n관리자에게 문의해주세요.');
         alert('성공적으로 등록되었습니다.');
         reviewList.innerHTML = '';
@@ -256,11 +271,44 @@ const dataRequest = {
         this.pagination.offset = 0;
         dataRequest.getReviews();
         overlay.click();
+    },
+    getMyReviews: async function() {
+        const requestURL = `/reviews/api/v1/reviews?offset=${this.pagination.offset}`;
+        const reviews = await fetch(requestURL).then(response => response.json());
+        console.log(reviews);
+        if (reviews.length < 10) this.pagination.isMore = false;
+
+        for (let review of reviews) {
+            let html = `<div class="review-item">
+                <div class="item-title">
+                    <input type="hidden" name="reviewId" value="${review.id}"/>
+                    <span class="nickname">${review.writer}</span>
+                    <span class="creation">${review.createdAt.toString().substr(0, 10)}</span>
+                </div>
+                <div class="item-rate">
+                        ${this.rateFactory(review.rate)}
+                </div>
+                <div class="item-content">
+                    <p class="content">${review.content}</p>
+                </div>
+                <div class="item-control">
+                    <a class="edit">수정</a>
+                    <a class="delete">삭제</a>
+                </div>
+            </div>`;
+            reviewList.insertAdjacentHTML('beforeend', html);
+        }
     }
 };
 
 window.addEventListener('load', () => {
-    dataRequest.getReviews();
+    let currentURL = location.pathname.split('/')[1];
+    if (currentURL == 'board') {
+        dataRequest.getReviews();
+    } else if (currentURL == 'mypage') {
+        return;
+    }
+
 });
 
 window.addEventListener('scroll', () => {

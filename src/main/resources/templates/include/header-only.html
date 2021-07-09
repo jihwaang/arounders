@@ -12,7 +12,7 @@
             <i class="fas fa-times cancel-btn dp-none" id="cancel-btn"></i>
         </div>
         <img class="btn-profile" th:src="@{{path}(path = ${session.profileImg != null? session.profileImg : '/upload/anonymous.svg'})}" src="/image/header/person.png" id="profile">
-        <span class="btn-menu dp-none" id="menu"><i class="fas fa-bars"></i></span>
+        <span class="btn-menu dp-none" id="menu" style="display: none !important;"><i class="fas fa-bars"></i></span>
     </div>
 
     <div class="tooltip-box dp-none">

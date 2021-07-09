@@ -24,8 +24,8 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     }
 
     @Override
-    public List<ReviewDTO> getReviewListOfMember(Long memberId) {
-        return mapper.getReviewListOfMember(memberId);
+    public List<ReviewDTO> getReviewListOfMember(Long memberId, Long offset) {
+        return mapper.getReviewListOfMember(memberId, offset);
     }
 
     @Override
@@ -46,5 +46,10 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     @Override
     public ReviewDTO findUserReview(Review review) {
         return mapper.findUserReview(review);
+    }
+
+    @Override
+    public int getCountDups(Review review) {
+        return mapper.getCountDups(review);
     }
 }

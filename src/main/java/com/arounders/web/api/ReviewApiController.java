@@ -37,12 +37,12 @@ public class ReviewApiController {
         return new ResponseEntity<>(reviewDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/members/{memberId}")
-    public ResponseEntity<List<ReviewDTO>> getReviewListOfMember(@PathVariable("memberId") Long memberId) {
-
-        log.info("#ReviewApiController -> getReviewListOfMember : " + memberId);
-        List<ReviewDTO> list = reviewService.getReviewListOfMember(memberId);
-
+    @GetMapping("/reviews")
+    public ResponseEntity<List<ReviewDTO>> getReviewListOfMember(@RequestParam("offset") Long offset) {
+        Long memberId = (Long) session.getAttribute("id");
+        log.info("#ReviewApiController -> getReviewListOfMember : {}, offset: {}", memberId, offset);
+        List<ReviewDTO> list = reviewService.getReviewListOfMember(memberId, offset);
+        log.info("my reviewList: {}", list);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
@@ -60,6 +60,13 @@ public class ReviewApiController {
 
         return id != null? new ResponseEntity<>(id, HttpStatus.OK) :
                 new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @PostMapping("duplicates")
+    public int checkDuplicates(@RequestBody ReviewDTO reviewDTO) {
+        reviewDTO.setMemberId((Long) session.getAttribute("id"));
+        log.info("request URL: /reviews/api/v1/duplicates, method: POST, reviewDTO: {}", reviewDTO);
+        return reviewService.getCountDups(reviewDTO);
     }
 
     @PutMapping("/{reviewId}")
