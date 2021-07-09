@@ -323,7 +323,60 @@ a{
                     font-size: var(--fs-mb-sm);
                     color: gray;
                 }
+        /* bottom */
+        .board .board-bottom{
+            display: flex;
+            justify-content: space-between;
 
+            height: 32px;
+        }
+        .board-bottom > *{
+            margin: auto 2px;
+        }
+        .board-bottom > * > *{
+            margin: 0 2px;
+        }
+        .board-bottom .btn-like,
+        .board-bottom .btn-comment,
+        .board-bottom .btn-interest,
+        .board-bottom .btn-like-on,
+        .board-bottom .btn-interest-on{
+            height: 24px;
+            width: 24px;
+
+            text-indent: -999px !important;
+            overflow-x: hidden !important;
+
+            border: none;
+            cursor: pointer;
+        }
+        .board-bottom .btn-comment{
+            cursor: initial;
+        }
+        /* 하단 버튼들 */
+        .board-bottom .btn-like{
+            background: url("/image/board/heart-off.png") no-repeat center;
+            background-size: contain;
+        }
+        .board-bottom .btn-comment{
+            background: url("/image/board/btn-comment.png") no-repeat center;
+            background-size: contain;
+        }
+        .board-bottom .btn-interest{
+            background: url("/image/board/smile-off.png") no-repeat center;
+            background-size: contain;
+        }
+        .board-bottom .btn-like-on{
+            background: url("/image/board/heart-on.png") no-repeat center;
+            background-size: contain;
+        }
+        .board-bottom .btn-interest-on{
+            background: url("/image/board/smile-on.png") no-repeat center;
+            background-size: contain;
+        }
+        .board-bottom .val{
+            font-size: var(--fs-mb-sm);
+        }
 /* board */
 
 @media screen and (min-width: 800px){
