@@ -36,6 +36,7 @@
                 <label for="password">Password</label>
                 <input type="password" name="password" id="password" class="form-input-password" />
             </div>
+            <p class="invalid dp-none">Invalid Email or Password, please Try again</p>
         </form>
         <div class="find-section w-100 max-width-ms text-right">
             <a class="find-password" th:href="@{/member/findAccount}">forget password?</a>
@@ -86,6 +87,7 @@
 
                     <label for="addrDtl">상세주소(직접입력)</label>
                     <input class="form-input-text" type="text" id="addrDtl" name="addrDtl" readonly/>
+                    <a class="btn-location-agreement" href="#" id="location-agreement">위치정보수집 동의하기</a>
                 </div>
             </form>
             <div class="btn-section">
@@ -94,5 +96,8 @@
         </div>
     </section>
 </main>
+<footer>
+    <span>Copyright &copy; 2021 AROUNDERS All rights reserved</span>
+</footer>
 </body>
 </html>

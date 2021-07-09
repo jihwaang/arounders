@@ -23,6 +23,9 @@ const commentSection = document.querySelector('.comment-section');
 const interests = document.querySelector('#interest-list');
 const interestSection = document.querySelector('.interest-section');
 
+const reviews = document.querySelector('#review-list');
+const reviewSection = document.querySelector('.review-section');
+
 //게시글 0일 시 플래그 처리를 위한 변수 선언
 let flag = false;
 
@@ -35,6 +38,18 @@ const validations = {
     address: true,
 };
 const dashboard = {
+    pagination: {
+        offset: 0,
+        isMore: true,
+        isLoading: false
+    },
+    rateFactory: function(rate) {
+        let html = '';
+        for (let i = 1; i <= 5; i++) {
+            html += i <= parseInt(rate) ? '<i class="fas fa-star"></i>' : '<i class="far fa-star"></i>';
+        }
+        return html;
+    },
     init: function (cri) {
         const _this = this;
 
@@ -57,6 +72,8 @@ const dashboard = {
                 cri.init();
                 flag = false;
                 _this.getInterestList(cri);
+            } else if (e.target.classList.contains('review')) {
+                _this.getReviewList();
             } else {
                 return;
             }
@@ -68,6 +85,9 @@ const dashboard = {
 
         interests.innerHTML = '';
         interestSection.classList.add('dp-none');
+
+        reviews.innserHTML = '';
+        reviewSection.classList.add('dp-none');
 
         if (listSection.classList.contains('dp-none')) {
             listSection.classList.remove('dp-none');
@@ -159,6 +179,8 @@ const dashboard = {
         interests.innerHTML = '';
         interestSection.classList.add('dp-none');
 
+        reviews.innserHTML = '';
+        reviewSection.classList.add('dp-none');
 
         if (commentSection.classList.contains('dp-none')) {
             commentSection.classList.remove('dp-none');
@@ -173,7 +195,7 @@ const dashboard = {
                     <div class="board-mid">
                         <div class="board-content-box">
                             <div class="board-title">
-                                <a href="read?id=${comment.boardId}">${comment.title}</a>
+                                <a href="/board/read?id=${comment.boardId}">${comment.title}</a>
                             </div>
                         </div>
                     </div>
@@ -196,6 +218,9 @@ const dashboard = {
 
         comments.innerHTML = '';
         commentSection.classList.add('dp-none');
+
+        reviews.innserHTML = '';
+        reviewSection.classList.add('dp-none');
 
 
         if (interestSection.classList.contains('dp-none')) {
@@ -278,6 +303,52 @@ const dashboard = {
                 </div>`;
             interests.insertAdjacentHTML('beforeend', html);
         }
+    },
+    getReviewList: async function() {
+
+        boards.innerHTML = '';
+        listSection.classList.add('dp-none');
+
+        comments.innerHTML = '';
+        commentSection.classList.add('dp-none');
+
+        interests.innerHTML = '';
+        interestSection.classList.add('dp-none');
+
+        //reviews.innerHTML = '';
+
+        if (reviewSection.classList.contains('dp-none')) {
+            reviewSection.classList.remove('dp-none');
+        }
+        this.pagination.isLoading = true;
+        const requestURL = `/reviews/api/v1/reviews?offset=${this.pagination.offset}`;
+        const reviewList = await fetch(requestURL).then(response => response.json());
+        console.log(reviewList);
+        if (reviewList.length < 10) this.pagination.isMore = false;
+
+        for (let review of reviewList) {
+            let html = `<div class="review-item">
+                <div class="item-title">
+                    <input type="hidden" name="reviewId" value="${review.id}"/>
+                    <span class="title"><a href="/board/review?boardId=${review.boardId}">${review.title}</a></span>
+                    <span class="creation">${review.createdAt.toString().substr(0, 10)}</span>
+                </div>
+                <div class="item-rate">
+                        ${this.rateFactory(review.rate)}
+                </div>
+                <div class="item-content">
+                    <p class="content">${review.content}</p>
+                </div>
+<!--                <div class="item-control">-->
+<!--                    <a class="edit">수정</a>-->
+<!--                    <a class="delete">삭제</a>-->
+<!--                </div>-->
+            </div>`;
+            reviews.insertAdjacentHTML('beforeend', html);
+            this.pagination.isLoading = false;
+        }
+
+
     }
 };
 
@@ -299,8 +370,11 @@ activityType.addEventListener('click', e => {
     boards.innerHTML = '';
     comments.innerHTML = '';
     interests.innerHTML = '';
+    reviews.innerHTML = '';
     let page = 1;
     cri.page = page;
+    dashboard.pagination.offset = 0;
+    dashboard.pagination.isMore = true;
     //dashboard.getCommentList(cri);
 })
 
@@ -309,10 +383,25 @@ activityType.addEventListener('click', e => {
 //     cri.page++;
 //     dashboard.getList(cri);
 // }
-
+/* Scroll Down -> Review List */
+window.addEventListener('scroll', () => {
+    if (dashboard.pagination.isLoading) return;
+    if (reviewSection.classList.contains('dp-none')) return;
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+    if (clientHeight + scrollTop >= scrollHeight - 5) {
+        console.log('scroll to the bottom');
+        // check if more to show
+        if (!dashboard.pagination.isMore) return;
+        // if so, get reviews again
+        dashboard.pagination.offset += 10;
+        dashboard.getReviewList();
+    }
+});
 /* Scroll Down -> Board List Request */
+
 window.addEventListener('scroll', () => {
     if (flag === true) return;
+    if (!reviewSection.classList.contains('dp-none')) return;
 
     let val = window.innerHeight + window.scrollY;
 
@@ -457,7 +546,9 @@ const modal = {
                 let attachment = await fetch(`/mypage/profileImg`).then(response => response.json());
 
                 let profileImg = updateInfo.querySelector('.inner-profile-image');
-                profileImg.style.background = `url(${attachment.path}) no-repeat center center/contain`;
+                if (attachment.path) {
+                    profileImg.style.background = `url(${attachment.path}) no-repeat center center/contain`;
+                }
                 let email = updateInfo.querySelector('#email');
                 email.value = member.email;
                 let nickname = updateInfo.querySelector('#nickname');

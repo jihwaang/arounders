@@ -23,8 +23,8 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<ReviewDTO> getReviewListOfMember(Long memberId) {
-        return reviewRepository.getReviewListOfMember(memberId);
+    public List<ReviewDTO> getReviewListOfMember(Long memberId, Long offset) {
+        return reviewRepository.getReviewListOfMember(memberId, offset);
     }
 
     @Override
@@ -57,5 +57,11 @@ public class ReviewServiceImpl implements ReviewService {
     public ReviewDTO getReviewOfMineOfBoard(Long id) {
         Review review = Review.builder().id(id).build();
         return reviewRepository.findUserReview(review);
+    }
+
+    @Override
+    public int getCountDups(ReviewDTO reviewDTO) {
+        Review review = Review.builder().boardId(reviewDTO.getBoardId()).memberId(reviewDTO.getMemberId()).build();
+        return reviewRepository.getCountDups(review);
     }
 }

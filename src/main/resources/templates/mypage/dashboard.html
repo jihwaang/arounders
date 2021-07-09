@@ -1,17 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{include/layout/layout-only}">
 <head>
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>AROUNDERS | 마이페이지</title>
-    <link rel="stylesheet" href="/css/common/reset.css" type="text/css"/>
-    <link rel="stylesheet" href="/css/common/common.css" type="text/css"/>
-    <link
-            rel="stylesheet"
-            href="/css/common/common-library.css"
-            type="text/css"
-    />
     <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
@@ -29,8 +23,8 @@
     <script type="text/javascript" defer
             src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=g6g3vwv9fg&submodules=geocoder"></script>
 </head>
-<body>
-<main>
+<!--<body>-->
+<main layout:fragment="main">
     <section class="top-container" id="section-top">
         <section class="profile-section">
             <div class="profile">
@@ -84,6 +78,12 @@
             <div class="boards interests" id="interest-list"></div>
         </div>
     </section>
+    <section class="review-section">
+        <div class="review-container">
+            <div class="review-list" id="review-list">
+            </div>
+        </div>
+    </section>
     <section class="modal-container">
         <div class="modal-item overlay dp-none"></div>
         <div class="modal-item password-confirm dp-none">
@@ -119,5 +119,5 @@
         <a class="btn-top" href="#section-top">맨 위로 가기</a>
     </section>
 </main>
-</body>
+<!--</body>-->
 </html>

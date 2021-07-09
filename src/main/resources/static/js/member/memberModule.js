@@ -103,7 +103,7 @@ const memberModule = {
                  });
 
                  if(!isValid) return alert('입력하신 정보를 확인해주세요');
-
+                 if(!agreedWithLocation) return alert('위치정보수집 동의가 필요합니다.');
                  form.submit();
                  alert('회원가입이 완료되었습니다.');
             })
