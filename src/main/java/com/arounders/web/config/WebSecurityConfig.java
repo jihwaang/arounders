@@ -51,7 +51,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                     .logoutUrl("/logout")
                     .logoutSuccessUrl("/")
-                    .permitAll();
+                    .permitAll()
+                    .and()
+                .csrf()
+                    .ignoringAntMatchers("/member/getAddrInfo", "/mypage/update/address")
+                ;
     }
 
     @Autowired

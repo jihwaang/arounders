@@ -45,6 +45,7 @@ public class MemberController {
         return "/member/addr-finder";
     }
 
+
     @GetMapping("/isOverlapped/nicknames/{value}")
     public @ResponseBody Integer isOverlappedNickname(@PathVariable String value) {
         log.info("nickname: {}", value);

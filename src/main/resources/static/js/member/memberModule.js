@@ -80,13 +80,14 @@ const memberModule = {
         // validation on submit
         submitButton.addEventListener('click', () => {
             if(!emailAuth) return alert('이메일 인증이 필요합니다.');
-
+            const csrfToken = document.querySelector('input[name=_csrf]').value;
             const url = '/emailAuth/confirmCheck';
             const options = {
                 method: 'POST',
                 body: JSON.stringify(emailAuth),
                 headers: {
-                    'Content-type': 'application/json; charset=UTF-8'
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'X-CSRF-TOKEN': csrfToken
                }
             };
 

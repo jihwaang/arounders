@@ -168,14 +168,16 @@ const dataRequest = {
     getReviews: async function() {
         const requestURL = `/reviews/api/v1/boards/${boardId}?offset=${this.pagination.offset}`;
         const reviews = await fetch(requestURL).then(response => response.json());
-
+        const csrfToken = '<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>';
         if (reviews.length < 10) this.pagination.isMore = false;
 
         for (let review of reviews) {
             const className = memberId == review.memberId ? '' : 'dp-none';
             let html = `<div class="review-item">
                 <div class="item-title">
+                    ${csrfToken}
                     <input type="hidden" name="reviewId" value="${review.id}"/>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                     <span class="nickname">${review.writer}</span>
                     <span class="creation">${review.createdAt.toString().substr(0, 10)}</span>
                 </div>
@@ -195,11 +197,12 @@ const dataRequest = {
     },
     deleteData: async function(reviewId) {
         const requestURL = `/reviews/api/v1/${reviewId}`;
+        const csrfToken = document.querySelector('input[name=_csrf]').value;
         const options = {
-            method: 'DELETE'
+            method: 'DELETE',
+            'X-CSRF-TOKEN': csrfToken
         };
         let result = await fetch(requestURL, options).then(response => response.json());
-        console.log(result);
         if (result > 0) {
             alert('리뷰가 삭제되었습니다.');
             reviewList.innerHTML = '';
@@ -212,6 +215,7 @@ const dataRequest = {
     },
     updateData: async function(form) {
         let payload = {};
+        const csrfToken = document.querySelector('input[name=_csrf]').value;
         new FormData(form).forEach((val, key) => payload[key] = val);
         if (!payload.rate) return alert('별점을 선택해주세요');
         if (!payload.content) return alert('내용을 입력해주세요');
@@ -220,11 +224,12 @@ const dataRequest = {
             method: 'PUT',
             body: JSON.stringify(payload),
             headers: {
-                'Content-Type': 'application/json; charset=UTF-8'
+                'Content-Type': 'application/json; charset=UTF-8',
+                'X-CSRF-TOKEN': csrfToken
             }
         }
         let result = await fetch(requestURL, options).then(response => response.json());
-        if (result < 1) return alert('오류가 발생했습니다.\n 다시 시도해주세요.');
+        if (result < 1) return alert('오류가 발생했습니다.\n다시 시도해주세요.');
         alert('수정이 완료되었습니다.');
         document.getElementById('rate').value = '';
         reviewList.innerHTML = '';
@@ -233,7 +238,7 @@ const dataRequest = {
     },
     insertData: async function(form) {
         if (document.querySelector('#content').value.length > 200) return alert('200자를 초과입력 할 수 없습니다.');
-
+        const csrfToken = document.querySelector('input[name=_csrf]').value;
         let formData = new FormData(form);
         formData.append('boardId', boardId);
         let payload = {};
@@ -246,7 +251,8 @@ const dataRequest = {
             method: 'POST',
             body: JSON.stringify(payload),
             headers: {
-                'Content-type': 'application/json; charset=UTF-8'
+                'Content-type': 'application/json; charset=UTF-8',
+                'X-CSRF-TOKEN': csrfToken
             }
         };
         let result = await fetch(requestURL, options).then(response => response.json());
@@ -259,7 +265,8 @@ const dataRequest = {
             method: 'POST',
             body: JSON.stringify(payload),
             headers: {
-                'Content-type': 'application/json; charset=UTF-8'
+                'Content-type': 'application/json; charset=UTF-8',
+                'X-CSRF-TOKEN': csrfToken
             }
         }
 

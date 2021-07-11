@@ -88,6 +88,7 @@
         <div class="modal-item overlay dp-none"></div>
         <div class="modal-item password-confirm dp-none">
             <form action="/member/checkPassword" method="POST" id="password-confirm-form" class="password-confirm-form">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                 <span>인증이 필요합니다.</span>
                 <label for="verifyingPassword">비밀번호를 입력해주세요.</label>
                 <span class="modal-item result-message dp-none">인증에 실패하였습니다.</span>
@@ -101,6 +102,7 @@
         <div class="modal-item current-location dp-none">
             <div class="map" id="map"></div>
             <form action="/mypage/update/address" method="POST" id="location-form" class="location-form">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" id="csrfToken"/>
                 <div class="form-raw">
                     <label for="addr">현재위치</label>
                     <input type="text" name="addr" id="locationAddr" readonly>
@@ -118,6 +120,13 @@
     <section class="section-end">
         <a class="btn-top" href="#section-top">맨 위로 가기</a>
     </section>
+    <script>
+        function putAddr(roadAddrPart1, addrDetail) {
+            console.log('invoked!!');
+            document.getElementById('addr').value = roadAddrPart1;
+            document.getElementById('addrDtl').value = addrDetail;
+        }
+    </script>
 </main>
 <!--</body>-->
 </html>

@@ -9,6 +9,7 @@
 <body>
 <form th:action="@{/mypage/update/info}" method="POST" th:object="${member}" enctype="multipart/form-data"
       id="user-info">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
     <div class="form-raw">
         <label for="email">이메일(아이디)</label>
         <input type="text" id="email" name="email" th:field="*{email}" disabled/>

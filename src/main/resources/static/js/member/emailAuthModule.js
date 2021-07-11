@@ -20,13 +20,14 @@ const emailAuthModule = {
 
     async requestAuth(formObj) {
         if (!formObj.email) return alert('이메일 아이디를 입력해주세요.');
-
+        const csrfToken = document.querySelector('input[name=_csrf]').value;
         const emailCheckUrl = `/member/checkEmail`;
         const emailCheckOptions = {
             method: 'POST',
             body: formObj.email,
             headers: {
-                'Content-type': 'application/json; charset=UTF-8'
+                'Content-type': 'application/json; charset=UTF-8',
+                'X-CSRF-TOKEN': csrfToken
             }
         };
 
@@ -44,7 +45,8 @@ const emailAuthModule = {
             method: 'POST',
             body: JSON.stringify(formObj),
             headers: {
-                'Content-type': 'application/json; charset=UTF-8'
+                'Content-type': 'application/json; charset=UTF-8',
+                'X-CSRF-TOKEN': csrfToken
             }
         };
 
