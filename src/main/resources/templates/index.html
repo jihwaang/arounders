@@ -28,6 +28,7 @@
     <section class="input-form w-100 max-width-ms" id="input-login">
         <h1 class="page-title">SIGN IN</h1>
         <form th:action="@{/login}" id="form-login" method="post" class="fx-column">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <div class="email fx-column">
                 <label for="email">Email ID</label>
                 <input type="text" name="email" id="email" class="form-input-text" />
@@ -36,7 +37,7 @@
                 <label for="password">Password</label>
                 <input type="password" name="password" id="password" class="form-input-password" />
             </div>
-            <p class="invalid dp-none">Invalid Email or Password, please Try again</p>
+            <p class="invalid dp-none">Invalid Email or Password, please try again</p>
         </form>
         <div class="find-section w-100 max-width-ms text-right">
             <a class="find-password" th:href="@{/member/findAccount}">forget password?</a>
@@ -57,6 +58,7 @@
                 <h1>SIGN UP</h1>
             </div>
             <form th:action="@{/member/signup}" method="POST" class="form-signup">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                 <div class="input-container">
                     <label for="email">이메일(아이디)<span class="required">*</span></label>
                     <input class="form-input-text" type="email" id="signup-email" name="email"/>

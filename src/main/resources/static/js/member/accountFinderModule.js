@@ -20,11 +20,14 @@ const accountFinderModule = {
         //form.submit();
         let payload = {};
         new FormData(form).forEach((value, key) => payload[key] = value);
+        const csrfToken = document.querySelector('input[name=_csrf]').value;
+        console.log(csrfToken);
         const url = `/member/checkExist`;
         const options = {
             method: 'POST',
             body: JSON.stringify(payload),
             headers: {
+                'X_CSRF-Token': csrfToken,
                 'Content-Type': 'application/json; charset=UTF-8'
             }
         };

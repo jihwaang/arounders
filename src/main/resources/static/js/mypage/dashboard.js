@@ -470,9 +470,11 @@ const modal = {
             //submit button event
             if (e.target.classList.contains('btn-submit')) {
                 const requestURL = `/member/checkPassword`;
+                const csrfToken = document.getElementById('csrfToken').value;
                 const options = {
                     method: 'POST',
-                    body: new FormData(passwordForm)
+                    body: new FormData(passwordForm),
+                    'X-CSRF-TOKEN': csrfToken
                 };
 
                 let result = await fetch(requestURL, options).then(response => response.json());
@@ -482,8 +484,9 @@ const modal = {
                 }
                 // show update info modal here after input password is valid
                 passwordConfirm.classList.add('dp-none');
-
+                const csrfHTML = '<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />';
                 const infoHTML = `<form action="/mypage/update/info" method="POST" id="update-form" class="update-form" enctype="multipart/form-data">
+                ${csrfHTML}
                 <div class="form-raw inner-profile">
                     <input type="file"
                             class="inner-profile-input"
@@ -596,6 +599,7 @@ const modal = {
 
 
         updateInfo.addEventListener('click', async (e) => {
+            const csrfToken = document.querySelector('input[name=_csrf]').value;
             //e.preventDefault();
             if (e.target.id === 'inner-profileImg') return;
             //image preview
@@ -620,11 +624,14 @@ const modal = {
                 const requestURL = `/mypage/update/info`;
                 const options = {
                     method: 'POST',
-                    body: new FormData(document.getElementById('update-form'))
+                    body: new FormData(document.getElementById('update-form')),
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    }
                 };
                 // document.getElementById('update-form').submit();
                 let result = await fetch(requestURL, options).then(response => response.json());
-                if (result !== 1) return alert('오류가 발생했습니다.\m관리자에게 문의해주세요.');
+                if (result !== 1) return alert('오류가 발생했습니다.\n관리자에게 문의해주세요.');
                 alert('성공적으로 변경되었습니다.');
                 location.href = `/mypage/dashboard`;
             }
@@ -634,9 +641,11 @@ const modal = {
             if(e.target.classList.contains('btn-submit')){
                 e.preventDefault();
                 const requestURL = `/mypage/update/address`;
+                const csrfToken = document.getElementById('csrfToken').value;
                 const options = {
                     method: 'POST',
-                    body: new FormData(document.getElementById('location-form'))
+                    body: new FormData(document.getElementById('location-form')),
+                    'X-CSRF-TOKEN': csrfToken
                 };
 
                 let result = await fetch(requestURL, options).then(response => response.json());
@@ -714,6 +723,7 @@ modal.init();
 
 // callback from address
 function putAddr(roadAddrPart1, addrDetail) {
+    console.log('invoked!!');
     document.getElementById('addr').value = roadAddrPart1;
     document.getElementById('addrDtl').value = addrDetail;
 }

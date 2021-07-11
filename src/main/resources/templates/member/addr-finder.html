@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="https://thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>AROUNDERS | 주소 찾기</title>
 </head>
 
 <body>
-<form id="form" name="form" method="post">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+<form id="form" th:name="form" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
   <input type="hidden" id="confmKey" name="confmKey" value="" th:value="${confmKey}"/>
   <input type="hidden" id="returnUrl" name="returnUrl" value=""/>
   <input type="hidden" id="resultType" name="resultType" value="" th:value="${resultType}"/>
@@ -30,7 +30,7 @@
 		}
 		document.form.submit();
 	}else{
-		opener.putAddr(document.getElementById('roadAddrPart1').value, document.getElementById('addrDetail').value);
+		window.opener.putAddr(document.getElementById('roadAddrPart1').value, document.getElementById('addrDetail').value);
 		window.close();
 	}
 }
