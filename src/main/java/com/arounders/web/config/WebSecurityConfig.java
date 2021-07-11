@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/", "/index", "/emailAuth/**", "/member/**", "/js/**","/css/**", "/image/**", "https://openapi.map.naver.com/**", "https://code.jquery.com/**").permitAll()
+                    .antMatchers("/", "/index", "/emailAuth/**", "/member/**", "/js/**","/css/**", "/image/**", "/html/**", "https://openapi.map.naver.com/**", "https://code.jquery.com/**").permitAll()
                     .antMatchers("/admin/**").hasRole("ADMIN")
                     .anyRequest().authenticated()
                     .and()

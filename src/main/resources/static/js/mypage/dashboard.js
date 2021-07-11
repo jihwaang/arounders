@@ -474,7 +474,9 @@ const modal = {
                 const options = {
                     method: 'POST',
                     body: new FormData(passwordForm),
-                    'X-CSRF-TOKEN': csrfToken
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    }
                 };
 
                 let result = await fetch(requestURL, options).then(response => response.json());
@@ -645,7 +647,9 @@ const modal = {
                 const options = {
                     method: 'POST',
                     body: new FormData(document.getElementById('location-form')),
-                    'X-CSRF-TOKEN': csrfToken
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    }
                 };
 
                 let result = await fetch(requestURL, options).then(response => response.json());
