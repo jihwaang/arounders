@@ -43,7 +43,7 @@ signup.addEventListener('click', (e) => {
    };
    const error = () => {
        alert('위치정보수집 동의를 완료해주세요.');
-       if(isDenied) getAgreement();
+       //if(isDenied) getAgreement();
    };
 
    const getAgreement = () => {
@@ -51,7 +51,7 @@ signup.addEventListener('click', (e) => {
            alert('위치정보수집 동의창이 뜨면 \'허용\'버튼을 눌러주세요.');
            navigator.geolocation.getCurrentPosition(success, error);
        } else {
-           alert('지원하지 않는 브라우저 입니다.');
+           alert('지도 API를 지원하지 않는 브라우저 입니다.');
        }
    };
 

@@ -54,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                     .and()
                 .csrf()
-                    .ignoringAntMatchers("/member/getAddrInfo", "/mypage/update/address")
+                    .ignoringAntMatchers("/member/getAddrInfo", "/mypage/update/address", "/member/**")
                 ;
     }
 

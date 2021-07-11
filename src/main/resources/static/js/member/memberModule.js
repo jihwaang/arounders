@@ -1,4 +1,4 @@
-const form = document.querySelector('.form-signup');
+const signupForm = document.querySelector('#form-signup');
 
 const validations = {
     email: false,
@@ -75,40 +75,45 @@ const memberModule = {
             window.open(`/member/getAddrInfo?platformType=${platformType}`,'pop','width=570,height=420, scrollbars=yes, resizable=yes');
         });
 
-
-
         // validation on submit
-        submitButton.addEventListener('click', () => {
+        submitButton.addEventListener('click', async () => {
             if(!emailAuth) return alert('이메일 인증이 필요합니다.');
+
             const csrfToken = document.querySelector('input[name=_csrf]').value;
             const url = '/emailAuth/confirmCheck';
+            console.log('url: ', url);
+            console.log(emailAuth);
+            if (emailAuth.confirmed) {
+                alert('회원가입이 완료되었습니다.');
+                signupForm.submit();
+            }
+
             const options = {
                 method: 'POST',
                 body: JSON.stringify(emailAuth),
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
+                    'Accept': 'application/json',
                     'X-CSRF-TOKEN': csrfToken
                }
             };
-
             //email check
-            fetch(url, options)
+            let result = await fetch(url, options)
             .then(res => res.json())
-            .then(data => {
-                emailAuth = data;
-                 if (!emailAuth.confirmed) return alert('발송된 인증메일을 확인해주세요.');
-                 validations.email = true;
-
-                 const isValid = Object.values(validations).every(val => {
-                    return val === true;
-                 });
-
-                 if(!isValid) return alert('입력하신 정보를 확인해주세요');
-                 if(!agreedWithLocation) return alert('위치정보수집 동의가 필요합니다.');
-                 form.submit();
-                 alert('회원가입이 완료되었습니다.');
-            })
             .catch(err => console.log(err));
+            console.log(result);
+            if (result) {
+                emailAuth = result;
+                if (!emailAuth.confirmed) return alert('발송된 인증메일을 확인해주세요.');
+                validations.email = true;
+
+                const isValid = Object.values(validations).every(val => {
+                    return val === true;
+                });
+
+                if(!isValid) return alert('입력하신 정보를 확인해주세요');
+                if(!agreedWithLocation) return alert('위치정보수집 동의가 필요합니다.');
+            }
         }); // end validation
     }, // end init
 
@@ -136,9 +141,9 @@ const memberModule = {
 
 memberModule.init();
 //address callback function
-function putAddr(roadAddrPart1, addrDetail){
-    document.getElementById('addr').value = roadAddrPart1;
-    document.getElementById('addrDtl').value = addrDetail;
-    validations.address = true;
-};
+// function putAddr(roadAddrPart1, addrDetail){
+//     document.getElementById('addr').value = roadAddrPart1;
+//     document.getElementById('addrDtl').value = addrDetail;
+//     validations.address = true;
+// };
 
