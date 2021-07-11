@@ -19,6 +19,10 @@
         SELECT * FROM CHAT_ROOM_VIEW WHERE BOARD_ID = #{boardId}
     </select>
 
+    <select id="isClose" resultType="Integer">
+        SELECT COUNT(ID) FROM CHAT_ROOM WHERE FINISHED_AT IS NULL AND ID = #{id}
+    </select>
+
     <insert id="insert" parameterType="ChatRoom">
         INSERT INTO CHAT_ROOM(TITLE, REGION, MEMBER_ID, CITY_ID, BOARD_ID)
         VALUES(#{title}, #{region}, #{memberId}, #{cityId}, #{boardId})

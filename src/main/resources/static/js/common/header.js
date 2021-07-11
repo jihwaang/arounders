@@ -4,6 +4,8 @@ const btnProfile = header.querySelector('.btn-profile');
 const btnMenu = header.querySelector('.btn-menu');
 const tooltipBox = header.querySelector('.tooltip-box');
 const aside = document.querySelector('aside');
+const btnLogout = document.querySelector('.btn-logout');
+const logoutActionForm = document.querySelector('#logout-action-form');
 
 const platformInfo = (function () {
     if (navigator.userAgent.indexOf('Mobi') > -1) return 'M';
@@ -189,3 +191,10 @@ searchInput.addEventListener('keydown', (e) => {
     location = `/board/list?field=tc&keyword=${keyword}`;
 });
 
+/* logout */
+btnLogout.addEventListener('click', (e) => {
+
+    e.preventDefault();
+
+    logoutActionForm.submit();
+});

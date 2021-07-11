@@ -116,6 +116,7 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         word-break: break-all;
+        color: #808080;
     }
 .report .mid-bottom{
     display: flex;

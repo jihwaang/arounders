@@ -28,5 +28,10 @@
         <a href="/mypage/dashboard" class="btn btn-mypage">마이페이지</a>
         <a th:if="${session.roleId == 0}" href="/admin/members" class="btn btn-admin">관리자</a>
     </div>
+    <div class="hide">
+        <form action="/logout" method="post" id="logout-action-form">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        </form>
+    </div>
 </header>
 </html>

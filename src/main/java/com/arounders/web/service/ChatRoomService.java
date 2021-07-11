@@ -20,6 +20,8 @@ public interface ChatRoomService {
     Long close(Long id);
     /* 채팅방 변경 */
     Long update(ChatRoomDTO chatRoomDTO);
+    /* 채팅방 살아있는지? */
+    int isClose(Long id);
 
     /* 채팅방 파일로 생성 */
     void chatRoomToFile(ChatRoom chatRoom);

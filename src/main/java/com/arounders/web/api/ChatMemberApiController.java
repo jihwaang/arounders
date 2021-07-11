@@ -4,6 +4,7 @@ import com.arounders.web.dto.ChatMemberDTO;
 import com.arounders.web.dto.ChatRoomDTO;
 import com.arounders.web.entity.Member;
 import com.arounders.web.service.ChatMemberService;
+import com.arounders.web.service.ChatRoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -20,6 +21,7 @@ import java.util.List;
 @RequestMapping(value = "/chatMember/api/v1")
 public class ChatMemberApiController {
 
+    private final ChatRoomService roomService;
     private final ChatMemberService chatMemberService;
     private final HttpSession session;
 
@@ -85,5 +87,11 @@ public class ChatMemberApiController {
     public ResponseEntity<List<ChatMemberDTO>> getClientsFromChatRoom(@PathVariable("chatRoomId") Long chatRoomId){
 
         return new ResponseEntity<>(chatMemberService.getClientsFromChatRoom(chatRoomId), HttpStatus.OK);
+    }
+
+    /* 채팅방이 살아있는지? */
+    @GetMapping(value = "/{chatRoomId}/room")
+    public ResponseEntity<Integer> isClose(@PathVariable("chatRoomId") Long id){
+        return new ResponseEntity<>(roomService.isClose(id), HttpStatus.OK);
     }
 }

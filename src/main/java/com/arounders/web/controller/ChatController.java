@@ -31,6 +31,7 @@ public class ChatController {
     public String getChatRoom(Long id, Model model){
 
         ChatRoomDTO chatRoomDTO = service.get(id);
+        System.out.println("chatRoomDTO = " + chatRoomDTO);
         model.addAttribute("room", chatRoomDTO);
 
         return "chat/room";

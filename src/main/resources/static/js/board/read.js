@@ -28,6 +28,12 @@ const btnInterest = board.querySelector('.interest');
 const commentVal = board.querySelector('.comment-val');
 //const btnBack = document.querySelector('.button-back');
 
+/* image viewer */
+const boardMid = document.querySelector('.board-mid');
+const imgViewer = document.querySelector('.img-viewer');
+const viewerClose = imgViewer.querySelector('.viewer-close');
+const viewerImg = imgViewer.querySelector('.viewer-img');
+
 likeModule.boardId = boardId;
 interestModule.boardId = boardId;
 
@@ -188,6 +194,9 @@ comments.addEventListener('click', function (e) {
         btnModify.style.display = 'none';
         btnDelete.style.display = 'none';
     }
+    modalDate.style.display = 'block';
+    modalWriter.style.display = 'block';
+
     btnChatJoin.style.display = 'none';
     btnRecomment.style.display = 'none';
     btnSave.style.display = 'none';
@@ -220,6 +229,9 @@ commentSubmit.addEventListener('click', async () => {
 
                 <div class="comment-bot">
                     <button class="comment-reply">답글</button>
+                </div>
+                <div class="comment-children">
+                    <div class="children"></div>
                 </div>
             </div>`;
 
@@ -403,12 +415,32 @@ function lastCommentModal(){
 }
 
 /* 채팅방 가기 -> validation */
+if(btnToChat != null)
 btnToChat.addEventListener('click', async function (e) {
 
     e.preventDefault();
 
     const href = e.target.href;
     const chatRoomId = e.target.dataset.id;
+
+    const isClose = await fetch(`/chatMember/api/v1/${chatRoomId}/room`)
+                            .then(res => res.json());
+    if(isClose == '1') {
+        modalDate.style.display = 'none';
+        modalWriter.style.display = 'none';
+
+        btnRecomment.style.display = 'none';
+        btnModify.style.display = 'none';
+        btnSave.style.display = 'none';
+        btnDelete.style.display = 'none';
+
+        btnChatJoin.style.display = 'none';
+
+        modalTitle.innerText = 'Notification';
+        modalBodyContent.value = '작성자에 의해 채팅방이 닫혔습니다.';
+        modal.style.display = 'block';
+        return;
+    }
 
     const result = await chatModule.isJoin(chatRoomId);
 
@@ -439,6 +471,22 @@ btnToChat.addEventListener('click', async function (e) {
             window.location = href;
         }
     }
+});
+
+/* Image slider Click -> 확대 */
+boardMid.addEventListener('click', (e) => {
+
+    if(!e.target.classList.contains('thumbnail')) return;
+
+    imgViewer.style.zIndex = '900';
+    viewerImg.src = e.target.src;
+    imgViewer.style.opacity = '1';
+
+});
+viewerClose.addEventListener('click', (e) => {
+
+    imgViewer.style.opacity = '0';
+    imgViewer.style.zIndex = '-1';
 });
 
 function displayedAt(createdAt) {

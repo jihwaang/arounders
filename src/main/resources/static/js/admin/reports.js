@@ -56,7 +56,7 @@ async function getReports(){
             </div>
 
             <div class="mid-top">
-                <span class="title">${report.title}</span>
+                <a href="/board/read?id=${report.boardId}" class="title">${report.title}</a>
             </div>
 
             <div class="mid-bottom">
@@ -125,7 +125,8 @@ reportBox.addEventListener('click', async (e) => {
 
     const result = await axios({
         url: `/boards/api/v1/${boardId}`,
-        method: 'POST'
+        method: 'POST',
+        headers: {"X-CSRFToken": csrfToken}
     });
 
     alert(`${result.data}번 게시글이 숨기기 되었습니다.`);

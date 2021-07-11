@@ -72,6 +72,11 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         return result > 0? chatRoom.getId() : null;
     }
 
+    @Override
+    public int isClose(Long id) {
+        return repository.isClose(id);
+    }
+
     /* About Local Storage */
     @Override
     public void chatRoomToFile(ChatRoom chatRoom) {

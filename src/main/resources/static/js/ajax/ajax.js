@@ -90,5 +90,7 @@ function ajax(obj){
     if(obj.contentType)
         xhr.setRequestHeader('Content-Type', obj.contentType);
 
+    xhr.setRequestHeader('X-CSRF-Token', csrfToken);
+
     xhr.send(data);
 }

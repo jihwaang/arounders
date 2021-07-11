@@ -46,4 +46,9 @@ public class ChatRoomRepositoryImpl implements ChatRoomRepository {
     public int update(ChatRoom chatRoom) {
         return mapper.update(chatRoom);
     }
+
+    @Override
+    public int isClose(Long id) {
+        return mapper.isClose(id);
+    }
 }

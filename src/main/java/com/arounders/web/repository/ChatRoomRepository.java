@@ -19,5 +19,6 @@ public interface ChatRoomRepository {
     int close(Long id);
     /* 채팅방 변경 */
     int update(ChatRoom chatRoom);
-
+    /* 채팅방 살아있는지? */
+    int isClose(Long id);
 }
