@@ -653,7 +653,7 @@ const modal = {
                 };
 
                 let result = await fetch(requestURL, options).then(response => response.json());
-                if (result !== 1) return alert('오류가 발생했습니다.\m관리자에게 문의해주세요.');
+                if (result !== 1) return alert('오류가 발생했습니다.\n관리자에게 문의해주세요.');
                 alert('성공적으로 변경되었습니다.');
                 location.href = `/mypage/dashboard`;
             }

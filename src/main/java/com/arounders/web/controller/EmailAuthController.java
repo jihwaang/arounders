@@ -24,6 +24,7 @@ public class EmailAuthController {
 
     @PostMapping("/confirmCheck")
     public EmailAuth checkConfirmations(@RequestBody EmailAuth emailAuth) {
+        log.info("request url: /confirmCheck, emailAuth: {}", emailAuth);
         EmailAuth responseEmailAuth = emailAuthService.findByConfirmKey(emailAuth);
         return responseEmailAuth;
     }

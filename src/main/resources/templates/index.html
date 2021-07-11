@@ -57,7 +57,7 @@
             <div class="pc-title text-center">
                 <h1>SIGN UP</h1>
             </div>
-            <form th:action="@{/member/signup}" method="POST" class="form-signup">
+            <form th:action="@{/member/signup}" method="POST" class="form-signup" id="form-signup">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                 <div class="input-container">
                     <label for="email">이메일(아이디)<span class="required">*</span></label>
@@ -97,6 +97,13 @@
             </div>
         </div>
     </section>
+    <script>
+        function putAddr(roadAddrPart1, addrDetail){
+            document.getElementById('addr').value = roadAddrPart1;
+            document.getElementById('addrDtl').value = addrDetail;
+            validations.address = true;
+        };
+    </script>
 </main>
 <footer>
     <span>Copyright &copy; 2021 AROUNDERS All rights reserved</span>
