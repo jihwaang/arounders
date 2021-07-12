@@ -33,7 +33,7 @@ btnProfile.addEventListener('click', function(e) {
     if(platformInfo !== 'M'){
         if(top === '130px')
             aside.style.top = '430px';
-        else   
+        else
             aside.style.top = '130px';
     }
 });
@@ -99,56 +99,56 @@ if(platformInfo !== 'M' && aside != null){
 }
 
 /* 지황님 코드 */
-    // const header = document.querySelector('header');
-    const searchInput = header.querySelector('#search-input');
-    const searchBtn = header.querySelector('#search-btn');
-    const cancelBtn = header.querySelector('#cancel-btn');
+// const header = document.querySelector('header');
+const searchInput = header.querySelector('#search-input');
+const searchBtn = header.querySelector('#search-btn');
+const cancelBtn = header.querySelector('#cancel-btn');
 (function indexInit(sizeInfo) {
     console.log(sizeInfo);
-    
+
     const platformInfo = (function () {
-      if (navigator.userAgent.indexOf('Mobi') > -1) return 'M';
-      return 'P';
+        if (navigator.userAgent.indexOf('Mobi') > -1) return 'M';
+        return 'P';
     })();
-  
+
     if (platformInfo === 'M') {
-      searchBtn.addEventListener('click', () =>
-        toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn)
-      );
-  
-      cancelBtn.addEventListener('click', () =>
-        toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn)
-      );
-  
-      searchInput.addEventListener('blur', () => {
-        toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn);
-        searchInput.value = '';
-      });
+        searchBtn.addEventListener('click', () =>
+            toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn)
+        );
+
+        cancelBtn.addEventListener('click', () =>
+            toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn)
+        );
+
+        searchInput.addEventListener('blur', () => {
+            toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn);
+            searchInput.value = '';
+        });
     } else {
-      btnBox.classList.toggle('w-100');
-      search.classList.toggle('w-80');
-      search.classList.remove('mg-left-auto');
-      search.classList.add('center');
-      searchInput.classList.toggle('dp-none');
-      searchInput.classList.toggle('w-100');
+        btnBox.classList.toggle('w-100');
+        search.classList.toggle('w-80');
+        search.classList.remove('mg-left-auto');
+        search.classList.add('center');
+        searchInput.classList.toggle('dp-none');
+        searchInput.classList.toggle('w-100');
     }
 
-  })();
-  
-  function toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn) {
+})();
+
+function toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn) {
     searchBtn.classList.toggle('dp-none');
     cancelBtn.classList.toggle('dp-none');
     logo.classList.toggle('dp-none');
     profile.classList.toggle('dp-none');
     menu.classList.toggle('dp-none');
-  
+
     btnBox.classList.toggle('w-100');
     search.classList.toggle('w-100');
     searchInput.classList.toggle('dp-none');
     searchInput.classList.toggle('w-100');
     searchInput.focus();
 }
-  
+
 
 window.addEventListener('resize', (e) => {
     let innerWidth = e.target.innerWidth;
@@ -160,16 +160,16 @@ function searchBarController(platformInfo) {
 
     if (platformInfo === 'M') {
         searchBtn.addEventListener('click', () =>
-          toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn)
+            toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn)
         );
-    
+
         cancelBtn.addEventListener('click', () =>
-          toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn)
+            toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn)
         );
-    
+
         searchInput.addEventListener('blur', () => {
-          toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn);
-          searchInput.value = '';
+            toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn);
+            searchInput.value = '';
         });
     }
 
