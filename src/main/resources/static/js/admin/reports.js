@@ -105,6 +105,7 @@ reportBox.addEventListener('change', async (e) => {
 
     const result = await axios({
         url: `/reports/api/v1/${reportId}`,
+        headers: {"X-CSRF-Token": csrfToken},
         method: 'PUT'
     });
 
@@ -126,7 +127,7 @@ reportBox.addEventListener('click', async (e) => {
     const result = await axios({
         url: `/boards/api/v1/${boardId}`,
         method: 'POST',
-        headers: {"X-CSRFToken": csrfToken}
+        headers: {"X-CSRF-Token": csrfToken}
     });
 
     alert(`${result.data}번 게시글이 숨기기 되었습니다.`);

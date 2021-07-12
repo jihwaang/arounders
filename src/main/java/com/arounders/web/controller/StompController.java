@@ -82,6 +82,7 @@ public class StompController {
         }
 
         List<ChatDTO> chatList = chatListMap.get(roomId);
+
         chatList.add(message);
 
         if(chatList.size() > 30){
@@ -99,7 +100,7 @@ public class StompController {
 
         LocalDateTime now = LocalDateTime.now();
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm:ss");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         return dtf.format(now);
     }
 }

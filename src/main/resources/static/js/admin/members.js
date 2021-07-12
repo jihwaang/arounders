@@ -110,7 +110,7 @@ memberBox.addEventListener('change', async (e) => {
     const result = await axios({
         url: `/admin/api/v1/members`,
         method: 'POST',
-        headers: {"X-CSRFToken": csrfToken},
+        headers: {"X-CSRF-Token": csrfToken},
         data: {
             id: memberId,
             roleId: roleId

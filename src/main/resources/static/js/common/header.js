@@ -157,7 +157,7 @@ window.addEventListener('resize', (e) => {
 });
 
 function searchBarController(platformInfo) {
-    console.log(platformInfo)
+
     if (platformInfo === 'M') {
         searchBtn.addEventListener('click', () =>
           toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn)
@@ -171,14 +171,7 @@ function searchBarController(platformInfo) {
           toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn);
           searchInput.value = '';
         });
-      } else {
-        btnBox.classList.toggle('w-100');
-        search.classList.toggle('w-80');
-        search.classList.remove('mg-left-auto');
-        search.classList.add('center');
-        searchInput.classList.toggle('dp-none');
-        searchInput.classList.toggle('w-100');
-      }
+    }
 
 }
 /* Header Search Form */

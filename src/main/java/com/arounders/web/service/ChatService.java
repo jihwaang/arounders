@@ -17,9 +17,11 @@ public interface ChatService {
 
     default String dtoToJson(ChatDTO dto){
         ObjectMapper mapper = new ObjectMapper();
+        System.out.println("dto = " + dto);
         String chat = null;
         try {
             chat = mapper.writeValueAsString(dto);
+            System.out.println("chat = " + chat);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

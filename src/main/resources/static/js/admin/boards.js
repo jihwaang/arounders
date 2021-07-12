@@ -30,7 +30,7 @@ window.addEventListener('load', () => {
         let html = '';
 
         result.data.forEach((board, idx) => {
-            console.log(board);
+            //console.log(board);
 
             let status = board.status == '0'? '<span class="sticker-status">진행중</span>' : '<span class="sticker-status-off">종료</span>';
 
