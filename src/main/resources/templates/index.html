@@ -59,7 +59,7 @@
             </div>
             <form th:action="@{/member/signup}" method="POST" class="form-signup" id="form-signup">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                <div class="input-container">
+                <div class="input-container" id="input-container">
                     <label for="email">이메일(아이디)<span class="required">*</span></label>
                     <input class="form-input-text" type="email" id="signup-email" name="email"/>
 
@@ -84,12 +84,12 @@
                            maxlength="13"
                            placeholder="예) 010-1234-5678">
 
-                    <label for="addr">주소<span class="required">*</span></label>
-                    <input class="form-input-text" type="text" id="addr" name="addr" readonly/>
+<!--                    <label for="addr">주소<span class="required">*</span></label>-->
+<!--                    <input class="form-input-text" type="text" id="addr" name="addr"/>-->
 
-                    <label for="addrDtl">상세주소(직접입력)</label>
-                    <input class="form-input-text" type="text" id="addrDtl" name="addrDtl" readonly/>
-                    <a class="btn-location-agreement" href="#" id="location-agreement">위치정보수집 동의하기</a>
+<!--                    <label for="addrDtl">상세주소(직접입력)</label>-->
+<!--                    <input class="form-input-text" type="text" id="addrDtl" name="addrDtl"/>-->
+<!--                    <a class="btn-location-agreement" href="#" id="location-agreement">위치정보수집 동의하기</a>-->
                 </div>
             </form>
             <div class="btn-section">

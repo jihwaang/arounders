@@ -10,7 +10,11 @@ const emailAuthModule = {
             let formObj = {};
             new FormData(form).forEach((value, key) => formObj[key] = value);
 
-            if (e.target.id === 'requestAuth') _this.requestAuth(formObj);
+            if (e.target.id === 'requestAuth') {
+                _this.requestAuth(formObj);
+            } else {
+                return false;
+            }
 
             //if (e.target.id === 'submitBtn') _this.submit(formObj);
 
@@ -54,10 +58,10 @@ const emailAuthModule = {
         .then(res => res.json())
         .then(data => {
             emailAuth = data;
+            console.log(emailAuth);
             document.querySelector('#requestAuth').style.backgroundColor = '#999 !important';
             document.getElementById('requestAuth').value = '인증요청완료';
-
-
+            return false;
          })
         .catch(err => console.log(err));
     }, // end requestAuth

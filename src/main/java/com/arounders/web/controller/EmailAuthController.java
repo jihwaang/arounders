@@ -25,8 +25,7 @@ public class EmailAuthController {
     @PostMapping("/confirmCheck")
     public EmailAuth checkConfirmations(@RequestBody EmailAuth emailAuth) {
         log.info("request url: /confirmCheck, emailAuth: {}", emailAuth);
-        EmailAuth responseEmailAuth = emailAuthService.findByConfirmKey(emailAuth);
-        return responseEmailAuth;
+        return emailAuthService.findByConfirmKey(emailAuth);
     }
 
     @GetMapping("/confirm")
@@ -40,9 +39,9 @@ public class EmailAuthController {
 
     @PostMapping(value = "/auth")
     public EmailAuthDTO requestAuth(@RequestBody EmailAuth email) {
-        log.info("email: {}", email);
+        log.info("request URL: /emailAuth/auth, email: {}", email);
         String confirmKey = emailAuthService.requestAuth(email);
-        return EmailAuthDTO.builder().confirmKey(confirmKey).build();
+        return EmailAuthDTO.builder().email(email.getEmail()).confirmKey(confirmKey).isConfirmed(false).build();
     }
 
     @PutMapping("/auth")
