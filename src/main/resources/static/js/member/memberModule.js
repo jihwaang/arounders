@@ -83,9 +83,11 @@ const memberModule = {
             const url = '/emailAuth/confirmCheck';
             console.log('url: ', url);
             console.log(emailAuth);
+            if(!agreedWithLocation) return alert('위치정보수집 동의가 필요합니다.');
             if (emailAuth.confirmed) {
                 alert('회원가입이 완료되었습니다.');
                 signupForm.submit();
+                return;
             }
 
             const options = {
@@ -95,12 +97,12 @@ const memberModule = {
                     'Content-type': 'application/json; charset=UTF-8',
                     'Accept': 'application/json',
                     'X-CSRF-TOKEN': csrfToken
-               }
+                }
             };
             //email check
             let result = await fetch(url, options)
-            .then(res => res.json())
-            .catch(err => console.log(err));
+                .then(res => res.json())
+                .catch(err => console.log(err));
             console.log(result);
             if (result) {
                 emailAuth = result;
@@ -124,17 +126,17 @@ const memberModule = {
             method: 'GET',
         };
         fetch(url, options)
-        .then(res => res.json())
-        .then(data => {
-            console.log(data);
-            if(data > 0) {
-                validations.nickname = false;
-                return alert('중복된 닉네임입니다.');
-            } else {
-                validations.nickname = true;
-            }
-        })
-        .catch(err => console.error(err));
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if(data > 0) {
+                    validations.nickname = false;
+                    return alert('중복된 닉네임입니다.');
+                } else {
+                    validations.nickname = true;
+                }
+            })
+            .catch(err => console.error(err));
     } // end isOverlapped
 
 }; // end module object
@@ -146,4 +148,3 @@ memberModule.init();
 //     document.getElementById('addrDtl').value = addrDetail;
 //     validations.address = true;
 // };
-
