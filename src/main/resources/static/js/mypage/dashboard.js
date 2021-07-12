@@ -143,7 +143,7 @@ const dashboard = {
         
                         <div class="board-content-box">
                             <div class="board-title">
-                                <a href="read?id=${board.id}">${board.title}</a>
+                                <a href="/board/read?id=${board.id}">${board.title}</a>
                             </div>
                             <div class="board-info">
                                 <span class="board-nickname">${board.writer}</span>
@@ -279,7 +279,7 @@ const dashboard = {
         
                         <div class="board-content-box">
                             <div class="board-title">
-                                <a href="read?id=${board.id}">${board.title}</a>
+                                <a href="/board/read?id=${board.id}">${board.title}</a>
                             </div>
                             <div class="board-info">
                                 <span class="board-nickname">${board.writer}</span>
@@ -389,7 +389,6 @@ window.addEventListener('scroll', () => {
     if (reviewSection.classList.contains('dp-none')) return;
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
     if (clientHeight + scrollTop >= scrollHeight - 5) {
-        console.log('scroll to the bottom');
         // check if more to show
         if (!dashboard.pagination.isMore) return;
         // if so, get reviews again

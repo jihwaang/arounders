@@ -177,7 +177,6 @@ const dataRequest = {
                 <div class="item-title">
                     ${csrfToken}
                     <input type="hidden" name="reviewId" value="${review.id}"/>
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                     <span class="nickname">${review.writer}</span>
                     <span class="creation">${review.createdAt.toString().substr(0, 10)}</span>
                 </div>
@@ -200,7 +199,9 @@ const dataRequest = {
         const csrfToken = document.querySelector('input[name=_csrf]').value;
         const options = {
             method: 'DELETE',
-            'X-CSRF-TOKEN': csrfToken
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            }
         };
         let result = await fetch(requestURL, options).then(response => response.json());
         if (result > 0) {
