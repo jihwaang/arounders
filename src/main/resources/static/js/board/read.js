@@ -425,7 +425,8 @@ btnToChat.addEventListener('click', async function (e) {
 
     const isClose = await fetch(`/chatMember/api/v1/${chatRoomId}/room`)
                             .then(res => res.json());
-    if(isClose == '1') {
+    console.log(isClose);
+    if(isClose == '0') {
         modalDate.style.display = 'none';
         modalWriter.style.display = 'none';
 
