@@ -122,7 +122,7 @@ public class BoardController {
             .city(boardDTO.getCity())
             .cityId(boardDTO.getCityId())
             .memberId(boardDTO.getMemberId())
-            .build());
+            .build(), request.getServletContext().getRealPath("/chat"));
         }
 
         return "redirect:/board/list";

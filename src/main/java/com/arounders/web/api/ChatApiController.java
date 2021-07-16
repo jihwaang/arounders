@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/chats/api/v1")
 public class ChatApiController {
 
+    private final HttpServletRequest request;
     private final ChatService service;
     private final BufferMap<Long, List<ChatDTO>> chatListMap;
 
@@ -37,11 +39,11 @@ public class ChatApiController {
         if(chatDTOs != null && chatDTOs.size() > 0){
 
             /* Buffer의 내용 save 후 clear */
-            service.save(id, chatDTOs);
+            service.save(id, chatDTOs, request.getServletContext().getRealPath("/chat"));
             chatDTOs.clear();
         }
 
-        List<String> chats = service.getChats(id);
+        List<String> chats = service.getChats(id, request.getServletContext().getRealPath("/chat"));
 
         return new ResponseEntity<>(chats, HttpStatus.OK);
     }

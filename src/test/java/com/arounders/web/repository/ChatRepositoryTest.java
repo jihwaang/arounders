@@ -15,7 +15,7 @@ class ChatRepositoryTest {
     @Autowired ChatRepository repository;
     @Autowired ChatRoomRepository roomRepository;
 
-    @Test
+    /*@Test
     void getChatsTest(){
 
         ChatRoomDTO room = roomRepository.findById(3L);
@@ -23,5 +23,5 @@ class ChatRepositoryTest {
         List<String> chats = repository.getChats(room);
 
         chats.forEach(System.out::println);
-    }
+    }*/
 }
