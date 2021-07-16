@@ -46,7 +46,7 @@ public class BoardController {
     @GetMapping("/list")
     public String getList(Model model) {
 
-        return "/board/list";
+        return "board/list";
     }
 
     @GetMapping("/read")
@@ -68,7 +68,7 @@ public class BoardController {
 
         model.addAttribute("board", boardDTO);
 
-        return "/board/read";
+        return "board/read";
     }
 
     @GetMapping("/register")
@@ -76,7 +76,7 @@ public class BoardController {
 
         model.addAttribute("board", new BoardDTO());
 
-        return "/board/register";
+        return "board/register";
     }
     @PostMapping("/register")
     public String createBoard(BoardDTO boardDTO,
@@ -198,7 +198,7 @@ public class BoardController {
     public String getReviews(Model model, @RequestParam(value = "boardId") Long id) {
         log.info("#BoardController -> boardId : " + id);
         model.addAttribute("boardId", id);
-        return "/board/review";
+        return "board/review";
     }
 
 

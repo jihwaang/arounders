@@ -42,7 +42,7 @@ public class MemberController {
         model.addAttribute("confmKey", confmKey);
         model.addAttribute("resultType", resultType);
         model.addAttribute("inputYn", "N");
-        return "/member/addr-finder";
+        return "member/addr-finder";
     }
 
 
@@ -62,7 +62,7 @@ public class MemberController {
     @GetMapping("/findAccount")
     public String findAccount() {
         log.info("findAccount invoked");
-        return "/member/account-finder";
+        return "member/account-finder";
     }
 
     @PostMapping("/getAddrInfo")
@@ -72,14 +72,14 @@ public class MemberController {
         model.addAttribute("inputYn", inputYn);
         model.addAttribute("roadAddrPart1", roadAddrPart1);
         model.addAttribute("addrDetail", addrDetail);
-        return "/member/addr-finder";
+        return "member/addr-finder";
     }
 
     @PostMapping("/signup")
     public String doSignUp(MemberDTO requestMember, HttpSession session) {
       Long id = memberService.signup(requestMember);
       log.info("generated id: {}", id);
-      return "/index";
+      return "index";
     }
 
     @PostMapping("/checkExist")
