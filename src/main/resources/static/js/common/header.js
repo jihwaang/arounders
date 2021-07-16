@@ -6,56 +6,99 @@ const tooltipBox = header.querySelector('.tooltip-box');
 const aside = document.querySelector('aside');
 const btnLogout = document.querySelector('.btn-logout');
 const logoutActionForm = document.querySelector('#logout-action-form');
-
-const platformInfo = (function () {
-    if (navigator.userAgent.indexOf('Mobi') > -1) return 'M';
-    return 'P';
-})();
+const mainTag = document.querySelector('main');
 
 let asideStatus = false;
 
+/* 프로필 아이콘 클릭 (완) */
 btnBox.addEventListener('click', function(e) {
 
-    if(e.target.className !== 'btn-profile' && platformInfo === 'M')
+    if(e.target.className !== 'btn-profile')
         tooltipBox.classList.add('dp-none');
 });
 
-/* 프로필 아이콘 Click */
+/* 프로필 아이콘 Click (완) */
 btnProfile.addEventListener('click', function(e) {
-    tooltipBox.classList.toggle('dp-none');
+
+    if(tooltipBox.classList.contains('dp-none'))
+        tooltipBox.classList.remove('dp-none');
+    else
+        tooltipBox.classList.add('dp-none');
 
     if(aside == null) return;
 
     const top = window.getComputedStyle(document.querySelector('aside')).top;
 
-    console.log(top);
+    //console.log(top);
 
-    if(platformInfo !== 'M'){
-        if(top === '130px')
+    /* PC에서는 메인의 너비가 100%가 아님 ==> Mobile에서는 aside의 탑이 변경 X */
+    if(mainTag.style.width != '100%') {
+        if (top === '130px')
             aside.style.top = '430px';
         else
             aside.style.top = '130px';
     }
 });
+/* resize시 init (완) */
+window.addEventListener('resize', () => {
+    let headerWidth = header.clientWidth;
 
-/* 햄버거 버튼 Click */
-btnMenu.addEventListener('click', function(e) {
+    tooltipBox.classList.add('dp-none');
 
-    toggoleAside();
-    blur();
+    /* moblie */
+    if(headerWidth < 800){
+        aside.style.top = '0';
+        aside.style.right = '-300px';
+    }
+    /* pc */
+    else{
+        aside.style.top = '130px';
+        aside.style.right = '0';
+    }
 });
 
-window.addEventListener('resize', ()=>{
+window.addEventListener('resize', resizeMain);
+window.addEventListener('resize', setRight);
 
-    if(aside == null) return;
+/* 메인 크기가 어사이드가 차지하는 만큼 줄어야함 (완) */
+function resizeMain(){
+
+    let headerWidth = header.clientWidth;
+    let asideWidth = aside.clientWidth;
+
+    if(!aside || headerWidth < 800) {
+        mainTag.style.width = '100%';
+        return;
+    }
+
+    mainTag.style.width = (headerWidth - asideWidth) + 'px';
+}
+resizeMain();
+
+/* aside와 tooltipBox의 절대위치가 윈도우 크기에 따라 변경되야함 (완) */
+/* PC일 때만 실행되는 right 설정 함수 */
+function setRight(){
+
+    if(!aside) return;
+    if(mainTag.style.width === '100%'){
+        aside.style.right = '-300px';
+        return;
+    }
 
     let headerWidth = header.clientWidth;
 
     aside.style.right = `calc(calc(100% - ${headerWidth}px)/2)`;
     tooltipBox.style.right = `calc(calc(100% - ${headerWidth}px)/2)`;
-});
+}
+setRight();
 
-/* Aside 생길 때, 배경 어둡게 */
+/* (Moblie) 햄버거 버튼 Click (완) */
+btnMenu.addEventListener('click', function(e) {
+
+    toggoleAside();
+    blur();
+});
+/* (Mobile) Aside 생길 때, 배경 어둡게 (완) */
 function blur(){
     const screen = document.createElement('DIV');
 
@@ -67,64 +110,58 @@ function blur(){
         screen.remove();
     });
 }
-
+/*
+    (Mobile)
+    Aside가 나왔다 사라졌다하는 함수
+    asideStatus == false일 때 클릭 -> show
+    asideStatus == true일 때 클릭 -> hide
+    asideStatus는 toggle (완)
+*/
 function toggoleAside(){
     setTimeout(() => {
 
-        if(!asideStatus)
-            showAside();
-        else{
-            hideAside();
-        }
+        if(!asideStatus) showAside();
+        else hideAside();
 
         asideStatus = !asideStatus;
     }, 0);
 }
-
+//(Mobile) 완
 function showAside(){
     aside.style.right = '0';
 }
+//(Mobile) 완
 function hideAside(){
+    let headerWidth = header.clientWidth;
+
+    if(headerWidth >= 800) return;
+
     aside.style.right = '-300px';
-}
-/* PC일 때만 실행되는 right 설정 함수 */
-if(platformInfo !== 'M' && aside != null){
-    (function setRight(){
-
-        let headerWidth = header.clientWidth;
-
-        aside.style.right = `calc(calc(100% - ${headerWidth}px)/2)`;
-        tooltipBox.style.right = `calc(calc(100% - ${headerWidth}px)/2)`;
-    })();
 }
 
 /* 지황님 코드 */
-// const header = document.querySelector('header');
-const searchInput = header.querySelector('#search-input');
-const searchBtn = header.querySelector('#search-btn');
-const cancelBtn = header.querySelector('#cancel-btn');
+const searchInput = header.querySelector('#search-input'); //검색 바
+const searchBtn = header.querySelector('#search-btn'); //돋보기 아이콘
+const cancelBtn = header.querySelector('#cancel-btn'); //x버튼
+
+searchBtn.addEventListener('click', () =>
+    toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn)
+);
+
+cancelBtn.addEventListener('click', () =>
+    toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn)
+);
+
+searchInput.addEventListener('blur', () => {
+    toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn);
+    searchInput.value = '';
+});
+
 (function indexInit(sizeInfo) {
-    console.log(sizeInfo);
 
-    const platformInfo = (function () {
-        if (navigator.userAgent.indexOf('Mobi') > -1) return 'M';
-        return 'P';
-    })();
+    const headerWidth = header.clientWidth;
 
-    if (platformInfo === 'M') {
-        searchBtn.addEventListener('click', () =>
-            toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn)
-        );
-
-        cancelBtn.addEventListener('click', () =>
-            toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn)
-        );
-
-        searchInput.addEventListener('blur', () => {
-            toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn);
-            searchInput.value = '';
-        });
-    } else {
+    if(headerWidth >= 800){
         btnBox.classList.toggle('w-100');
         search.classList.toggle('w-80');
         search.classList.remove('mg-left-auto');
@@ -132,7 +169,6 @@ const cancelBtn = header.querySelector('#cancel-btn');
         searchInput.classList.toggle('dp-none');
         searchInput.classList.toggle('w-100');
     }
-
 })();
 
 function toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn) {
@@ -149,31 +185,6 @@ function toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn) {
     searchInput.focus();
 }
 
-
-window.addEventListener('resize', (e) => {
-    let innerWidth = e.target.innerWidth;
-    let sizeInfo = innerWidth > 780 ? 'P' : 'M';
-    searchBarController(sizeInfo);
-});
-
-function searchBarController(platformInfo) {
-
-    if (platformInfo === 'M') {
-        searchBtn.addEventListener('click', () =>
-            toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn)
-        );
-
-        cancelBtn.addEventListener('click', () =>
-            toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn)
-        );
-
-        searchInput.addEventListener('blur', () => {
-            toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn);
-            searchInput.value = '';
-        });
-    }
-
-}
 /* Header Search Form */
 searchInput.addEventListener('keydown', (e) => {
 
