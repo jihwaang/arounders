@@ -11,6 +11,9 @@
     <!-- JS -->
     <script defer src="/js/board/register.js"></script>
     <script defer src="/js/board/edit.js"></script>
+    <script th:inline="javascript">
+        const boardId = [[${board.id}]];
+    </script>
 </head>
 <main layout:fragment="main">
     <div class="back-box">
@@ -89,6 +92,7 @@
     </div>
 
     <form action="remove" method="post" id="actionForm">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         <input type="hidden" name="id" th:value="${board.id}">
     </form>
 

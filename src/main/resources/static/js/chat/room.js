@@ -179,12 +179,14 @@ btnClose.addEventListener('click', () => {
 
     const form = document.createElement('FORM');
     const html = `<input type="hidden" name="id" value="${chatRoomId}">`;
+    const csrfData = `<input type="hidden" name="${csrfParameterName}" value="${csrfToken}">`
 
     alert(`${roomTitle} 채팅방이 삭제되었습니다. 감사합니다.`);
 
     form.method = 'post';
     form.action = '/chat/room';
     form.insertAdjacentHTML('beforeend', html);
+    form.insertAdjacentHTML('beforeend', csrfData);
 
     document.querySelector('body').insertAdjacentElement('beforeend', form);
     form.submit();
