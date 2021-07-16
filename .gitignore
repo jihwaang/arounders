@@ -34,4 +34,4 @@ build/
 .vscode/
 
 ### Sensitive Data ###
-*.properties
+application.properties
