@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -98,7 +100,8 @@ public class StompController {
 
     private String getDate(){
 
-        LocalDateTime now = LocalDateTime.now();
+        ZonedDateTime nowKR = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
+        LocalDateTime now = nowKR.withZoneSameInstant(ZoneId.of("Asia/Seoul")).toLocalDateTime();
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         return dtf.format(now);
