@@ -26,7 +26,7 @@ public class HomeController {
         Long id = (Long) session.getAttribute("id");
         log.info("request url -> /, session user id: {}", id);
         if(id != null) return "redirect:/board/list";
-        return "/index";
+        return "index";
     }
 
     @GetMapping("/login")
@@ -44,7 +44,7 @@ public class HomeController {
             session.setAttribute("profileImg", profileImg);
             return "redirect:/board/list";
         }
-        return "/index";
+        return "index";
     }
 
     @PostMapping("/login")
@@ -52,6 +52,6 @@ public class HomeController {
         log.info("request url(POST) -> /login");
         Long id = memberService.signup(requestMember);
         log.info("id: {}", id);
-        return "/board/list";
+        return "board/list";
     }
 }
