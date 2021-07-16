@@ -16,7 +16,8 @@ public class WebSocketStompConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
 
         registry.addEndpoint("stomp/chat")
-                .setAllowedOriginPatterns("http://*:8080", "http://*.*.*.*:8080")
+                .setAllowedOriginPatterns("https://arounders.herokuapp.com")
+                //.setAllowedOriginPatterns("http://*:8080", "http://*.*.*.*:8080")
                 .withSockJS();
 
     }

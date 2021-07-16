@@ -41,7 +41,7 @@ public class MailServiceImpl implements MailService {
     public Long sendAuthMail(EmailAuth mail) {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper messageHelper = new MimeMessageHelper(message, "utf-8");
-        String url = "http://localhost:8080/emailAuth/confirm?confirmKey="+mail.getConfirmKey();
+        String url = "https://arounders.herokuapp.com/emailAuth/confirm?confirmKey="+mail.getConfirmKey();
         String onClick = "onclick=\"alert('회원가입을 마무리해주세요 :)')\"";
         String htmlMsg = "<form style=\"width: 550px;\n" +
                 "      padding: 2em; border: 1px solid black;\n" +
