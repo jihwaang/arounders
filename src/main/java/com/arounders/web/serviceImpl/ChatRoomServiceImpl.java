@@ -28,7 +28,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 
     @Override
     @Transactional
-    public Long create(ChatRoomDTO chatRoomDTO) {
+    public Long create(ChatRoomDTO chatRoomDTO, String realPath) {
 
         ChatRoom chatRoom = dtoToEntity(chatRoomDTO);
 
@@ -36,7 +36,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 
         /* 채팅방 개설 -> 채팅방 참여 (auto) */
         if(result > 0){
-            chatRoomToFile(chatRoom);
+            chatRoomToFile(chatRoom, realPath);
             chatMemberRepository.insert(chatRoom.getMemberId(), chatRoom.getId());
         }
 
@@ -79,9 +79,10 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 
     /* About Local Storage */
     @Override
-    public void chatRoomToFile(ChatRoom chatRoom) {
+    public void chatRoomToFile(ChatRoom chatRoom, String realPath) {
 
-        StringBuilder sb = new StringBuilder("C:/chat");
+        //StringBuilder sb = new StringBuilder("C:/chat");
+        StringBuilder sb = new StringBuilder(realPath);
         sb.append(File.separator).append(chatRoom.getCityId()).append(File.separator).append(chatRoom.getRegion())
                 .append(File.separator);
 

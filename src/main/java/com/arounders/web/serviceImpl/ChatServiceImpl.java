@@ -24,7 +24,7 @@ public class ChatServiceImpl implements ChatService {
 
 
     @Override
-    public void save(Long chatRoomId, List<ChatDTO> list) {
+    public void save(Long chatRoomId, List<ChatDTO> list, String realPath) {
 
         if(list.isEmpty() || list.get(0).getMemberId() == null) return;
 
@@ -32,12 +32,12 @@ public class ChatServiceImpl implements ChatService {
 
         ChatRoomDTO room = roomRepository.findById(chatRoomId);
 
-        repository.save(room, jsonList);
+        repository.save(room, jsonList, realPath);
     }
 
     @Override
-    public List<String> getChats(Long id) {
+    public List<String> getChats(Long id, String realPath) {
 
-        return repository.getChats(roomRepository.findById(id));
+        return repository.getChats(roomRepository.findById(id), realPath);
     }
 }

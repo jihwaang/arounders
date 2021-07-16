@@ -12,7 +12,7 @@ public interface ChatRoomService {
     /* 채팅방 목록 조회 */
     List<ChatRoomDTO> getChatRoomList(String region, Integer cityId);
     /* 채팅방 개설 */
-    Long create(ChatRoomDTO chatRoomDTO);
+    Long create(ChatRoomDTO chatRoomDTO, String realPath);
     /* 채팅방 조회 */
     ChatRoomDTO get(Long id);
     ChatRoomDTO getByBoardId(Long boardId);
@@ -24,7 +24,7 @@ public interface ChatRoomService {
     int isClose(Long id);
 
     /* 채팅방 파일로 생성 */
-    void chatRoomToFile(ChatRoom chatRoom);
+    void chatRoomToFile(ChatRoom chatRoom, String realPath);
 
     default ChatRoom dtoToEntity(ChatRoomDTO dto){
         return ChatRoom.builder()

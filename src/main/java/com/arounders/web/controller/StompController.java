@@ -11,6 +11,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -24,6 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Log4j2
 public class StompController {
 
+    private final HttpServletRequest request;
     private final SimpMessagingTemplate template;
     private final ChatService chatService;
 
@@ -51,6 +53,7 @@ public class StompController {
 
     @MessageMapping(value = "/chat/exit")
     public void exit(ChatDTO message){
+        message.setTime(getDate());
         message.setMessage("퇴장하셨습니다.");
 
         /* Temp Logic */
@@ -62,7 +65,7 @@ public class StompController {
         log.info("인원수 : " + countMap.get(roomId));
 
         if(countMap.get(roomId) == 0){
-            chatService.save(roomId, chatListMap.get(roomId));
+            chatService.save(roomId, chatListMap.get(roomId), request.getServletContext().getRealPath("/chat"));
 
             countMap.remove(roomId);
             chatListMap.remove(roomId);
@@ -88,7 +91,7 @@ public class StompController {
         chatList.add(message);
 
         if(chatList.size() > 30){
-            chatService.save(roomId, chatList);
+            chatService.save(roomId, chatList, request.getServletContext().getRealPath("/chat"));
             chatList.clear();
         }
         /* Temp Logic */
