@@ -62,17 +62,20 @@ public class ChatController {
         return "chat/list";
     }
     @PostMapping(value = "/list")
-    public String createChatRoom(ChatRoomDTO chatRoomDTO, RedirectAttributes rttr){
+    public String createChatRoom(ChatRoomDTO chatRoomDTO, HttpServletRequest request, RedirectAttributes rttr){
 
         Long memberId = (Long) session.getAttribute("id");
         Integer cityId = (Integer) session.getAttribute("cityId");
         String region = (String) session.getAttribute("region");
 
+        /* C:/chat -> webapp/chat으로 이동 */
+        String realPath = request.getServletContext().getRealPath("/chat");
+
         chatRoomDTO.setMemberId(memberId);
         chatRoomDTO.setRegion(region);
         chatRoomDTO.setCityId(cityId);
 
-        Long chatRoomId = service.create(chatRoomDTO);
+        Long chatRoomId = service.create(chatRoomDTO, realPath);
 
         return "redirect:/chat/list";
     }

@@ -11,9 +11,9 @@ import java.util.List;
 public interface ChatService {
 
     /* 채팅 저장 */
-    void save(Long chatRoomId, List<ChatDTO> list);
+    void save(Long chatRoomId, List<ChatDTO> list, String realPath);
     /* 채팅 불러오기 */
-    List<String> getChats(Long id);
+    List<String> getChats(Long id, String realPath);
 
     default String dtoToJson(ChatDTO dto){
         ObjectMapper mapper = new ObjectMapper();
