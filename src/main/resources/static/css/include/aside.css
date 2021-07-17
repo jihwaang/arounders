@@ -177,6 +177,7 @@ aside{
         font-size: var(--fs-pc-lg);
     }
     aside{
+        display: block;
         z-index: 900;
 
         width: 200px;
