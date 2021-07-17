@@ -7,7 +7,9 @@ const aside = document.querySelector('aside');
 const btnLogout = document.querySelector('.btn-logout');
 const logoutActionForm = document.querySelector('#logout-action-form');
 const mainTag = document.querySelector('main');
-
+const logo = header.querySelector('#logo');
+const profile = header.querySelector('#profile');
+const search = header.querySelector('#search');
 let asideStatus = false;
 
 /* 프로필 아이콘 클릭 (완) */
@@ -49,11 +51,27 @@ window.addEventListener('resize', () => {
     if(headerWidth < 800){
         aside.style.top = '0';
         aside.style.right = '-300px';
+
+        /* 모바일에서 검색창 활성화 상태에서 가로크기 축소시 로고, 프로필 영역 숨김 처리 추가 */
+        if (!header.querySelector('#cancel-btn').classList.contains('dp-none') && !logo.classList.contains('dp-none') && !profile.classList.contains('dp-none')) {
+            logo.classList.add('dp-none');
+            profile.classList.add('dp-none');
+        }
+        /* 검색폼 길이 조절: 모바일에선 100% */
+        search.classList.replace('w-80', 'w-100');
+
     }
     /* pc */
     else{
         aside.style.top = '130px';
         aside.style.right = '0';
+        /* 모바일에서 검색창 활성화 상태에서 가로크기 확장시 로고, 프로필 영역 표시 처리 추가 */
+        if (logo.classList.contains('dp-none') && profile.classList.contains('dp-none')) {
+            logo.classList.remove('dp-none');
+            profile.classList.remove('dp-none');
+        }
+        /* 검색폼 길이 조절: PC에선 80% */
+        search.classList.replace('w-100', 'w-80');
     }
 });
 
@@ -148,26 +166,27 @@ searchBtn.addEventListener('click', () =>
     toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn)
 );
 
-cancelBtn.addEventListener('click', () =>
-    toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn)
-);
-
-searchInput.addEventListener('blur', () => {
-    toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn);
-    searchInput.value = '';
+cancelBtn.addEventListener('click', () => {
+        toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn)
 });
 
-(function indexInit(sizeInfo) {
+// searchInput.addEventListener('blur', () => {
+//     toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn);
+//     searchInput.value = '';
+// });
+
+(function indexInit() {
 
     const headerWidth = header.clientWidth;
-
+    console.log(headerWidth);
     if(headerWidth >= 800){
-        btnBox.classList.toggle('w-100');
-        search.classList.toggle('w-80');
-        search.classList.remove('mg-left-auto');
-        search.classList.add('center');
-        searchInput.classList.toggle('dp-none');
-        searchInput.classList.toggle('w-100');
+        search.classList.replace('w-100', 'w-80');
+        //btnBox.classList.toggle('w-100');
+        //search.classList.toggle('w-80');
+        //search.classList.remove('mg-left-auto');
+        //search.classList.add('center');
+        //searchInput.classList.toggle('dp-none');
+        //searchInput.classList.toggle('w-100');
     }
 })();
 
@@ -176,12 +195,12 @@ function toggelSearchBar(btnBox, searchInput, searchBtn, cancelBtn) {
     cancelBtn.classList.toggle('dp-none');
     logo.classList.toggle('dp-none');
     profile.classList.toggle('dp-none');
-    menu.classList.toggle('dp-none');
+    //menu.classList.toggle('dp-none');
 
-    btnBox.classList.toggle('w-100');
-    search.classList.toggle('w-100');
-    searchInput.classList.toggle('dp-none');
-    searchInput.classList.toggle('w-100');
+    //btnBox.classList.toggle('w-100');
+    //search.classList.toggle('w-100');
+    searchInput.classList.toggle('vb-visible');
+    //searchInput.classList.toggle('w-100');
     searchInput.focus();
 }
 

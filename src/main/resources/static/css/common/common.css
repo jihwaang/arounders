@@ -78,6 +78,11 @@ footer{
     min-height: 70px;
     top: 70px !important;
 }
+
+header #search-input {
+    visibility: hidden;
+}
+
 @media screen and (min-width: 800px){
 
     body{
@@ -87,4 +92,5 @@ footer{
     footer{
         font-size: var(--fs-pc-sm);
     }
+
 }

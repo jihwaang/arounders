@@ -28,6 +28,14 @@ max-width: 780px;
   display: block !important;
 }
 
+.vb-hidden {
+  visibility: hidden !important;
+}
+
+.vb-visible {
+  visibility: visible !important;
+}
+
 .hide{
     display: none !important;
 }
